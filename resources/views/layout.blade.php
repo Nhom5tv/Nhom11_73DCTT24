@@ -73,9 +73,9 @@
                     </ul>
                 </li>
 
-                <!-- Giảng viên only -->
+                <!-- Giáo viên only -->
                 <li class="sidebar-item" data-role="giaovien">
-                    <a href="/DSdiemtungmon_gv" class="sidebar-link">
+                    <a href="/giaovien/diem" class="sidebar-link">
                         <i class="fa-solid fa-medal"></i><span>Quản lý điểm sinh viên</span>
                     </a>
                 </li>
@@ -122,11 +122,9 @@
         <div class="main p-3">
             <div class="title"></div>
             <div class="main-content">
-                <div style="padding: 2rem;">
-    <h3>Đây là nội dung trang layout (tạm thời)</h3>
-    <p>Trang này đang chạy dưới role tương ứng, menu sẽ hiển thị đúng nếu token hợp lệ.</p>
-</div>
-            </div>
+                <div class="main-content">
+                     @yield('content')
+                </div>
         </div>
     </div>
 
