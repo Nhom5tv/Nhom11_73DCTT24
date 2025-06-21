@@ -69,7 +69,7 @@
                         <li class="sidebar-item"><a href="/dsdkmonhoc" class="sidebar-link">Danh sách đăng ký môn học</a></li>
                         <li class="sidebar-item"><a href="/dslichhoc" class="sidebar-link">Quản lý lịch học</a></li>
                         <li class="sidebar-item"><a href="/dslophoc" class="sidebar-link">Quản lý lớp học</a></li>
-                        <li class="sidebar-item"><a href="/dsmonhoc" class="sidebar-link">Quản lý môn học</a></li>
+                        <li class="sidebar-item"><a href="/admin/monhoc" class="sidebar-link">Quản lý môn học</a></li>
                     </ul>
                 </li>
 
