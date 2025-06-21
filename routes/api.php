@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\Api\MonHocController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -17,4 +18,6 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->get('/teac
 Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/student', function () {
     return response()->json(['msg' => 'Chào Sinh viên']);
 });
+
+Route::apiResource('/admin/monhoc', MonHocController::class);
 ?>
