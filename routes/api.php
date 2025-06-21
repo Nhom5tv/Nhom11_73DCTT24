@@ -11,11 +11,11 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':admin'])->get('/admin',
     return response()->json(['msg' => 'Chào Admin']);
 });
 
-Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->get('/teacher', function () {
+Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->get('/giaovien', function () {
     return response()->json(['msg' => 'Chào Giáo viên']);
 });
 
-Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/student', function () {
+Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/sinhvien', function () {
     return response()->json(['msg' => 'Chào Sinh viên']);
 });
 

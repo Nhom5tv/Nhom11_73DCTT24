@@ -15,3 +15,7 @@ Route::get('/giaovien', function () {
 Route::view('/admin', 'layout');
 Route::view('/giaovien', 'layout');
 Route::view('/sinhvien', 'layout');
+
+Route::get('/giaovien/diem', function () {
+    return view('pages.giaovien.diem');
+});
