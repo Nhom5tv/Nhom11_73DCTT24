@@ -45,3 +45,10 @@ Route::get('admin/dslichhoc/{id}/lichhocsua', function ($id) {
 Route::view('/admin', 'layout');
 Route::view('/giaovien', 'layout');
 Route::view('/sinhvien', 'layout');
+
+Route::get('/giaovien/diem', function () {
+    return view('pages.giaovien.diem');
+});
+Route::get('/admin/monhoc', function () {
+    return view('pages.admin.monhoc');
+});

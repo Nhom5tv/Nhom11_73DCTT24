@@ -73,9 +73,9 @@
                     </ul>
                 </li>
 
-                <!-- Giảng viên only -->
+                <!-- Giáo viên only -->
                 <li class="sidebar-item" data-role="giaovien">
-                    <a href="/DSdiemtungmon_gv" class="sidebar-link">
+                    <a href="/giaovien/diem" class="sidebar-link">
                         <i class="fa-solid fa-medal"></i><span>Quản lý điểm sinh viên</span>
                     </a>
                 </li>
@@ -122,11 +122,9 @@
         <div class="main p-3">
             <div class="title"></div>
             <div class="main-content">
-                <div style="padding: 2rem;">
-                    @yield('content')
-            </div>
-            </div>
-            </div>
+                <div class="main-content">
+                    @yield(section: 'content')
+                </div>
         </div>
     </div>
 

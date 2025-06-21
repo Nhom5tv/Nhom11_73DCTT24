@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Api\LichHocController;
 use App\Http\Controllers\Api\LopHocController;
+use App\Http\Controllers\Api\MonHocController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -12,11 +13,11 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':admin'])->get('/admin',
     return response()->json(['msg' => 'Chào Admin']);
 });
 
-Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->get('/teacher', function () {
+Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->get('/giaovien', function () {
     return response()->json(['msg' => 'Chào Giáo viên']);
 });
 
-Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/student', function () {
+Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/sinhvien', function () {
     return response()->json(['msg' => 'Chào Sinh viên']);
 });
 
@@ -47,4 +48,5 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::delete('/dslophoc/{id}', [LopHocController::class, 'destroy']);
 });
 //hết phần của Dũng
+Route::apiResource('/admin/monhoc', MonHocController::class);
 ?>
