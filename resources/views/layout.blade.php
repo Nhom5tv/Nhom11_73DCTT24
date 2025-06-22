@@ -56,7 +56,7 @@
                     <ul id="QLTC" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="/DSKhoanthu" class="sidebar-link">Khoản thu chung</a></li>
                         <li class="sidebar-item"><a href="/DSKhoanthusv" class="sidebar-link">Khoản thu sinh viên</a></li>
-                        <li class="sidebar-item"><a href="/DSMiengiam" class="sidebar-link">Miễn giảm</a></li>
+                        <li class="sidebar-item"><a href="/admin/miengiam" class="sidebar-link">Miễn giảm</a></li>
                         <li class="sidebar-item"><a href="/DSHoadon" class="sidebar-link">Hóa đơn</a></li>
                     </ul>
                 </li>
