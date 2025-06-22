@@ -13,6 +13,22 @@ class LichHocController extends Controller
     {
         return response()->json(LichHoc::all());
     }
+    // Tìm Kiếm
+    public function timkiem(Request $request)
+{
+    $query = LichHoc::query();
+
+    if ($request->filled('ma_mon_hoc')) {
+        $query->where('ma_mon_hoc', 'like', '%' . $request->ma_mon_hoc . '%');
+    }
+
+    if ($request->filled('lich_hoc')) {
+        $query->where('lich_hoc', 'like', '%' . $request->lich_hoc . '%');
+    }
+
+    return response()->json($query->get(), 200);
+}
+
 
     // 2. Lấy 1 lịch học theo ID
     public function show($id)
@@ -29,11 +45,12 @@ class LichHocController extends Controller
     {
         $request->validate([
             'ma_mon_hoc' => 'required|string|max:10',
-            'so_luong' => 'required|integer|min:1',
-            'so_luong_toi_da' => 'nullable|integer|min:1',
+            'so_luong' => 'required|integer|min:0',
+            'so_luong_toi_da' => 'nullable|integer|min:0',
             'lich_hoc' => 'nullable|string|max:255',
             'trang_thai' => 'nullable|string|max:255',
         ]);
+
 
         $lich = LichHoc::create($request->all());
         return response()->json($lich, 201);
@@ -41,23 +58,22 @@ class LichHocController extends Controller
 
     // 4. Cập nhật lịch học
     public function update(Request $request, $id)
-    {
-        $lich = LichHoc::find($id);
-        if (!$lich) {
-            return response()->json(['message' => 'Không tìm thấy'], 404);
-        }
+{
+    $request->validate([
+        'trang_thai' => 'required|string|max:255',
+    ]);
 
-        $request->validate([
-            'ma_mon_hoc' => 'sometimes|required|string|max:10',
-            'so_luong' => 'sometimes|required|integer|min:1',
-            'so_luong_toi_da' => 'nullable|integer|min:1',
-            'lich_hoc' => 'nullable|string|max:255',
-            'trang_thai' => 'nullable|string|max:255',
-        ]);
-
-        $lich->update($request->all());
-        return response()->json($lich);
+    $lichHoc = LichHoc::find($id);
+    if (!$lichHoc) {
+        return response()->json(['message' => 'Không tìm thấy lịch học'], 404);
     }
+
+    $lichHoc->trang_thai = $request->trang_thai;
+    $lichHoc->save();
+
+    return response()->json(['message' => 'Cập nhật thành công'], 200);
+}
+
 
     // 5. Xoá lịch học
     public function destroy($id)

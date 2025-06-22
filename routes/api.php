@@ -26,7 +26,8 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
 //Chức năng quản lý lịch học
     // 1. Lấy tất cả lịch học
     Route::get('/dslichhoc', [LichHocController::class, 'index']);
-
+    // Tìm Kiếm
+    Route::get('/dslichhoc', [LichHocController::class, 'timkiem']);
     // 2. Lấy chi tiết 1 lịch học theo ID
     Route::get('/dslichhoc/{id}', [LichHocController::class, 'show']);
 
@@ -48,5 +49,6 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::delete('/dslophoc/{id}', [LopHocController::class, 'destroy']);
 });
 //hết phần của Dũng
+
 Route::apiResource('/admin/monhoc', MonHocController::class);
 ?>
