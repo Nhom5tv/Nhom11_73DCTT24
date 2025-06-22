@@ -75,7 +75,7 @@
 
                 <!-- Giáo viên only -->
                 <li class="sidebar-item" data-role="giaovien">
-                    <a href="/giaovien/diem" class="sidebar-link">
+                    <a href="/giaovien/DSdiemgv" class="sidebar-link">
                         <i class="fa-solid fa-medal"></i><span>Quản lý điểm sinh viên</span>
                     </a>
                 </li>
