@@ -21,7 +21,7 @@ class MonHocController extends Controller
      */
     public function store(Request $request)
     {
-         $validated = $request->validate([
+        $validated = $request->validate([
             'ma_mon' => 'required|string|unique:mon_hoc,ma_mon',
             'ten_mon' => 'required|string|max:100',
             'ma_nganh' => 'required|integer',

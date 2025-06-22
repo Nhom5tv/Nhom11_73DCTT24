@@ -29,7 +29,7 @@
         </button>
 
         <div class="Insert">
-            <a href="{{ url('admin/lophoc/them') }}">
+            <a href="{{ url('admin/dslophoc/create') }}">
                 <button class="button-85" role="button">Thêm Lớp Học</button>
             </a>
         </div>

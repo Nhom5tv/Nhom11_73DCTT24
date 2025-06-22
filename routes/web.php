@@ -20,23 +20,25 @@ Route::get('/dktinchi', function () {
 });
 //Lịch Học
 Route::get('admin/dslichhoc', function () {
-    return view('admin.dslichhoc');
+    return view('pages.admin.lichhoc.dslichhoc');
 });
-Route::get('admin/lichhocthem', function () {
-    return view('admin.lichhocthem');
+Route::get('admin/dslichhoc/create', function () {
+    return view('pages.admin.lichhoc.lichhocthem');
 });
-Route::get('admin/dslichhoc/{id}/lichhocsua', function ($id) {
+Route::get('admin/dslichhoc/{id}/edit', function ($id) {
     $LichHoc = LichHoc::find($id);
     if (!$LichHoc) {
         abort(404, 'Không tìm thấy lịch học');
     }
-    return view('admin.lichhocsua', compact('LichHoc'));
+    return view('pages.admin.lichhoc.lichhocsua', compact('LichHoc'));
 });
-
 //Lớp Học
     Route::get('admin/dslophoc', function () {
-        return view('admin.dslophoc');
+        return view('pages.admin.lophoc.dslophoc');
     });
+    Route::get('admin/dslophoc/create', function () {
+        return view('pages.admin.lophoc.lophocthem');
+        });
 
 //Hết Phần của Dũng
 

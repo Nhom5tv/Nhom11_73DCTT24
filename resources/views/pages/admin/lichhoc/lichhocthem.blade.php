@@ -51,25 +51,26 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
 
     // Load mã môn học
     async function loadMaMonHoc() {
-        try {
-            const response = await axios.get('/api/monhoc', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            const select = document.getElementById('ma_mon_hoc');
-            response.data.forEach(mon => {
-                const option = document.createElement('option');
-                option.value = mon.ma_mon;
-                option.textContent = mon.ma_mon;
-                select.appendChild(option);
-            });
-        } catch (error) {
-            console.error("Lỗi khi load mã môn:", error);
-        }
+    try {
+        const response = await axios.get('/api/admin/monhoc', {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        console.log("Dữ liệu nhận được:", response.data); // kiểm tra thử
+        const select = document.getElementById('ma_mon_hoc');
+        response.data.forEach(mon => {
+            const option = document.createElement('option');
+            option.value = mon.ma_mon;
+            option.textContent = mon.ma_mon + ' - ' + mon.ten_mon;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error("Lỗi khi load mã môn:", error);
     }
+}
 
     // Thêm lịch học
     async function themLichHoc() {
@@ -88,9 +89,19 @@
             alert('Thêm lịch học thành công');
             window.location.href = '/admin/dslichhoc';
         } catch (error) {
-            console.error('Lỗi khi thêm lịch học:', error);
-            alert('Thêm lịch học thất bại');
-        }
+    if (error.response && error.response.status === 422) {
+        // 👉 In chi tiết lỗi từ Laravel
+        console.error('Lỗi xác thực:', error.response.data.errors);
+        alert("Lỗi nhập liệu:\n" +
+            Object.entries(error.response.data.errors)
+                .map(([field, messages]) => `${field}: ${messages.join(', ')}`)
+                .join('\n'));
+    } else {
+        console.error('Lỗi khác:', error);
+        alert("Có lỗi xảy ra khi gửi dữ liệu.");
+    }
+}
+
     }
 
     document.addEventListener('DOMContentLoaded', () => {
