@@ -2,6 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\Api\DiemTheoLopController;
 use App\Http\Controllers\Api\LichHocController;
 use App\Http\Controllers\Api\LopHocController;
 use App\Http\Controllers\Api\MonHocController;
@@ -21,6 +22,8 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/sinh
     return response()->json(['msg' => 'Chào Sinh viên']);
 });
 
+Route::get('/giaovien/diem-theo-lop', [DiemTheoLopController::class, 'getData']);
+Route::put('/giaovien/diem-theo-lop/{id}', [DiemTheoLopController::class, 'updateData']);
 //Phần của Dũng
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
 //Chức năng quản lý lịch học
@@ -51,4 +54,4 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
 //hết phần của Dũng
 
 Route::apiResource('/admin/monhoc', MonHocController::class);
-?>
+

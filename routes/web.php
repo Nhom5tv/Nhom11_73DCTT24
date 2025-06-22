@@ -51,6 +51,10 @@ Route::view('/sinhvien', 'layout');
 Route::get('/giaovien/diem', function () {
     return view('pages.giaovien.diem');
 });
+
+Route::get('/giaovien/DSdiemgv', function () {
+    return view('pages.giaovien.DSdiemgv');
+});
 Route::get('/admin/monhoc', function () {
     return view('pages.admin.monhoc');
 });
