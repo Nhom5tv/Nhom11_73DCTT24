@@ -67,15 +67,15 @@
                     </a>
                     <ul id="QLHT" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="/dsdkmonhoc" class="sidebar-link">Danh sách đăng ký môn học</a></li>
-                        <li class="sidebar-item"><a href="/dslichhoc" class="sidebar-link">Quản lý lịch học</a></li>
-                        <li class="sidebar-item"><a href="/dslophoc" class="sidebar-link">Quản lý lớp học</a></li>
-                        <li class="sidebar-item"><a href="/admin/monhoc" class="sidebar-link">Quản lý môn học</a></li>
+                        <li class="sidebar-item"><a href="/admin/dslichhoc" class="sidebar-link">Quản lý lịch học</a></li>
+                        <li class="sidebar-item"><a href="/admin/dslophoc" class="sidebar-link">Quản lý lớp học</a></li>
+                        <li class="sidebar-item"><a href="/dsmonhoc" class="sidebar-link">Quản lý môn học</a></li>
                     </ul>
                 </li>
 
                 <!-- Giáo viên only -->
                 <li class="sidebar-item" data-role="giaovien">
-                    <a href="/giaovien/diem" class="sidebar-link">
+                    <a href="/giaovien/DSdiemgv" class="sidebar-link">
                         <i class="fa-solid fa-medal"></i><span>Quản lý điểm sinh viên</span>
                     </a>
                 </li>
@@ -105,7 +105,7 @@
                         <i class="fas fa-graduation-cap"></i><span>Đăng ký tín chỉ</span>
                     </a>
                     <ul id="SVTC" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="/svdktinchi" class="sidebar-link">Đăng ký tín chỉ</a></li>
+                        <li class="sidebar-item"><a href="/dktinchi" class="sidebar-link">Đăng ký tín chỉ</a></li>
                     </ul>
                 </li>
             </ul>
@@ -123,7 +123,7 @@
             <div class="title"></div>
             <div class="main-content">
                 <div class="main-content">
-                     @yield('content')
+                    @yield(section: 'content')
                 </div>
         </div>
     </div>
