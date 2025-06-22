@@ -70,4 +70,15 @@ class LopHocController extends Controller
         $lop->delete();
         return response()->json(['message' => 'Đã xóa lớp học thành công']);
     }
+
+    //Đạt
+    //6. Lấy mã lớp theo MãGV
+    public function getByMaGiangVien($ma_giang_vien)
+    {
+        $lop = LopHoc::where('ma_giang_vien', $ma_giang_vien)->get();
+        if ($lop->isEmpty()) {
+            return response()->json(['message' => 'Không tìm thấy lớp học nào cho giảng viên này'], 404);
+        }
+        return response()->json($lop);
+    }
 }

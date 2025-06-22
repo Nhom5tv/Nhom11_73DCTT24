@@ -22,8 +22,14 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/sinh
     return response()->json(['msg' => 'Chào Sinh viên']);
 });
 
-Route::get('/giaovien/diem-theo-lop', [DiemTheoLopController::class, 'getData']);
-Route::put('/giaovien/diem-theo-lop/{id}', [DiemTheoLopController::class, 'updateData']);
+// Phần của giáo viên
+Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->group(function () {
+    // Lấy điểm theo lớp
+    Route::get('/diem-theo-lop/{ma_lop}', [DiemTheoLopController::class, 'getData']);
+    Route::put('/diem-theo-lop/{ma_sinh_vien}', [DiemTheoLopController::class, 'updateData']);
+    // Lấy danh sách lớp học theo mã giảng viên
+    Route::get('/dslophoc/{ma_giang_vien}', [LopHocController::class, 'getByMaGiangVien']);
+});
 //Phần của Dũng
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
 //Chức năng quản lý lịch học
@@ -43,7 +49,7 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::delete('/dslichhoc/{id}', [LichHocController::class, 'destroy']);
     // 6.Đóng tất cả lớp học đang mở
     Route::put('/dslichhoc/dongtatca', [LichHocController::class, 'dongTatCa']);
-//Chức năng quản lý lớp học
+    //Chức năng quản lý lớp học
     Route::get('/dslophoc', [LopHocController::class, 'index']);
     Route::get('/dslophoc/{id}', [LopHocController::class, 'show']);
     Route::post('/dslophoc', [LopHocController::class, 'store']);

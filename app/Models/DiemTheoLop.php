@@ -15,6 +15,8 @@ class DiemTheoLop extends Model
     protected $keyType = 'int'; // Loại khóa là bigint
 
     // Tên bảng trong cơ sở dữ liệu
+    public $timestamps = false;
+
 
     // Các trường có thể được gán giá trị (mass assignment)
     protected $fillable = [

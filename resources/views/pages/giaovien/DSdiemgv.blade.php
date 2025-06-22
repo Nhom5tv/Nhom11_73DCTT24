@@ -68,8 +68,6 @@
                     <th>STT</th>
                     <th>Mã sinh viên</th>
                     <th>Tên sinh viên</th>
-                    {{-- <th>Lần học</th>
-                    <th>Lần thi</th> --}}
                     <th>Điểm chuyên cần</th>
                     <th>Điểm giữa kì</th>
                     <th>Điểm cuối kì</th>
@@ -82,38 +80,50 @@
         </table>
     </section>
 </main>
-@endsection
 
-@push('scripts')
+@endsection
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     let selectedClassId = '';
 
+    axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+
     async function loadDanhSachLop() {
         try {
-            const response = await axios.get('/api/lop');
+            const response = await axios.get('/api/giaovien/dslophoc/GV101');
             const classes = response.data;
             const selectBox = document.getElementById('selectClass');
+            console.log("Lớp:", classes);
             selectBox.innerHTML += classes.map(cls =>
                 `<option value="${cls.ma_lop}">Lớp ${cls.ma_lop}</option>`
             ).join('');
-
+            const saved = localStorage.getItem('selectedClassId');
+            if (saved) {
+                selectBox.value = saved;
+                fetchBangDiem();
+            }
             selectBox.addEventListener('change', function () {
                 selectedClassId = this.value;
+                console.log("Selected Class ID: ", selectedClassId); 
+                localStorage.setItem('selectedClassId', selectedClassId);
                 fetchBangDiem();
             });
         } catch (error) {
             console.error("Lỗi khi tải lớp:", error);
+            if (error.response && error.response.status === 401) {
+                alert('Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.');
+                // Chuyển hướng về trang đăng nhập nếu cần
+                window.location.href = '/login';
+            }
         }
     }
-async function fetchBangDiem() {
+    async function fetchBangDiem() {
         const ma_sv = document.getElementById('searchMaSV').value;
         const ho_ten = document.getElementById('searchHoTen').value;
 
         try {
-            const response = await axios.get('/api/diem-theo-lop', {
+            const response = await axios.get(`/api/giaovien/diem-theo-lop/${selectedClassId}`, {
                 params: {
-                    class_id: selectedClassId,
                     ma_sinh_vien: ma_sv,
                     ho_ten: ho_ten
                 }
@@ -134,13 +144,11 @@ async function fetchBangDiem() {
                         <td>${index + 1}</td>
                         <td>${item.ma_sinh_vien}</td>
                         <td>${item.ho_ten ?? 'Không có tên'}</td>
-                        // <td>${item.lan_hoc}</td>
-                        // <td>${item.lan_thi}</td>
                         <td>${item.diem_chuyen_can}</td>
                         <td>${item.diem_giua_ky}</td>
                         <td>${item.diem_cuoi_ky}</td>
                         <td class="btn_cn">
-                            <a href="/admin/diem/${item.ma_dct}/edit?class_id=${selectedClassId}">
+                            <a href="/giaovien/diem-theo-lop/${item.ma_dct}/edit?class_id=${selectedClassId}">
                                 <button class="button-85" role="button">Sửa</button>
                             </a>
                         </td>
@@ -154,23 +162,39 @@ async function fetchBangDiem() {
     }
 
     function exportData() {
+        if (!selectedClassId) {
+            alert('Vui lòng chọn lớp học trước khi export');
+            return;
+        }
+
         const table = document.querySelector('table');
         let csv = [];
         const rows = table.querySelectorAll('tr');
 
         rows.forEach(row => {
-            const cols = row.querySelectorAll('td, th');
+            const cols = row.querySelectorAll('td:not(:last-child), th:not(:last-child)');
             let rowData = [];
             cols.forEach(col => rowData.push(col.innerText));
             csv.push(rowData.join(','));
         });
 
-        const csvContent = csv.join('\n');
+        // Thêm BOM và sử dụng Blob để tạo file
+        const csvContent = "\uFEFF" + csv.join('\n'); // \uFEFF là BOM cho UTF-8
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        
         const link = document.createElement('a');
-        link.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
-        link.target = '_blank';
-        link.download = 'bangdiem.csv';
+        const url = URL.createObjectURL(blob);
+        
+        link.href = url;
+        link.setAttribute('download', `bangdiem_${selectedClassId}.csv`);
+        link.style.visibility = 'hidden';
+        
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
+        
+        // Giải phóng bộ nhớ
+        setTimeout(() => URL.revokeObjectURL(url), 100);
     }
     function uploadData() {
         const fileInput = document.createElement('input');
@@ -197,6 +221,9 @@ async function fetchBangDiem() {
     }
     document.addEventListener('DOMContentLoaded', function () {
         loadDanhSachLop();
+        const savedClassId = localStorage.getItem('selectedClassId');
+        if (savedClassId) {
+            selectedClassId = savedClassId;
+        }
     });
 </script>
-@endpush
