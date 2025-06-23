@@ -9,10 +9,12 @@ use App\Http\Controllers\Api\LopHocController;
 use App\Http\Controllers\Api\MonHocController;
 use App\Http\Controllers\Api\SinhVienController;
 use App\Http\Controllers\Api\GiangVienController;
+use App\Http\Controllers\Api\NganhController;
 
 
 
-Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware('auth:api')->get('/me', [AuthController::class, 'me']);
 Route::middleware(['auth:api', RoleMiddleware::class . ':admin'])->get('/admin', function () {
@@ -79,21 +81,33 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::post('/dslophoc', [LopHocController::class, 'store']);
     Route::put('/dslophoc/{id}', [LopHocController::class, 'update']);
     Route::delete('/dslophoc/{id}', [LopHocController::class, 'destroy']);
+   
 });
 //hết phần của Dũng
 
 Route::apiResource('/admin/monhoc', MonHocController::class);
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
+   
+});
+//phần của phanh
+Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
+    //sinh viên
     Route::get('/sinhvien', [SinhVienController::class, 'index']);
     Route::post('/sinhvien', [SinhVienController::class, 'store']);
     Route::get('/sinhvien/{ma_sinh_vien}', [SinhVienController::class, 'show']);
     Route::put('/sinhvien/{ma_sinh_vien}', [SinhVienController::class, 'update']);
     Route::delete('/sinhvien/{ma_sinh_vien}', [SinhVienController::class, 'destroy']);
-});
-Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
+    //giảng viên
     Route::get('/giangvien', [GiangVienController::class, 'index']);
     Route::post('/giangvien', [GiangVienController::class, 'store']);
     Route::get('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'show']);
     Route::put('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'update']);
     Route::delete('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'destroy']);
+    Route::get('/nganh', [NganhController::class, 'index']);
+    //ngành
+    Route::post('/nganh', [NganhController::class, 'store']);
+    Route::get('/nganh/{id}', [NganhController::class, 'show']);
+    Route::put('/nganh/{id}', [NganhController::class, 'update']);
+    Route::delete('/nganh/{id}', [NganhController::class, 'destroy']);
+
 });

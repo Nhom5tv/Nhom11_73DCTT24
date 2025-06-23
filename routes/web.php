@@ -6,6 +6,8 @@ use App\Models\DiemTheoLop;
 
 use App\Models\SinhVien;
 use App\Models\GiangVien;
+use App\Models\Nganh;
+
 
 
 
@@ -123,13 +125,32 @@ Route::prefix('admin/giangvien')->group(function () {
     });
 
     // Giao diện tạo mới giảng viên
-    Route::get('/create', function (): View {
+    Route::get('/create', function (){
         return view('pages.admin.qlgiaovien.create');
     });
 
     // Giao diện sửa giảng viên
-    Route::get('/{ma_giang_vien}/edit', function ($ma_giang_vien): View {
+    Route::get('/{ma_giang_vien}/edit', function ($ma_giang_vien){
         $giangvien = GiangVien::where('ma_giang_vien', $ma_giang_vien)->firstOrFail();
         return view('pages.admin.qlgiaovien.edit', ['giangvien' => $giangvien]);
+    });
+});
+
+// Giao diện quản lý ngành (dành cho admin)
+Route::prefix('admin/nganh')->group(function () {
+    // Danh sách ngành
+    Route::get('/', function () {
+        return view('pages.admin.qlnganh.index');
+    });
+
+    // Giao diện tạo mới ngành
+    Route::get('/create', function () {
+        return view('pages.admin.qlnganh.create');
+    });
+
+    // Giao diện sửa ngành
+    Route::get('/{ma_nganh}/edit', function ($ma_nganh) {
+        $nganh = Nganh::findOrFail($ma_nganh);
+        return view('pages.admin.qlnganh.edit', ['nganh' => $nganh]);
     });
 });

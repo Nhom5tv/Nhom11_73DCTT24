@@ -44,7 +44,7 @@
                         <li class="sidebar-item"><a href="/admin/giangvien" class="sidebar-link">Quản lý giảng viên</a></li>
                         <li class="sidebar-item"><a href="/admin/sinhvien" class="sidebar-link">Quản lý sinh viên</a></li>
                         <li class="sidebar-item"><a href="/DSKhoa" class="sidebar-link">Quản lý khoa</a></li>
-                        <li class="sidebar-item"><a href="/DSNganh" class="sidebar-link">Quản lý ngành</a></li>
+                        <li class="sidebar-item"><a href="/admin/nganh" class="sidebar-link">Quản lý ngành</a></li>
                     </ul>
                 </li>
 
