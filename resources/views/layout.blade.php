@@ -40,7 +40,7 @@
                         <i class="fa-solid fa-user"></i><span>Quản lý hệ thống</span>
                     </a>
                     <ul id="QLTK" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="/DSTaikhoan" class="sidebar-link">Quản lý tài khoản</a></li>
+                        <li class="sidebar-item"><a href="/admin/taikhoan" class="sidebar-link">Quản lý tài khoản</a></li>
                         <li class="sidebar-item"><a href="/DSGiangvien" class="sidebar-link">Quản lý giảng viên</a></li>
                         <li class="sidebar-item"><a href="/DSSinhvien" class="sidebar-link">Quản lý sinh viên</a></li>
                         <li class="sidebar-item"><a href="/DSKhoa" class="sidebar-link">Quản lý khoa</a></li>
@@ -54,7 +54,7 @@
                         <i class="fa-solid fa-coins"></i><span>Quản lý tài chính</span>
                     </a>
                     <ul id="QLTC" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="/DSKhoanthu" class="sidebar-link">Khoản thu chung</a></li>
+                        <li class="sidebar-item"><a href="/admin/khoanthu" class="sidebar-link">Khoản thu chung</a></li>
                         <li class="sidebar-item"><a href="/DSKhoanthusv" class="sidebar-link">Khoản thu sinh viên</a></li>
                         <li class="sidebar-item"><a href="/DSMiengiam" class="sidebar-link">Miễn giảm</a></li>
                         <li class="sidebar-item"><a href="/DSHoadon" class="sidebar-link">Hóa đơn</a></li>
