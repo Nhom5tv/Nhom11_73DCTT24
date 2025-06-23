@@ -187,8 +187,7 @@ Route::prefix('admin/sinhvien')->group(function () {
         $sinhvien = SinhVien::where('ma_sinh_vien', $ma_sinh_vien)->firstOrFail();
         return view('pages.admin.qlsinhvien.edit', ['sinhvien' => $sinhvien]);
     });
-});
-// Giao diện quản lý giảng viên (dành cho admin)
+});// Giao diện quản lý giảng viên (dành cho admin)
 Route::prefix('admin/giangvien')->group(function () {
     // Danh sách giảng viên
     Route::get('/', function () {
@@ -197,13 +196,11 @@ Route::prefix('admin/giangvien')->group(function () {
 
     // Giao diện tạo mới giảng viên
     Route::get('/create', function () {
-    Route::get('/create', function (){
         return view('pages.admin.qlgiaovien.create');
     });
 
     // Giao diện sửa giảng viên
     Route::get('/{ma_giang_vien}/edit', function ($ma_giang_vien) {
-    Route::get('/{ma_giang_vien}/edit', function ($ma_giang_vien){
         $giangvien = GiangVien::where('ma_giang_vien', $ma_giang_vien)->firstOrFail();
         return view('pages.admin.qlgiaovien.edit', ['giangvien' => $giangvien]);
     });
