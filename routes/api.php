@@ -1,12 +1,17 @@
 <?php
+
+use App\Http\Controllers\Api\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\KhoanThuController;
 use App\Http\Controllers\Api\MienGiamSinhVienController;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Controllers\Api\DiemTheoLopController;
 use App\Http\Controllers\Api\LichHocController;
 use App\Http\Controllers\Api\LopHocController;
 use App\Http\Controllers\Api\MonHocController;
+use App\Http\Controllers\Api\KhoaController;
+use App\Http\Controllers\Api\TaiKhoanController;
 use App\Http\Controllers\Api\SinhVienController;
 use App\Http\Controllers\Api\GiangVienController;
 use App\Http\Controllers\Api\NganhController;
@@ -28,6 +33,7 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->get('/giao
 Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/sinhvien', function () {
     return response()->json(['msg' => 'Chào Sinh viên']);
 });
+
 //phan cua Vu
 //API routes for MonHoc
 Route::prefix('admin')->middleware('auth:api')->group(function () {
@@ -46,7 +52,7 @@ Route::prefix('admin')->middleware('auth:api')->group(function(){
     Route::delete('/miengiam/{ma_mien_giam}',[MienGiamSinhVienController::class, 'destroy']);
 });
 //phan cua Vu
-
+// Phần của Đạt
 // Phần của giáo viên
 Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->group(function () {
     // Lấy điểm theo lớp
@@ -55,6 +61,18 @@ Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':gia
     // Lấy danh sách lớp học theo mã giảng viên
     Route::get('/dslophoc/{ma_giang_vien}', [LopHocController::class, 'getByMaGiangVien']);
 });
+Route::prefix('admin')
+    ->middleware(['auth:api', RoleMiddleware::class . ':admin'])
+    ->group(function () {
+        Route::get('/dskhoa', [KhoaController::class, 'index']);
+        Route::get('/timkiem-khoa', [KhoaController::class, 'timkiem']);
+        Route::get('/dskhoa/{id}', [KhoaController::class, 'show']);
+        Route::post('/dskhoa', [KhoaController::class, 'store']);
+        Route::put('/dskhoa/{id}', [KhoaController::class, 'update']);
+        Route::delete('/dskhoa/{id}', [KhoaController::class, 'destroy']);
+    });
+//hết phần của đạt
+
 //Phần của Dũng
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
 //Chức năng quản lý lịch học
@@ -85,7 +103,35 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
 });
 //hết phần của Dũng
 
+
 Route::apiResource('/admin/monhoc', MonHocController::class);
+
+// Api Quỳnh
+//Quên Mật khẩu
+Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink']);
+Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);
+// Chức năng quản lý tài khoản
+
+Route::prefix('admin')->middleware('auth:api')->group(function () {
+    Route::get('/taikhoan', [TaiKhoanController::class, 'index']);           // Lấy danh sách tài khoản
+    Route::get('/taikhoan/{id}', [TaiKhoanController::class, 'show']);        // Chi tiết 1 tài khoản
+    Route::post('/taikhoan', [TaiKhoanController::class, 'storeAdmin']); // Thêm mới tài khoản admin
+    Route::put('/taikhoan/{id}', [TaiKhoanController::class, 'updateInfo']); // Cập nhật name, email
+    Route::delete('/taikhoan/{id}', [TaiKhoanController::class, 'destroy']); // Xóa tài khoản
+});
+//Quản lý khoản thu
+Route::prefix('admin')->middleware('auth:api')->group(function () {
+    Route::get('/khoanthu', [KhoanThuController::class, 'index']);         // Lấy danh sách khoản thu
+    Route::get('/khoanthu/{id}', [KhoanThuController::class, 'show']);    // Chi tiết khoản thu
+    Route::post('/khoanthu', [KhoanThuController::class, 'store']);       // Thêm mới khoản thu
+    Route::put('/khoanthu/{id}', [KhoanThuController::class, 'update']);  // Cập nhật khoản thu
+    Route::delete('/khoanthu/{id}', [KhoanThuController::class, 'destroy']); // Xóa khoản thu
+});
+
+
+// Hết phần của Quỳnh
+
+//phần của PA
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
    
 });
@@ -111,3 +157,4 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::delete('/nganh/{id}', [NganhController::class, 'destroy']);
 
 });
+//hết phần của PA

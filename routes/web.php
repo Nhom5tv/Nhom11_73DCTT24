@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use App\Models\LichHoc;
 use App\Models\DiemTheoLop;
@@ -41,12 +42,12 @@ Route::get('admin/dslichhoc/{id}/edit', function ($id) {
     return view('pages.admin.lichhoc.lichhocsua', compact('LichHoc'));
 });
 //Lớp Học
-    Route::get('admin/dslophoc', function () {
-        return view('pages.admin.lophoc.dslophoc');
-    });
-    Route::get('admin/dslophoc/create', function () {
-        return view('pages.admin.lophoc.lophocthem');
-        });
+Route::get('admin/dslophoc', function () {
+    return view('pages.admin.lophoc.dslophoc');
+});
+Route::get('admin/dslophoc/create', function () {
+    return view('pages.admin.lophoc.lophocthem');
+});
 
 //Hết Phần của Dũng
 
@@ -56,10 +57,45 @@ Route::get('admin/dslichhoc/{id}/edit', function ($id) {
 Route::view('/admin', 'layout');
 Route::view('/giaovien', 'layout');
 Route::view('/sinhvien', 'layout');
+
+
+
 //đạt
 Route::get('/giaovien/diem', function () {
     return view('pages.giaovien.diem');
 });
+
+//Phần của Quỳnh
+//Quản lý tài khoản
+Route::get('/admin/taikhoan', function () {
+    return view('pages.admin.tai_khoan.index');
+});
+Route::get('/admin/taikhoan/create', function () {
+    return view('pages.admin.tai_khoan.create');
+});
+Route::get('/admin/taikhoan/{id}/edit', function ($id) {
+    return view('pages.admin.tai_khoan.edit', ['id' => $id]);
+});
+//Quên mật khẩu
+Route::get('/forgot-password', function () {
+    return view('forgot_password');
+});
+Route::get('/reset-password/{token}', function ($token) {
+    $email = request()->query('email'); // lấy email từ query string
+    return view('reset_password', compact('token', 'email'));
+})->name('password.reset');
+
+// Quản lý khoản thu
+Route::get('/admin/khoanthu', function () {
+    return view('pages.admin.khoan_thu.index');
+});
+Route::get('/admin/taikhoan/create', function () {
+    return view('pages.admin.khoan_thu.create');
+});
+Route::get('/admin/taikhoan/{id}/edit', function ($id) {
+    return view('pages.admin.khoan_thu.edit', ['id' => $id]);
+});
+//Hết phần của Quỳnh
 //URL for MonHoc, phan cua Vu
 Route::get('/admin/monhoc', function () {
     return view('pages.admin.mon_hoc.index');
@@ -95,6 +131,41 @@ Route::get('/giaovien/diem-theo-lop/{ma_lop}', function ($ma_lop) {
     return view('pages.giaovien.DSdiemgv', compact('ma_lop'));
 });
 
+// Trang danh sách các khoa
+Route::prefix('admin')->group(function () {
+    Route::get('/khoa', function () {
+        return view('pages.khoa.index');
+    })->name('admin.khoa.index');
+    Route::get('/khoa', function () {
+        return view('pages.admin.khoa.index');
+    })->name('khoa.index');
+
+    // Trang thêm khoa mới
+    Route::get('/khoa/tao-moi', function () {
+        return view('pages.admin.khoa.create');
+    })->name('khoa.create');
+
+    // Trang chỉnh sửa một khoa cụ thể
+    Route::get('/khoa/sua/{ma_khoa}', function ($ma_khoa) {
+        return view('pages.admin.khoa.edit', compact('ma_khoa'));
+    })->name('khoa.edit');
+});
+
+
+
+// Route::get('/admin/qlgiaovien', function () {
+//     return view('pages.admin.qlgiaovien.index');
+// })->name('qlgiaovien.index');
+
+// // View form thêm mới
+// Route::get('/admin/giangvien/them', function () {
+//     return view('pages.admin.qlgiaovien.them');
+// })->name('giangvien.create');
+
+// // View form sửa giảng viên
+// Route::get('/admin/qlgiaovien/sua/{ma_gv}', function ($ma_gv) {
+//     return view('pages.admin.qlgiaovien.sua', ['ma_gv' => $ma_gv]);
+// })->name('qlgiaovien.edit');
 
 
 Route::get('/admin/monhoc', function () {
@@ -125,11 +196,13 @@ Route::prefix('admin/giangvien')->group(function () {
     });
 
     // Giao diện tạo mới giảng viên
+    Route::get('/create', function () {
     Route::get('/create', function (){
         return view('pages.admin.qlgiaovien.create');
     });
 
     // Giao diện sửa giảng viên
+    Route::get('/{ma_giang_vien}/edit', function ($ma_giang_vien) {
     Route::get('/{ma_giang_vien}/edit', function ($ma_giang_vien){
         $giangvien = GiangVien::where('ma_giang_vien', $ma_giang_vien)->firstOrFail();
         return view('pages.admin.qlgiaovien.edit', ['giangvien' => $giangvien]);
