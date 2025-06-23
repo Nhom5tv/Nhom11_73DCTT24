@@ -65,8 +65,10 @@ window.addEventListener('DOMContentLoaded', function () {
                         <label><i class="lni lni-lock"></i> Password</label>
                     </div>
 
+                    
                     <div class="remember-forgot">
                         <label><input type="checkbox"> Remember me</label>
+                        <a href="/forgot-password" style="float: right;">Quên mật khẩu?</a>
                     </div>
 
                     <button type="submit" class="btn">Đăng nhập</button>
@@ -111,7 +113,7 @@ window.addEventListener('DOMContentLoaded', function () {
                 else alert("Không xác định được vai trò.");
             })
             .catch(() => {
-                alert("⚠️ Token hết hạn hoặc không hợp lệ.");
+                alert(" Token hết hạn hoặc không hợp lệ.");
             });
         }
     </script>

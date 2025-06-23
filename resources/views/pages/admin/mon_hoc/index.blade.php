@@ -18,6 +18,8 @@
         }
     </style>
 </head>
+
+
 <body>
     <form method="post" action="#">
         @csrf
@@ -42,11 +44,9 @@
             </button>
 
             <div class="Insert">
-                <form action="#" method="post">
-                    @csrf
-                    <button class="button-85" role="button">Thêm môn học</button>
-                </form>
-            </div>
+    <button class="button-85" type="button" onclick="window.location.href='/admin/monhoc/create'">Thêm môn học</button>
+</div>
+
 
             <div class="Upload">
                 <form action="#" method="post" enctype="multipart/form-data">
@@ -93,5 +93,68 @@
     </main>
 </body>
 </html>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
 
+function loadMonHoc() {
+    axios.get('/api/admin/monhoc', {
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('token')
+        }
+    })
+    .then(response => {
+        const tbody = document.getElementById("table-body");
+        tbody.innerHTML = "";
+
+        response.data.forEach(mon => {
+            let html = `<tr>
+                <td>${mon.ma_mon}</td>
+                <td>${mon.ten_mon}</td>
+                <td>${mon.ma_nganh}</td>
+                <td>${mon.so_tin_chi ?? ''}</td>
+                <td>${mon.so_tiet ?? ''}</td>
+                <td class="btn_cn">
+                    <a href="/admin/monhoc/${mon.ma_mon}/edit">
+                        <button class="button-85">Sửa</button>
+                    </a>
+                    <button class="button-85" onclick="deleteMonHoc('${mon.ma_mon}')">Xóa</button>
+                </td>
+            </tr>`;
+            tbody.insertAdjacentHTML('beforeend', html);
+        });
+    })
+    .catch(error => {
+        alert("Lỗi tải dữ liệu: " + error);
+        if (error.response && error.response.status === 401) {
+            alert("Phiên đăng nhập hết hạn. Vui lòng đăng nhập lại.");
+            localStorage.removeItem("access_token");
+            window.location.href = "/login";
+        }
+    });
+}
+
+function editMonHoc(ma_mon) {
+    // Tùy bạn xử lý, ví dụ chuyển đến form sửa:
+    window.location.href = `/admin/monhoc/${ma_mon}/edit`;
+}
+
+function deleteMonHoc(ma_mon) {
+    if (confirm("Bạn có chắc muốn xóa?")) {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token');
+
+        axios.delete(`/api/admin/monhoc/${ma_mon}`)
+       
+            .then(() => {
+                alert('Đã xóa thành công');
+                location.reload(); // Tải lại dữ liệu
+            })
+            .catch(() => {
+                alert('Xóa thất bại');
+            });
+    }
+}
+document.addEventListener("DOMContentLoaded", function () {
+    loadMonHoc();
+});
+</script>
 @endsection
