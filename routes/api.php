@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\DiemTheoLopController;
 use App\Http\Controllers\Api\LichHocController;
 use App\Http\Controllers\Api\LopHocController;
 use App\Http\Controllers\Api\MonHocController;
+use App\Http\Controllers\Api\KhoaController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -21,7 +22,7 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->get('/giao
 Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/sinhvien', function () {
     return response()->json(['msg' => 'Chào Sinh viên']);
 });
-
+// Phần của Đạt
 // Phần của giáo viên
 Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->group(function () {
     // Lấy điểm theo lớp
@@ -30,6 +31,17 @@ Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':gia
     // Lấy danh sách lớp học theo mã giảng viên
     Route::get('/dslophoc/{ma_giang_vien}', [LopHocController::class, 'getByMaGiangVien']);
 });
+Route::prefix('admin')
+    ->middleware(['auth:api', RoleMiddleware::class . ':admin'])
+    ->group(function () {
+        Route::get('/dskhoa', [KhoaController::class, 'index']);
+        Route::get('/timkiem-khoa', [KhoaController::class, 'timkiem']);
+        Route::get('/dskhoa/{id}', [KhoaController::class, 'show']);
+        Route::post('/dskhoa', [KhoaController::class, 'store']);
+        Route::put('/dskhoa/{id}', [KhoaController::class, 'update']);
+        Route::delete('/dskhoa/{id}', [KhoaController::class, 'destroy']);
+    });
+
 //Phần của Dũng
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
 //Chức năng quản lý lịch học

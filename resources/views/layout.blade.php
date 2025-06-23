@@ -41,9 +41,9 @@
                     </a>
                     <ul id="QLTK" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="/DSTaikhoan" class="sidebar-link">Quản lý tài khoản</a></li>
-                        <li class="sidebar-item"><a href="/DSGiangvien" class="sidebar-link">Quản lý giảng viên</a></li>
+                        <li class="sidebar-item"><a href="/admin/qlgiaovien" class="sidebar-link">Quản lý giảng viên</a></li>
                         <li class="sidebar-item"><a href="/DSSinhvien" class="sidebar-link">Quản lý sinh viên</a></li>
-                        <li class="sidebar-item"><a href="/DSKhoa" class="sidebar-link">Quản lý khoa</a></li>
+                        <li class="sidebar-item"><a href="admin/khoa" class="sidebar-link">Quản lý khoa</a></li>
                         <li class="sidebar-item"><a href="/DSNganh" class="sidebar-link">Quản lý ngành</a></li>
                     </ul>
                 </li>
