@@ -7,6 +7,10 @@ use App\Http\Controllers\Api\DiemTheoLopController;
 use App\Http\Controllers\Api\LichHocController;
 use App\Http\Controllers\Api\LopHocController;
 use App\Http\Controllers\Api\MonHocController;
+use App\Http\Controllers\Api\SinhVienController;
+use App\Http\Controllers\Api\GiangVienController;
+
+
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -79,4 +83,17 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
 //hết phần của Dũng
 
 Route::apiResource('/admin/monhoc', MonHocController::class);
-
+Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
+    Route::get('/sinhvien', [SinhVienController::class, 'index']);
+    Route::post('/sinhvien', [SinhVienController::class, 'store']);
+    Route::get('/sinhvien/{ma_sinh_vien}', [SinhVienController::class, 'show']);
+    Route::put('/sinhvien/{ma_sinh_vien}', [SinhVienController::class, 'update']);
+    Route::delete('/sinhvien/{ma_sinh_vien}', [SinhVienController::class, 'destroy']);
+});
+Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
+    Route::get('/giangvien', [GiangVienController::class, 'index']);
+    Route::post('/giangvien', [GiangVienController::class, 'store']);
+    Route::get('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'show']);
+    Route::put('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'update']);
+    Route::delete('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'destroy']);
+});
