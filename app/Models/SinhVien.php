@@ -28,5 +28,9 @@ class SinhVien extends Model
         'so_dien_thoai',
         'khoa_hoc',
     ];
+    public function khoa()
+{
+    return $this->belongsTo(Khoa::class, 'ma_khoa');
+}
 
 }

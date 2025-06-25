@@ -20,6 +20,11 @@ Route::get('/giaovien', function () {
     return 'Đây là trang dành cho giáo viên (tạm thời)';
 });
 
+// Tất cả các role đều dùng chung 1 layout
+Route::view('/admin', 'layout');
+Route::view('/giaovien', 'layout');
+Route::view('/sinhvien', 'layout');
+
 //Đây là phần của Dũng
 //Đăng ký tín chỉ
 Route::get('/dktinchi', function () {
@@ -48,14 +53,6 @@ Route::get('admin/dslophoc/create', function () {
 });
 
 //Hết Phần của Dũng
-
-
-
-// Tất cả các role đều dùng chung 1 layout
-Route::view('/admin', 'layout');
-Route::view('/giaovien', 'layout');
-Route::view('/sinhvien', 'layout');
-
 
 
 //đạt
@@ -87,10 +84,10 @@ Route::get('/reset-password/{token}', function ($token) {
 Route::get('/admin/khoanthu', function () {
     return view('pages.admin.khoan_thu.index');
 });
-Route::get('/admin/taikhoan/create', function () {
+Route::get('/admin/khoanthu/create', function () {
     return view('pages.admin.khoan_thu.create');
 });
-Route::get('/admin/taikhoan/{id}/edit', function ($id) {
+Route::get('/admin/khoanthu/{id}/edit', function ($id) {
     return view('pages.admin.khoan_thu.edit', ['id' => $id]);
 });
 //Hết phần của Quỳnh
