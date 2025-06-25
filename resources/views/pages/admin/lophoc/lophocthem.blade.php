@@ -58,7 +58,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
 
     // Tải dữ liệu mã môn học
     async function loadMaMonHoc() {
@@ -107,7 +107,7 @@
         };
 
         try {
-            await axios.post('/api/admin/lophoc', data, {
+            await axios.post('/api/admin/dslophoc', data, {
                 headers: { Authorization: `Bearer ${token}` }
             });
             alert('Thêm lớp học thành công!');

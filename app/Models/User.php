@@ -61,4 +61,12 @@ class User extends Authenticatable implements JWTSubject
             'must_change_password' => 'boolean',
         ];
     }
+    public function sinhVien()
+{
+    return $this->hasOne(SinhVien::class, 'user_id');
+}
+public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }
