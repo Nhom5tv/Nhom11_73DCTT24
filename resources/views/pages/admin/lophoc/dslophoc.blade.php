@@ -83,7 +83,7 @@
                     <td>${row.lich_hoc ?? ''}</td>
                     <td>${row.trang_thai}</td>
                     <td class="btn_cn">
-                        <a href="/admin/lophoc/${row.ma_lop}/sua">
+                        <a href="/admin/dslophoc/${row.ma_lop}/sua">
                             <button class="button-85" role="button">Sửa</button>
                         </a>
                     </td>

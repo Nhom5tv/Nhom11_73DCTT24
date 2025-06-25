@@ -66,7 +66,7 @@
                         <i class="fa-solid fa-coins"></i><span>Hệ thống đăng ký tín chỉ</span>
                     </a>
                     <ul id="QLHT" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="/dsdkmonhoc" class="sidebar-link">Danh sách đăng ký môn học</a></li>
+                        <li class="sidebar-item"><a href="/admin/dkmonhoc" class="sidebar-link">Danh sách đăng ký môn học</a></li>
                         <li class="sidebar-item"><a href="/admin/dslichhoc" class="sidebar-link">Quản lý lịch học</a></li>
                         <li class="sidebar-item"><a href="/admin/dslophoc" class="sidebar-link">Quản lý lớp học</a></li>
                         <li class="sidebar-item"><a href="/dsmonhoc" class="sidebar-link">Quản lý môn học</a></li>
@@ -105,7 +105,7 @@
                         <i class="fas fa-graduation-cap"></i><span>Đăng ký tín chỉ</span>
                     </a>
                     <ul id="SVTC" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="/dktinchi" class="sidebar-link">Đăng ký tín chỉ</a></li>
+                        <li class="sidebar-item"><a href="sinhvien/dktinchi" class="sidebar-link">Đăng ký tín chỉ</a></li>
                     </ul>
                 </li>
             </ul>

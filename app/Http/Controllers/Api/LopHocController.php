@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LopHoc;
+use App\Models\DangKyMonHoc;
 class LopHocController extends Controller
 {
    // 1. Lấy tất cả lớp học
@@ -25,19 +26,25 @@ class LopHocController extends Controller
 
     // 3. Thêm mới lớp học
     public function store(Request $request)
-    {
-        $request->validate([
-            'ma_lop' => 'required|integer|unique:lop,ma_lop',
-            'ma_mon' => 'required|string|max:10',
-            'hoc_ky' => 'required|string|max:9',
-            'ma_giang_vien' => 'required|string|max:10',
-            'lich_hoc' => 'nullable|string|max:255',
-            'trang_thai' => 'required|string|max:255',
-        ]);
+{
+    $request->validate([
+        'ma_mon' => 'required|string|max:10',
+        'hoc_ky' => 'required|string|max:9',
+        'ma_giang_vien' => 'required|string|max:10',
+        'lich_hoc' => 'nullable|string|max:255',
+        'trang_thai' => 'required|string|max:255',
+    ]);
 
-        $lop = LopHoc::create($request->all());
-        return response()->json($lop, 201);
-    }
+    $lop = LopHoc::create($request->all());
+
+    // Gán ma_lop vào các đăng ký chưa có lớp
+    DangKyMonHoc::where('ma_mon', $lop->ma_mon)
+        ->whereNull('ma_lop')
+        ->update(['ma_lop' => $lop->ma_lop]);
+
+    return response()->json($lop, 201);
+}
+
 
     // 4. Cập nhật lớp học theo mã lớp
     public function update(Request $request, $id)
