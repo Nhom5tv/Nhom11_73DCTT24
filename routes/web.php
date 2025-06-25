@@ -73,6 +73,11 @@ Route::get('/admin/taikhoan/create', function () {
 Route::get('/admin/taikhoan/{id}/edit', function ($id) {
     return view('pages.admin.tai_khoan.edit', ['id' => $id]);
 });
+//Đổi mật khẩu 
+Route::get('/change-password', function() {
+    return view('change-password');
+});
+   
 //Quên mật khẩu
 Route::get('/forgot-password', function () {
     return view('forgot_password');

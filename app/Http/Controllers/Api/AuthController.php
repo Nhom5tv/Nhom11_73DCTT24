@@ -17,12 +17,17 @@ class AuthController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
+        $user = Auth::guard('api')->user();
+
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => JWTAuth::factory()->getTTL() * 180
+            'expires_in' => JWTAuth::factory()->getTTL() * 180,
+            'must_change_password' => $user->must_change_password,
+            'user' => $user
         ]);
     }
+
 
     public function me()
     {

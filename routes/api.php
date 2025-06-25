@@ -15,9 +15,7 @@ use App\Http\Controllers\Api\TaiKhoanController;
 use App\Http\Controllers\Api\SinhVienController;
 use App\Http\Controllers\Api\GiangVienController;
 use App\Http\Controllers\Api\NganhController;
-
-
-
+use App\Http\Controllers\Api\UserController;
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
@@ -107,6 +105,8 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
 Route::apiResource('/admin/monhoc', MonHocController::class);
 
 // Api Quỳnh
+//Đổi mật khẩu khi đăng nhập lần đầu /ấn đổi mật khẩu
+Route::middleware('auth:api')->post('/change-password', [UserController::class, 'changePassword']);
 //Quên Mật khẩu
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendResetLink']);
 Route::post('/reset-password', [ForgotPasswordController::class, 'reset']);

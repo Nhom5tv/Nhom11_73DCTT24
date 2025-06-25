@@ -65,7 +65,8 @@ class TaiKhoanController extends Controller
                 'name' => $validated['name'],
                 'email' => $validated['email'],
                 'password' => Hash::make($validated['password']),
-                'role' => 'admin'
+                'role' => 'admin',
+                'must_change_password' => false
             ]);
 
             return response()->json(['message' => 'Tạo tài khoản admin thành công', 'user' => $user]);

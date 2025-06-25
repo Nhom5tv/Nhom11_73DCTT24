@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 use App\Models\GiangVien;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class GiangVienController extends Controller
 {
@@ -32,35 +34,60 @@ class GiangVienController extends Controller
     /**
      * Thêm mới giảng viên (API).
      */
-   public function store(Request $request)
+
+public function store(Request $request)
 {
+    DB::beginTransaction();
+
     try {
-            Log::info('Store GiangVien chạy rồi!');
-Log::info('Dữ liệu gửi lên:', $request->all());
 
         $validated = $request->validate([
             'ma_giang_vien' => 'required|string|max:10|unique:giang_vien',
-            'user_id' => 'required|integer',
             'ma_khoa' => 'required|integer',
             'ho_ten' => 'required|string|max:50',
-            'email' => 'required|email|unique:giang_vien',
+            'email' => 'required|email|unique:users,email', // Kiểm tra trùng ở bảng users
             'so_dien_thoai' => 'nullable|string|max:15',
             'chuyen_nganh' => 'nullable|string|max:50',
         ]);
 
-        $gv = GiangVien::create($validated);
+        // 1. Tạo tài khoản user
+        $user = \App\Models\User::create([
+            'name' => $validated['ho_ten'],
+            'email' => $validated['email'],
+            'password' => Hash::make('12345678'), 
+            'role' => 'giangvien',
+            'must_change_password' => true
+        ]);
+
+        // 2. Tạo giảng viên, gán user_id
+        $giangVien = GiangVien::create([
+            'ma_giang_vien' => $validated['ma_giang_vien'],
+            'user_id' => $user->id,
+            'ma_khoa' => $validated['ma_khoa'],
+            'ho_ten' => $validated['ho_ten'],
+            'email' => $validated['email'],
+            'so_dien_thoai' => $validated['so_dien_thoai'] ?? null,
+            'chuyen_nganh' => $validated['chuyen_nganh'] ?? null,
+        ]);
+
+        DB::commit();
 
         return response()->json([
-            'message' => 'Thêm giảng viên thành công!',
-            'data' => $gv
+            'message' => 'Tạo giảng viên và tài khoản thành công!',
+            'giang_vien' => $giangVien,
+            'user' => $user
         ], 201);
+
     } catch (\Exception $e) {
+        DB::rollBack();
+        Log::error('Lỗi khi tạo giảng viên:', ['error' => $e->getMessage()]);
         return response()->json([
             'message' => 'Lỗi khi thêm giảng viên',
             'error' => $e->getMessage(),
         ], 500);
     }
 }
+
 
 
     /**
