@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,40 +9,47 @@
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/login.css?v={{ time() }}">
-    
+
     <style>
-        .content { margin-top: 70px; }
+        .content {
+            margin-top: 70px;
+        }
+
         .formDangnhap {
             position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
         }
     </style>
 </head>
 
 {{-- kiểm tra token hết hạn --}}
 <script>
-window.addEventListener('DOMContentLoaded', function () {
-    const token = localStorage.getItem('token');
-    if (token) {
-        // Gọi /api/me để xác minh token
-        axios.get('/api/me', {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        })
-        .then(res => {
-            const role = res.data.role;
-            if (role === 'admin') window.location.href = '/admin';
-            else if (role === 'giaovien') window.location.href = '/giaovien';
-            else if (role === 'sinhvien') window.location.href = '/sinhvien';
-        })
-        .catch(() => {
-            // Token không hợp lệ hoặc hết hạn → xóa
-            localStorage.removeItem('token');
-        });
-    }
-});
+    window.addEventListener('DOMContentLoaded', function () {
+        const token = localStorage.getItem('token');
+        if (token) {
+            // Gọi /api/me để xác minh token
+            axios.get('/api/me', {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            })
+                .then(res => {
+                    const role = res.data.role;
+                    if (role === 'admin') window.location.href = '/admin';
+                    else if (role === 'giaovien') window.location.href = '/giaovien';
+                    else if (role === 'sinhvien') window.location.href = '/sinhvien';
+                })
+                .catch(() => {
+                    // Token không hợp lệ hoặc hết hạn → xóa
+                    localStorage.removeItem('token');
+                });
+        }
+    });
 </script>
+
 <body>
     <div class="formDangnhap">
         <form id="loginForm">
@@ -65,7 +73,7 @@ window.addEventListener('DOMContentLoaded', function () {
                         <label><i class="lni lni-lock"></i> Password</label>
                     </div>
 
-                    
+
                     <div class="remember-forgot">
                         <label><input type="checkbox"> Remember me</label>
                         <a href="/forgot-password" style="float: right;">Quên mật khẩu?</a>
@@ -80,7 +88,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.getElementById("loginForm").addEventListener("submit", function(e) {
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
             const email = document.querySelector('input[name="txtEmail"]').value;
@@ -90,13 +98,13 @@ window.addEventListener('DOMContentLoaded', function () {
                 email: email,
                 password: password
             })
-            .then(res => {
-                localStorage.setItem('token', res.data.access_token);
-                loadUser();
-            })
-            .catch(() => {
-                document.getElementById('login-error').innerText = "❌ Đăng nhập thất bại. Vui lòng kiểm tra lại.";
-            });
+                .then(res => {
+                    localStorage.setItem('token', res.data.access_token);
+                    loadUser();
+                })
+                .catch(() => {
+                    document.getElementById('login-error').innerText = "❌ Đăng nhập thất bại. Vui lòng kiểm tra lại.";
+                });
         });
 
         function loadUser() {
@@ -105,17 +113,25 @@ window.addEventListener('DOMContentLoaded', function () {
                     Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
             })
-            .then(res => {
-                const role = res.data.role;
-                if (role === 'admin') window.location.href = '/admin';
-                else if (role === 'giaovien') window.location.href = '/giaovien';
-                else if (role === 'sinhvien') window.location.href = '/sinhvien';
-                else alert("Không xác định được vai trò.");
-            })
-            .catch(() => {
-                alert(" Token hết hạn hoặc không hợp lệ.");
-            });
+                .then(res => {
+                    const role = res.data.role;
+                    const mustChange = res.data.must_change_password;
+
+                    if (mustChange) {
+                        localStorage.setItem('must_change_password', mustChange);
+                        window.location.href = '/change-password';
+                        return;
+                    }
+                    if (role === 'admin') window.location.href = '/admin';
+                    else if (role === 'giaovien') window.location.href = '/giaovien';
+                    else if (role === 'sinhvien') window.location.href = '/sinhvien';
+                    else alert("Không xác định được vai trò.");
+                })
+                .catch(() => {
+                    alert(" Token hết hạn hoặc không hợp lệ.");
+                });
         }
     </script>
 </body>
+
 </html>

@@ -75,7 +75,7 @@ Route::get('/admin/taikhoan/{id}/edit', function ($id) {
 });
 //Đổi mật khẩu 
 Route::get('/change-password', function() {
-    return view('change-password');
+    return view('change_password');
 });
    
 //Quên mật khẩu

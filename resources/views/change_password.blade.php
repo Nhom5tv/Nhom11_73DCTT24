@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,19 +11,28 @@
     <link rel="stylesheet" href="/css/login.css?v={{ time() }}">
 
     <style>
-        .content { margin-top: 70px; }
+        .content {
+            margin-top: 70px;
+        }
+
         .formDangnhap {
             position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
         }
     </style>
 </head>
+
 <body>
     <div class="formDangnhap">
         <form id="resetForm">
             <div class="content" style="background-color:white;">
                 <div class="form-box login">
                     <h2>Đổi mật khẩu</h2>
+                    <p id="note" style="color: #c0392b; text-align: center; margin-bottom: 10px; font-weight: bold;">
+                    </p>
 
                     <div class="input-box">
                         <span class="icon"><i class="fa-solid fa-key"></i></span>
@@ -46,7 +56,14 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.getElementById("resetForm").addEventListener("submit", function(e) {
+
+        mustChange = localStorage.getItem('must_change_password') === 'true';
+        if (mustChange) {
+            document.getElementById('note').innerText = '🔒 Bạn đang đăng nhập lần đầu. Vui lòng đổi mật khẩu để tiếp tục.';
+        }
+
+    
+        document.getElementById("resetForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
             const password = document.querySelector('input[name="password"]').value;
@@ -58,19 +75,22 @@
                 password_confirmation: confirm
             }, {
                 headers: {
-                   Authorization: 'Bearer ' + localStorage.getItem('token')
+                    Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
             })
-            .then(res => {
-                alert("✅ Đổi mật khẩu thành công!Vui lòng đăng nhập lại");
-                window.location.href = '/login';
-            })
-            .catch(err => {
-                const msg = err.response?.data?.message || "❌ Có lỗi xảy ra. Vui lòng thử lại.";
-                document.getElementById('reset-error').innerText = msg;
-                document.getElementById('reset-success').innerText = '';
-            });
+                .then(res => {
+                    alert("✅ Đổi mật khẩu thành công!Vui lòng đăng nhập lại");
+                    localStorage.removeItem('must_change_password');
+                    localStorage.removeItem('token');
+                    window.location.href = '/login';
+                })
+                .catch(err => {
+                    const msg = err.response?.data?.message || "❌ Có lỗi xảy ra. Vui lòng thử lại.";
+                    document.getElementById('reset-error').innerText = msg;
+                    document.getElementById('reset-success').innerText = '';
+                });
         });
     </script>
 </body>
+
 </html>
