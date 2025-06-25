@@ -7,6 +7,8 @@ use App\Models\DiemTheoLop;
 
 use App\Models\SinhVien;
 use App\Models\GiangVien;
+use App\Models\Nganh;
+
 
 
 
@@ -182,8 +184,7 @@ Route::prefix('admin/sinhvien')->group(function () {
         $sinhvien = SinhVien::where('ma_sinh_vien', $ma_sinh_vien)->firstOrFail();
         return view('pages.admin.qlsinhvien.edit', ['sinhvien' => $sinhvien]);
     });
-});
-// Giao diện quản lý giảng viên (dành cho admin)
+});// Giao diện quản lý giảng viên (dành cho admin)
 Route::prefix('admin/giangvien')->group(function () {
     // Danh sách giảng viên
     Route::get('/', function () {
@@ -199,5 +200,24 @@ Route::prefix('admin/giangvien')->group(function () {
     Route::get('/{ma_giang_vien}/edit', function ($ma_giang_vien) {
         $giangvien = GiangVien::where('ma_giang_vien', $ma_giang_vien)->firstOrFail();
         return view('pages.admin.qlgiaovien.edit', ['giangvien' => $giangvien]);
+    });
+});
+
+// Giao diện quản lý ngành (dành cho admin)
+Route::prefix('admin/nganh')->group(function () {
+    // Danh sách ngành
+    Route::get('/', function () {
+        return view('pages.admin.qlnganh.index');
+    });
+
+    // Giao diện tạo mới ngành
+    Route::get('/create', function () {
+        return view('pages.admin.qlnganh.create');
+    });
+
+    // Giao diện sửa ngành
+    Route::get('/{ma_nganh}/edit', function ($ma_nganh) {
+        $nganh = Nganh::findOrFail($ma_nganh);
+        return view('pages.admin.qlnganh.edit', ['nganh' => $nganh]);
     });
 });
