@@ -90,7 +90,7 @@
 
     async function loadDanhSachLop() {
         try {
-            const response = await axios.get('/api/giaovien/dslophoc/GV101');
+            const response = await axios.get('/api/giaovien/dslophoc/{ma_giang_vien}');
             const classes = response.data;
             const selectBox = document.getElementById('selectClass');
             console.log("Lớp:", classes);

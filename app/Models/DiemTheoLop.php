@@ -27,4 +27,14 @@ class DiemTheoLop extends Model
         'diem_giua_ky', 
         'diem_cuoi_ky'
     ];
+
+//     public function dangKyMonHoc()
+// {
+//     return $this->belongsTo(DangKyMonHoc::class, ['ma_sinh_vien', 'ma_lop'], ['ma_sinh_vien', 'ma_lop']);
+// }
+public function dangKyMonHoc()
+{
+    return $this->belongsTo(DangKyMonHoc::class, 'ma_lop', 'ma_lop')
+               ->where('ma_sinh_vien', $this->ma_sinh_vien);
+}
 }

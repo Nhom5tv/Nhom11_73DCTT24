@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\NganhController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\DangKyMonHocController;
 use App\Http\Controllers\Api\DangKyTinChiController;
+use App\Http\Controllers\Api\DiemSinhVienController;
 
 
 
@@ -60,6 +61,18 @@ Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':gia
     Route::put('/diem-theo-lop/{ma_sinh_vien}', [DiemTheoLopController::class, 'updateData']);
     // Lấy danh sách lớp học theo mã giảng viên
     Route::get('/dslophoc/{ma_giang_vien}', [LopHocController::class, 'getByMaGiangVien']);
+});
+
+// Route::prefix('sinhvien')->middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->group(function () {
+//     Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
+// });
+Route::prefix('sinhvien')->middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->group(function () {
+    // Sửa tên method cho đúng
+    Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
+    
+    // Hoặc nếu muốn tách riêng 2 endpoint
+    Route::get('diem/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
+    Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiemChiTiet']);
 });
 
 //Phần của Dũng
