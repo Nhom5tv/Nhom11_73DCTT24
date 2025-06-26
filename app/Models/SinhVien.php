@@ -36,7 +36,7 @@ public function dangKyMonHocs()
 {
     return $this->hasMany(DangKyMonHoc::class, 'ma_sinh_vien', 'ma_sinh_vien');
 }
- public function user() {
+public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
 public function tongTinChiDangKy(): int

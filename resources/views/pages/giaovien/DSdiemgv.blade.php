@@ -87,10 +87,11 @@
     let selectedClassId = '';
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
+    const ma_giang_vien = localStorage.getItem('ma_giang_vien');
+    console.log("Ma Giang Vien",ma_giang_vien);
     async function loadDanhSachLop() {
         try {
-            const response = await axios.get('/api/giaovien/dslophoc/{ma_giang_vien}');
+            const response = await axios.get(`/api/giaovien/dslophoc/${ma_giang_vien}`);
             const classes = response.data;
             const selectBox = document.getElementById('selectClass');
             console.log("Lớp:", classes);
@@ -104,7 +105,7 @@
             }
             selectBox.addEventListener('change', function () {
                 selectedClassId = this.value;
-                console.log("Selected Class ID: ", selectedClassId); 
+                console.log("Selected Class ID: ", selectedClassId);
                 localStorage.setItem('selectedClassId', selectedClassId);
                 fetchBangDiem();
             });
@@ -143,10 +144,10 @@
                     <tr>
                         <td>${index + 1}</td>
                         <td>${item.ma_sinh_vien}</td>
-                        <td>${item.ho_ten ?? 'Không có tên'}</td>
-                        <td>${item.diem_chuyen_can}</td>
-                        <td>${item.diem_giua_ky}</td>
-                        <td>${item.diem_cuoi_ky}</td>
+                        <td>${item.sinh_vien.ho_ten}</td>
+                        <td>${item.diem_chuyen_can !== null ? item.diem_chuyen_can : ''}</td>
+                        <td>${item.diem_giua_ky !== null ? item.diem_giua_ky : ''}</td>
+                        <td>${item.diem_cuoi_ky !== null ? item.diem_cuoi_ky : ''}</td>
                         <td class="btn_cn">
                             <a href="/giaovien/diem-theo-lop/${item.ma_dct}/edit?class_id=${selectedClassId}">
                                 <button class="button-85" role="button">Sửa</button>
@@ -181,18 +182,18 @@
         // Thêm BOM và sử dụng Blob để tạo file
         const csvContent = "\uFEFF" + csv.join('\n'); // \uFEFF là BOM cho UTF-8
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        
+
         const link = document.createElement('a');
         const url = URL.createObjectURL(blob);
-        
+
         link.href = url;
         link.setAttribute('download', `bangdiem_${selectedClassId}.csv`);
         link.style.visibility = 'hidden';
-        
+
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
+
         // Giải phóng bộ nhớ
         setTimeout(() => URL.revokeObjectURL(url), 100);
     }

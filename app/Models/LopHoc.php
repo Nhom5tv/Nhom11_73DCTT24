@@ -24,4 +24,5 @@ class LopHoc extends Model
         return $this->hasMany(DangKyMonHoc::class, 'ma_lop', 'ma_lop');
     }
 }
+
 ?>

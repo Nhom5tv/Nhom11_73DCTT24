@@ -48,7 +48,7 @@
             </select>
         </div>
 
-        <button class="btn" onclick="themLopHoc()">Lưu</button>
+        <button class="btn" id="btnLuu" onclick="themLopHoc()">Lưu</button>
 
         <div class="quaylai">
             <a href="{{ url('admin/dslophoc') }}">Quay lại</a>
@@ -98,30 +98,37 @@
 
     // Gửi yêu cầu thêm lớp học
     async function themLopHoc() {
-        const data = {
-            ma_mon: document.getElementById('ma_mon').value,
-            hoc_ky: document.getElementById('hoc_ky').value,
-            ma_giang_vien: document.getElementById('ma_giang_vien').value,
-            lich_hoc: document.getElementById('lich_hoc').value,
-            trang_thai: document.getElementById('trang_thai').value
-        };
+    const btn = document.getElementById('btnLuu');
+    btn.disabled = true;
+    btn.textContent = 'Đang lưu...';
 
-        try {
-            await axios.post('/api/admin/dslophoc', data, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            alert('Thêm lớp học thành công!');
-            window.location.href = '/admin/dslophoc';
-        } catch (error) {
-            if (error.response?.status === 422) {
-                const errs = error.response.data.errors;
-                alert("Lỗi nhập liệu:\n" + Object.entries(errs).map(([k,v]) => `${k}: ${v.join(', ')}`).join('\n'));
-            } else {
-                console.error(error);
-                alert("Thêm lớp học thất bại.");
-            }
+    const data = {
+        ma_mon: document.getElementById('ma_mon').value,
+        hoc_ky: document.getElementById('hoc_ky').value,
+        ma_giang_vien: document.getElementById('ma_giang_vien').value,
+        lich_hoc: document.getElementById('lich_hoc').value,
+        trang_thai: document.getElementById('trang_thai').value
+    };
+
+    try {
+        await axios.post('/api/admin/dslophoc', data, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        alert('Thêm lớp học thành công!');
+        window.location.href = '/admin/dslophoc';
+    } catch (error) {
+        if (error.response?.status === 422) {
+            const errs = error.response.data.errors;
+            alert("Lỗi nhập liệu:\n" + Object.entries(errs).map(([k, v]) => `${k}: ${v.join(', ')}`).join('\n'));
+        } else {
+            console.error(error);
+            alert("Thêm lớp học thất bại.");
         }
+        // Cho phép bấm lại nút nếu có lỗi
+        btn.disabled = false;
+        btn.textContent = 'Lưu';
     }
+}
 
     document.addEventListener('DOMContentLoaded', () => {
         loadMaMonHoc();
