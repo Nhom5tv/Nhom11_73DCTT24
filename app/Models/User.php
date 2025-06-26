@@ -62,11 +62,15 @@ class User extends Authenticatable implements JWTSubject
         ];
     }
     public function sinhVien()
-{
-    return $this->hasOne(SinhVien::class, 'user_id');
-}
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    {
+        return $this->hasOne(SinhVien::class, 'user_id');
+    }
+    public function giangVien()
+    {
+        return $this->hasOne(GiangVien::class, 'user_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

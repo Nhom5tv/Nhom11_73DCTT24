@@ -116,7 +116,7 @@
                 .then(res => {
                     const role = res.data.role;
                     const mustChange = res.data.must_change_password;
-
+                   
                     if (mustChange) {
                         localStorage.setItem('must_change_password', mustChange);
                         window.location.href = '/change-password';

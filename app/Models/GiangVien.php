@@ -24,6 +24,9 @@ class GiangVien extends Model
         'so_dien_thoai',
         'chuyen_nganh',
     ];
+     public function user() {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
 
 

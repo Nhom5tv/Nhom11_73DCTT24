@@ -55,7 +55,7 @@ public function store(Request $request)
             'name' => $validated['ho_ten'],
             'email' => $validated['email'],
             'password' => Hash::make('12345678'), 
-            'role' => 'giangvien',
+            'role' => 'giaovien',
             'must_change_password' => true
         ]);
 
