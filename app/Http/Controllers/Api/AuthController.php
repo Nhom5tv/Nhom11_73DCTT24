@@ -48,24 +48,30 @@ class AuthController extends Controller
 
 
     public function me()
-    {
-        $user = Auth::guard('api')->user();
+{
+    // Lấy user + quan hệ nếu cần
+    $user = Auth::guard('api')->user();
+    $userWithRelations = User::with(['giangVien', 'sinhVien'])->find($user->id);
 
-        $ma_sinh_vien = null;
-        $ma_giang_vien = null;
+    // Gói thông tin gọn
+    $userData = [
+        'id' => $user->id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'role' => $user->role,
+    ];
 
-        if ($user->role === 'sinhvien') {
-            $ma_sinh_vien = optional($user->sinhVien)->ma_sinh_vien;
-        } elseif ($user->role === 'giaovien') {
-            $ma_giang_vien = optional($user->giangVien)->ma_giang_vien;
-        }
-
-        return response()->json([
-            'user' => $user,
-            'ma_sinh_vien' => $ma_sinh_vien,
-            'ma_giang_vien' => $ma_giang_vien,
-        ]);
+    if ($user->role === 'sinhvien') {
+        $userData['ma_sinh_vien'] = optional($userWithRelations->sinhVien)->ma_sinh_vien;
+    } elseif ($user->role === 'giaovien') {
+        $userData['ma_giang_vien'] = optional($userWithRelations->giangVien)->ma_giang_vien;
     }
+
+    return response()->json([
+        'user' => $userData
+    ]);
+}
+
 
 
 

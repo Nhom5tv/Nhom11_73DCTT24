@@ -151,8 +151,8 @@
                 headers: { 'Authorization': 'Bearer ' + token }
             })
             .then(res => res.json())
-            .then(user => {
-                const role = user.role;
+            .then(data => {
+                const role = data.user.role;
                 document.querySelectorAll('[data-role]').forEach(item => {
                     item.style.display = (item.getAttribute('data-role') === role) ? 'block' : 'none';
                 });

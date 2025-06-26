@@ -100,6 +100,7 @@
             })
                 .then(res => {
                     localStorage.setItem('token', res.data.access_token);
+                    localStorage.setItem('must_change_password', res.data.must_change_password);
                     loadUser();
                 })
                 .catch(() => {
@@ -114,17 +115,24 @@
                 }
             })
                 .then(res => {
-                    const role = res.data.role;
-                    const mustChange = res.data.must_change_password;
+                    const user = res.data.user;
+                    const role = user.role;
+                    mustChange = localStorage.getItem('must_change_password') === 'true';
                    
                     if (mustChange) {
-                        localStorage.setItem('must_change_password', mustChange);
+                    
                         window.location.href = '/change-password';
                         return;
                     }
                     if (role === 'admin') window.location.href = '/admin';
-                    else if (role === 'giaovien') window.location.href = '/giaovien';
-                    else if (role === 'sinhvien') window.location.href = '/sinhvien';
+                    else if (role === 'giaovien') {
+                        localStorage.setItem('ma_giang_vien', user.ma_giang_vien);
+                        window.location.href = '/giaovien';
+                    }
+                    else if (role === 'sinhvien'){
+                        localStorage.setItem('ma_sinh_vien', user.ma_sinh_vien);
+                        window.location.href = '/sinhvien';
+                    }
                     else alert("Không xác định được vai trò.");
                 })
                 .catch(() => {
