@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LopHoc;
 use App\Models\DangKyMonHoc;
+use App\Models\DiemTheoLop;
+use App\Models\SinhVien;
 class LopHocController extends Controller
 {
    // 1. Lấy tất cả lớp học
@@ -21,6 +23,7 @@ class LopHocController extends Controller
         if (!$lop) {
             return response()->json(['message' => 'Không tìm thấy lớp học'], 404);
         }
+
         return response()->json($lop);
     }
 
@@ -39,9 +42,31 @@ class LopHocController extends Controller
 
     // Gán ma_lop vào các đăng ký chưa có lớp
     DangKyMonHoc::where('ma_mon', $lop->ma_mon)
-        ->whereNull('ma_lop')
-        ->update(['ma_lop' => $lop->ma_lop]);
+            ->whereNull('ma_lop')
+            ->update(['ma_lop' => $lop->ma_lop]);
 
+        // Sau khi gán ma_lop, cần cập nhật lần học cho các sinh viên đã đăng ký
+        $dangKys = DangKyMonHoc::with('sinhVien')
+        ->where('ma_mon', $lop->ma_mon)
+        ->where('ma_lop', $lop->ma_lop)
+        ->get();
+
+    foreach ($dangKys as $dangKy) {
+        // Tính lần học (không lưu ma_mon vì model không có trường này)
+        $lanHoc = DiemTheoLop::where('ma_sinh_vien', $dangKy->ma_sinh_vien)
+            ->where('ma_lop', $lop->ma_lop)
+            ->max('lan_hoc') ?? 0;
+
+        DiemTheoLop::create([
+            'ma_lop' => $lop->ma_lop,
+            'ma_sinh_vien' => $dangKy->ma_sinh_vien,
+            'ten_sinh_vien' => $dangKy->sinhVien->ten_sinh_vien ?? 'Không rõ',
+            'lan_hoc' => $lanHoc + 1,
+            'diem_chuyen_can' => null,
+            'diem_giua_ky' => null,
+            'diem_cuoi_ky' => null
+        ]);
+    }
     return response()->json($lop, 201);
 }
 

@@ -87,10 +87,11 @@
     let selectedClassId = '';
 
     axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
-
+    const ma_giang_vien = localStorage.getItem('ma_giang_vien');
+    console.log("Ma Giang Vien",ma_giang_vien);
     async function loadDanhSachLop() {
         try {
-            const response = await axios.get('/api/giaovien/dslophoc/GV101');
+            const response = await axios.get(`/api/giaovien/dslophoc/${ma_giang_vien}`);
             const classes = response.data;
             const selectBox = document.getElementById('selectClass');
             console.log("Lớp:", classes);
@@ -104,7 +105,7 @@
             }
             selectBox.addEventListener('change', function () {
                 selectedClassId = this.value;
-                console.log("Selected Class ID: ", selectedClassId); 
+                console.log("Selected Class ID: ", selectedClassId);
                 localStorage.setItem('selectedClassId', selectedClassId);
                 fetchBangDiem();
             });
@@ -181,18 +182,18 @@
         // Thêm BOM và sử dụng Blob để tạo file
         const csvContent = "\uFEFF" + csv.join('\n'); // \uFEFF là BOM cho UTF-8
         const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
-        
+
         const link = document.createElement('a');
         const url = URL.createObjectURL(blob);
-        
+
         link.href = url;
         link.setAttribute('download', `bangdiem_${selectedClassId}.csv`);
         link.style.visibility = 'hidden';
-        
+
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        
+
         // Giải phóng bộ nhớ
         setTimeout(() => URL.revokeObjectURL(url), 100);
     }

@@ -8,7 +8,7 @@
     <link href="https://cdn.lineicons.com/4.0/lineicons.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/login.css?v={{ time() }}">
-    
+
     <style>
         .content { margin-top: 70px; }
         .formDangnhap {
@@ -31,8 +31,12 @@ window.addEventListener('DOMContentLoaded', function () {
         })
         .then(res => {
             const role = res.data.role;
+            const userId = res.data.user_id;
             if (role === 'admin') window.location.href = '/admin';
-            else if (role === 'giaovien') window.location.href = '/giaovien';
+            else if (role === 'giaovien'){
+                window.location.href = '/giaovien';
+            localStorage.setItem('ma_giang_vien', response.data.ma_giang_vien);
+        }
             else if (role === 'sinhvien') window.location.href = '/sinhvien';
         })
         .catch(() => {
@@ -65,7 +69,7 @@ window.addEventListener('DOMContentLoaded', function () {
                         <label><i class="lni lni-lock"></i> Password</label>
                     </div>
 
-                    
+
                     <div class="remember-forgot">
                         <label><input type="checkbox"> Remember me</label>
                         <a href="/forgot-password" style="float: right;">Quên mật khẩu?</a>

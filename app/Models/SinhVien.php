@@ -32,5 +32,8 @@ class SinhVien extends Model
 {
     return $this->belongsTo(Khoa::class, 'ma_khoa');
 }
-
+    public function dangKyMonHocs()
+{
+    return $this->hasMany(DangKyMonHoc::class, 'ma_sinh_vien', 'ma_sinh_vien');
+}
 }
