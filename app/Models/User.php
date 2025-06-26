@@ -34,7 +34,8 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'role',
+        'role', 
+        'must_change_password',
     ];
 
     /**
@@ -57,14 +58,19 @@ class User extends Authenticatable implements JWTSubject
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'must_change_password' => 'boolean',
         ];
     }
     public function sinhVien()
-{
-    return $this->hasOne(SinhVien::class, 'user_id');
-}
-public function user()
-{
-    return $this->belongsTo(User::class);
-}
+    {
+        return $this->hasOne(SinhVien::class, 'user_id');
+    }
+    public function giangVien()
+    {
+        return $this->hasOne(GiangVien::class, 'user_id');
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

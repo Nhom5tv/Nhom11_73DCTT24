@@ -80,6 +80,12 @@
                     </a>
                 </li>
 
+                <li class="sidebar-item" data-role="giaovien">
+                    <a href="/change-password" class="sidebar-link">
+                        <i class="fa-solid fa-medal"></i><span>Đổi mật khẩu</span>
+                    </a>
+                </li>
+
                 <!-- Sinh viên only -->
                 <li class="sidebar-item" data-role="sinhvien">
                     <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#SVTK">
@@ -87,6 +93,9 @@
                     </a>
                     <ul id="SVTK" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="/ThongTinSinhVien" class="sidebar-link">Profile</a></li>
+                    </ul>
+                    <ul id="SVTK" class="sidebar-dropdown list-unstyled collapse">
+                        <li class="sidebar-item"><a href="/change-password" class="sidebar-link">Đổi mật khẩu</a></li>
                     </ul>
                 </li>
 
@@ -142,8 +151,8 @@
                 headers: { 'Authorization': 'Bearer ' + token }
             })
             .then(res => res.json())
-            .then(user => {
-                const role = user.role;
+            .then(data => {
+                const role = data.user.role;
                 document.querySelectorAll('[data-role]').forEach(item => {
                     item.style.display = (item.getAttribute('data-role') === role) ? 'block' : 'none';
                 });

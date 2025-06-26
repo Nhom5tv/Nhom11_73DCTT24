@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\KhoanThu;
+use App\Models\KhoanThuSinhVien;
+use App\Models\MienGiamSinhVien;
 use App\Models\SinhVien;
 use Illuminate\Http\Request;
 use Exception;
@@ -94,7 +96,7 @@ class KhoanThuController extends Controller
                 }
 
                 // Bước 5: Tìm mức miễn giảm theo đúng loại khoản thu
-                $mienGiam = \App\Models\MienGiamSinhVien::where('ma_sinh_vien', $sv->ma_sinh_vien)
+                $mienGiam = MienGiamSinhVien::where('ma_sinh_vien', $sv->ma_sinh_vien)
                     ->where('loai_mien_giam', $validated['loai_khoan_thu'])
                     ->first();
 
@@ -104,10 +106,11 @@ class KhoanThuController extends Controller
                 $soTienMienGiam = ($soTienGoc * $mucGiam) / 100;
                 $soTienPhaiNop = max(0, $soTienGoc - $soTienMienGiam);
 
-                $trangThai = $soTienPhaiNop == 0 ? 'Đã thanh toán' : 'Chưa thanh toán';
+                // $trangThai = $soTienPhaiNop == 0 ? 'Đã thanh toán' : 'Chưa thanh toán';
+                $trangThai = round($soTienPhaiNop, 2) == 0 ? 'Đã thanh toán' : 'Chưa thanh toán';
 
                 // Bước 6: Gán khoản thu sinh viên
-                \App\Models\KhoanThuSinhVien::create([
+                KhoanThuSinhVien::create([
                     'ma_khoan_thu' => $khoanThu->ma_khoan_thu,
                     'ma_sinh_vien' => $sv->ma_sinh_vien,
                     'so_tien_ban_dau' => $soTienGoc,
