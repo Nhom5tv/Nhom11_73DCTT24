@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,42 +11,45 @@
     <link rel="stylesheet" href="/css/login.css?v={{ time() }}">
 
     <style>
-        .content { margin-top: 70px; }
+        .content {
+            margin-top: 70px;
+        }
+
         .formDangnhap {
             position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
         }
     </style>
 </head>
 
 {{-- kiểm tra token hết hạn --}}
 <script>
-window.addEventListener('DOMContentLoaded', function () {
-    const token = localStorage.getItem('token');
-    if (token) {
-        // Gọi /api/me để xác minh token
-        axios.get('/api/me', {
-            headers: {
-                Authorization: 'Bearer ' + token
-            }
-        })
-        .then(res => {
-            const role = res.data.role;
-            const userId = res.data.user_id;
-            if (role === 'admin') window.location.href = '/admin';
-            else if (role === 'giaovien'){
-                window.location.href = '/giaovien';
-            localStorage.setItem('ma_giang_vien', response.data.ma_giang_vien);
+    window.addEventListener('DOMContentLoaded', function () {
+        const token = localStorage.getItem('token');
+        if (token) {
+            // Gọi /api/me để xác minh token
+            axios.get('/api/me', {
+                headers: {
+                    Authorization: 'Bearer ' + token
+                }
+            })
+                .then(res => {
+                    const role = res.data.role;
+                    if (role === 'admin') window.location.href = '/admin';
+                    else if (role === 'giaovien') window.location.href = '/giaovien';
+                    else if (role === 'sinhvien') window.location.href = '/sinhvien';
+                })
+                .catch(() => {
+                    // Token không hợp lệ hoặc hết hạn → xóa
+                    localStorage.removeItem('token');
+                });
         }
-            else if (role === 'sinhvien') window.location.href = '/sinhvien';
-        })
-        .catch(() => {
-            // Token không hợp lệ hoặc hết hạn → xóa
-            localStorage.removeItem('token');
-        });
-    }
-});
+    });
 </script>
+
 <body>
     <div class="formDangnhap">
         <form id="loginForm">
@@ -84,7 +88,7 @@ window.addEventListener('DOMContentLoaded', function () {
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
-        document.getElementById("loginForm").addEventListener("submit", function(e) {
+        document.getElementById("loginForm").addEventListener("submit", function (e) {
             e.preventDefault();
 
             const email = document.querySelector('input[name="txtEmail"]').value;
@@ -94,13 +98,14 @@ window.addEventListener('DOMContentLoaded', function () {
                 email: email,
                 password: password
             })
-            .then(res => {
-                localStorage.setItem('token', res.data.access_token);
-                loadUser();
-            })
-            .catch(() => {
-                document.getElementById('login-error').innerText = "❌ Đăng nhập thất bại. Vui lòng kiểm tra lại.";
-            });
+                .then(res => {
+                    localStorage.setItem('token', res.data.access_token);
+                    localStorage.setItem('must_change_password', res.data.must_change_password);
+                    loadUser();
+                })
+                .catch(() => {
+                    document.getElementById('login-error').innerText = "❌ Đăng nhập thất bại. Vui lòng kiểm tra lại.";
+                });
         });
 
         function loadUser() {
@@ -109,17 +114,32 @@ window.addEventListener('DOMContentLoaded', function () {
                     Authorization: 'Bearer ' + localStorage.getItem('token')
                 }
             })
-            .then(res => {
-                const role = res.data.role;
-                if (role === 'admin') window.location.href = '/admin';
-                else if (role === 'giaovien') window.location.href = '/giaovien';
-                else if (role === 'sinhvien') window.location.href = '/sinhvien';
-                else alert("Không xác định được vai trò.");
-            })
-            .catch(() => {
-                alert(" Token hết hạn hoặc không hợp lệ.");
-            });
+                .then(res => {
+                    const user = res.data.user;
+                    const role = user.role;
+                    mustChange = localStorage.getItem('must_change_password') === 'true';
+
+                    if (mustChange) {
+
+                        window.location.href = '/change-password';
+                        return;
+                    }
+                    if (role === 'admin') window.location.href = '/admin';
+                    else if (role === 'giaovien') {
+                        localStorage.setItem('ma_giang_vien', user.ma_giang_vien);
+                        window.location.href = '/giaovien';
+                    }
+                    else if (role === 'sinhvien'){
+                        localStorage.setItem('ma_sinh_vien', user.ma_sinh_vien);
+                        window.location.href = '/sinhvien';
+                    }
+                    else alert("Không xác định được vai trò.");
+                })
+                .catch(() => {
+                    alert(" Token hết hạn hoặc không hợp lệ.");
+                });
         }
     </script>
 </body>
+
 </html>

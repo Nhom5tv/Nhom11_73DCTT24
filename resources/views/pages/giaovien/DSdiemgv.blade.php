@@ -144,10 +144,10 @@
                     <tr>
                         <td>${index + 1}</td>
                         <td>${item.ma_sinh_vien}</td>
-                        <td>${item.ho_ten ?? 'Không có tên'}</td>
-                        <td>${item.diem_chuyen_can}</td>
-                        <td>${item.diem_giua_ky}</td>
-                        <td>${item.diem_cuoi_ky}</td>
+                        <td>${item.sinh_vien.ho_ten}</td>
+                        <td>${item.diem_chuyen_can !== null ? item.diem_chuyen_can : ''}</td>
+                        <td>${item.diem_giua_ky !== null ? item.diem_giua_ky : ''}</td>
+                        <td>${item.diem_cuoi_ky !== null ? item.diem_cuoi_ky : ''}</td>
                         <td class="btn_cn">
                             <a href="/giaovien/diem-theo-lop/${item.ma_dct}/edit?class_id=${selectedClassId}">
                                 <button class="button-85" role="button">Sửa</button>

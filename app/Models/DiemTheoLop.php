@@ -20,11 +20,19 @@ class DiemTheoLop extends Model
 
     // Các trường có thể được gán giá trị (mass assignment)
     protected $fillable = [
-        'ma_lop', 
-        'ma_sinh_vien', 
-        'lan_hoc', 
-        'diem_chuyen_can', 
-        'diem_giua_ky', 
+        'ma_lop',
+        'ma_sinh_vien',
+        'lan_hoc',
+        'diem_chuyen_can',
+        'diem_giua_ky',
         'diem_cuoi_ky'
     ];
+    public function lopHoc()
+{
+    return $this->belongsTo(LopHoc::class, 'ma_lop', 'ma_lop');
+}
+    public function sinhVien()
+    {
+        return $this->belongsTo(SinhVien::class, 'ma_sinh_vien', 'ma_sinh_vien');
+    }
 }
