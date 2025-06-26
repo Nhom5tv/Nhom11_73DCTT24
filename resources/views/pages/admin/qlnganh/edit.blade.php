@@ -59,9 +59,13 @@
             </div>
 
             <div class="input-group">
-                <label for="ma_khoa">Mã khoa</label>
-                <input type="text" id="ma_khoa" value="{{ $nganh->ma_khoa }}" required>
-            </div>
+    <label for="ma_khoa">Chọn khoa</label>
+    <select id="ma_khoa" required>
+        <option value="">-- Chọn khoa --</option>
+        <!-- Option sẽ được render bằng JavaScript -->
+    </select>
+</div>
+
 
             <div class="input-group">
                 <label for="thoi_gian_dao_tao">Thời gian đào tạo (năm)</label>
@@ -87,13 +91,47 @@
         </div>
     </form>
 </main>
-
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    const token = localStorage.getItem('token');
+    const currentMaKhoa = '{{ $nganh->ma_khoa }}';
+
+    // Load danh sách khoa khi trang vừa load
+    function loadDanhSachKhoa() {
+        if (!token) {
+            alert("Bạn chưa đăng nhập hoặc token không tồn tại!");
+            return;
+        }
+
+        axios.get('/api/admin/dskhoa', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(res => {
+            const select = document.getElementById('ma_khoa');
+            select.innerHTML = '<option value="">-- Chọn khoa --</option>'; // reset select
+
+            res.data.forEach(khoa => {
+                const option = document.createElement('option');
+                option.value = khoa.ma_khoa;
+                option.textContent = khoa.ten_khoa;
+
+                if (khoa.ma_khoa == currentMaKhoa) {
+                    option.selected = true;
+                }
+
+                select.appendChild(option);
+            });
+        })
+        .catch(err => {
+            alert('❌ Không thể tải danh sách khoa');
+            console.error(err);
+        });
+    }
+
+    // Gửi form cập nhật ngành
     document.getElementById('editNganhForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const token = localStorage.getItem('token');
         if (!token) {
             alert("Bạn chưa đăng nhập hoặc token không tồn tại!");
             return;
@@ -120,7 +158,11 @@
             console.error(err);
         });
     });
+
+    // Chạy khi trang load
+    window.onload = loadDanhSachKhoa;
 </script>
+
 
 </body>
 </html>

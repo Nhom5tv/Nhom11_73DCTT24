@@ -95,26 +95,27 @@ const token = localStorage.getItem('token'); // ✅ Giống bên login
         const tbody = document.getElementById("student-table-body");
         tbody.innerHTML = "";
 
-        response.data.forEach(sv => {
-            let html = `<tr>
-                <td>${sv.ma_sinh_vien}</td>
-                <td>${sv.user_id ?? ''}</td> 
-                <td>${sv.ma_khoa ?? ''}</td>
-                <td>${sv.ma_nganh ?? ''}</td>
-                <td>${sv.ho_ten}</td>
-                <td>${sv.ngay_sinh}</td>
-                <td>${sv.gioi_tinh}</td>
-                <td>${sv.que_quan}</td>
-                <td>${sv.email}</td>
-                <td>${sv.so_dien_thoai}</td>
-                <td>${sv.khoa_hoc}</td>
-                <td class="btn_cn">
-                    <button class="button-85" onclick="editSinhVien('${sv.ma_sinh_vien}')">Sửa</button>
-                    <button class="button-85" onclick="deleteSinhVien('${sv.ma_sinh_vien}')">Xóa</button>
-                </td>
-            </tr>`;
-            tbody.insertAdjacentHTML('beforeend', html);
-        });
+       response.data.forEach(sv => {
+    let html = `<tr>
+        <td>${sv.ma_sinh_vien}</td>
+        <td>${sv.user_id ?? ''}</td> 
+        <td>${sv.ten_khoa ?? ''}</td> <!-- 👈 dùng tên khoa -->
+        <td>${sv.ten_nganh ?? ''}</td> <!-- 👈 dùng tên ngành -->
+        <td>${sv.ho_ten}</td>
+        <td>${sv.ngay_sinh}</td>
+        <td>${sv.gioi_tinh}</td>
+        <td>${sv.que_quan}</td>
+        <td>${sv.email}</td>
+        <td>${sv.so_dien_thoai}</td>
+        <td>${sv.khoa_hoc}</td>
+        <td class="btn_cn">
+            <button class="button-85" onclick="editSinhVien('${sv.ma_sinh_vien}')">Sửa</button>
+            <button class="button-85" onclick="deleteSinhVien('${sv.ma_sinh_vien}')">Xóa</button>
+        </td>
+    </tr>`;
+    tbody.insertAdjacentHTML('beforeend', html);
+});
+
     })
     .catch(error => {
         alert("Lỗi tải dữ liệu sinh viên: " + (error.response?.data?.message || error.message));

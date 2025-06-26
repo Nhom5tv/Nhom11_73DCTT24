@@ -87,7 +87,7 @@
                 let html = `<tr>
                     <td>${nganh.ma_nganh}</td>
                     <td>${nganh.ten_nganh}</td>
-                    <td>${nganh.ma_khoa}</td>
+<td>${nganh.ten_khoa}</td>
                     <td>${nganh.thoi_gian_dao_tao ?? ''}</td>
                     <td>${nganh.bac_dao_tao ?? ''}</td>
                     <td class="btn_cn">

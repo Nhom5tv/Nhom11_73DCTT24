@@ -63,11 +63,7 @@
                 <label for="ma_khoa">Chọn Khoa</label>
                 <select id="ma_khoa" required>
                     <option value="">-- Chọn khoa --</option>
-                    <option value="1" {{ $giangvien->ma_khoa == 1 ? 'selected' : '' }}>Công nghệ thông tin</option>
-                    <option value="2" {{ $giangvien->ma_khoa == 2 ? 'selected' : '' }}>Kinh tế</option>
-                    <option value="3" {{ $giangvien->ma_khoa == 3 ? 'selected' : '' }}>Y dược</option>
-                    <option value="4" {{ $giangvien->ma_khoa == 4 ? 'selected' : '' }}>Kỹ thuật</option>
-                    <option value="5" {{ $giangvien->ma_khoa == 5 ? 'selected' : '' }}>Ngoại ngữ</option>
+                    <!-- Option sẽ được render qua JavaScript -->
                 </select>
             </div>
 
@@ -102,10 +98,42 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    const token = localStorage.getItem('token');
+    const currentMaKhoa = `{{ $giangvien->ma_khoa }}`;
+
+    if (!token) {
+        alert('❌ Bạn chưa đăng nhập hoặc thiếu token!');
+    } else {
+        loadDanhSachKhoa();
+    }
+
+    function loadDanhSachKhoa() {
+        axios.get('/api/admin/dskhoa', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(res => {
+            const select = document.getElementById('ma_khoa');
+            res.data.forEach(khoa => {
+                const option = document.createElement('option');
+                option.value = khoa.ma_khoa;
+                option.textContent = khoa.ten_khoa;
+
+                if (khoa.ma_khoa == currentMaKhoa) {
+                    option.selected = true;
+                }
+
+                select.appendChild(option);
+            });
+        })
+        .catch(err => {
+            alert('❌ Lỗi tải danh sách khoa!');
+            console.error(err);
+        });
+    }
+
     document.getElementById('editGiangVienForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const token = localStorage.getItem('token');
         if (!token) {
             alert('Bạn chưa đăng nhập hoặc thiếu token');
             return;

@@ -61,23 +61,18 @@
 
             <div class="input-group">
                 <label for="ma_khoa">Chọn Khoa</label>
-                <select id="ma_khoa" required>
-                    <option value="">-- Chọn khoa --</option>
-                    <option value="1" {{ $sinhvien->ma_khoa == 1 ? 'selected' : '' }}>Công nghệ thông tin</option>
-                    <option value="2" {{ $sinhvien->ma_khoa == 2 ? 'selected' : '' }}>Kinh tế</option>
-                    <option value="3" {{ $sinhvien->ma_khoa == 3 ? 'selected' : '' }}>Ngoại ngữ</option>
-                </select>
+               <!-- Chọn Khoa -->
+<select id="ma_khoa" required>
+    <option value="">-- Chọn khoa --</option>
+</select>
+
             </div>
 
             <div class="input-group">
                 <label for="ma_nganh">Chọn ngành</label>
-                <select id="ma_nganh" required>
-                    <option value="">-- Chọn ngành --</option>
-                    <option value="101" {{ $sinhvien->ma_nganh == 101 ? 'selected' : '' }}>Kỹ thuật phần mềm</option>
-                    <option value="102" {{ $sinhvien->ma_nganh == 102 ? 'selected' : '' }}>Hệ thống thông tin</option>
-                    <option value="201" {{ $sinhvien->ma_nganh == 201 ? 'selected' : '' }}>Quản trị kinh doanh</option>
-                    <option value="301" {{ $sinhvien->ma_nganh == 301 ? 'selected' : '' }}>Tiếng Anh</option>
-                </select>
+               <select id="ma_nganh" required>
+    <option value="">-- Chọn ngành --</option>
+</select>
             </div>
 
             <div class="input-group">
@@ -129,10 +124,54 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    const token = localStorage.getItem('token');
+
+    function loadKhoa(maKhoaSelected) {
+        axios.get('/api/admin/dskhoa', {
+            headers: { Authorization: `Bearer ${token}` }
+        }).then(res => {
+            const select = document.getElementById('ma_khoa');
+            select.innerHTML = '<option value="">-- Chọn khoa --</option>';
+            res.data.forEach(khoa => {
+                const option = document.createElement('option');
+                option.value = khoa.ma_khoa;
+                option.textContent = khoa.ten_khoa;
+                if (khoa.ma_khoa == maKhoaSelected) option.selected = true;
+                select.appendChild(option);
+            });
+        }).catch(err => {
+            console.error('Lỗi load khoa:', err);
+        });
+    }
+
+    function loadNganh(maNganhSelected) {
+        axios.get('/api/admin/nganh', {
+            headers: { Authorization: `Bearer ${token}` }
+        }).then(res => {
+            const select = document.getElementById('ma_nganh');
+            select.innerHTML = '<option value="">-- Chọn ngành --</option>';
+            res.data.forEach(nganh => {
+                const option = document.createElement('option');
+                option.value = nganh.ma_nganh;
+                option.textContent = nganh.ten_nganh;
+                if (nganh.ma_nganh == maNganhSelected) option.selected = true;
+                select.appendChild(option);
+            });
+        }).catch(err => {
+            console.error('Lỗi load ngành:', err);
+        });
+    }
+
+    // Khi trang load thì gọi API để hiển thị danh sách có sẵn
+    window.addEventListener('DOMContentLoaded', () => {
+        loadKhoa({{ $sinhvien->ma_khoa }});
+        loadNganh({{ $sinhvien->ma_nganh }});
+    });
+
+    // Gửi form cập nhật
     document.getElementById('editStudentForm').addEventListener('submit', function (e) {
         e.preventDefault();
 
-        const token = localStorage.getItem('token');
         if (!token) {
             alert('Bạn chưa đăng nhập hoặc thiếu token');
             return;
@@ -168,6 +207,7 @@
         });
     });
 </script>
+
 </body>
 </html>
 @endsection

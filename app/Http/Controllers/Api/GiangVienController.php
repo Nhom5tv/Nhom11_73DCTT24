@@ -17,19 +17,24 @@ class GiangVienController extends Controller
      * Danh sách giảng viên (API).
      */
     public function index(Request $request)
-    {
-        $query = GiangVien::query();
+{
+    $query = GiangVien::query();
 
-        if ($request->has('ma_giang_vien')) {
-            $query->where('ma_giang_vien', 'like', '%' . $request->ma_giang_vien . '%');
-        }
-
-        if ($request->has('ho_ten')) {
-            $query->where('ho_ten', 'like', '%' . $request->ho_ten . '%');
-        }
-
-        return response()->json($query->get());
+    if ($request->has('ma_giang_vien')) {
+        $query->where('ma_giang_vien', 'like', '%' . $request->ma_giang_vien . '%');
     }
+
+    if ($request->has('ho_ten')) {
+        $query->where('ho_ten', 'like', '%' . $request->ho_ten . '%');
+    }
+
+    $giangVienList = $query
+        ->leftJoin('khoa', 'giang_vien.ma_khoa', '=', 'khoa.ma_khoa')
+        ->select('giang_vien.*', 'khoa.ten_khoa')
+        ->get();
+
+    return response()->json($giangVienList);
+}
 
     /**
      * Thêm mới giảng viên (API).
@@ -129,5 +134,50 @@ public function store(Request $request)
 
         return response()->json(['message' => 'Đã xóa giảng viên']);
     }
+    public function getThongTinGiangVien(Request $request)
+{
+    $user = auth()->user(); // Lấy user từ token
+
+    $giangVien = \App\Models\GiangVien::where('user_id', $user->id)
+        ->join('khoa', 'giang_vien.ma_khoa', '=', 'khoa.ma_khoa')
+        ->select('giang_vien.*', 'khoa.ten_khoa')
+        ->first();
+
+    if (!$giangVien) {
+        return response()->json(['message' => 'Không tìm thấy thông tin giảng viên'], 404);
+    }
+
+    return response()->json($giangVien);
+}
+public function updateThongTinGiangVien(Request $request)
+{
+        \Log::info('API UPDATE GV:', $request->all());
+
+    $user = auth()->user();
+
+    // Tìm giảng viên tương ứng với user hiện tại
+    $giangVien = \App\Models\GiangVien::where('user_id', $user->id)->first();
+
+    if (!$giangVien) {
+        return response()->json(['message' => 'Không tìm thấy giảng viên'], 404);
+    }
+
+    // Validate dữ liệu đầu vào
+    $validated = $request->validate([
+        'ho_ten' => 'required|string|max:100',
+        'email' => 'required|email|max:100',
+        'so_dien_thoai' => 'nullable|string|max:20',
+        'chuyen_nganh' => 'nullable|string|max:100',
+    ]);
+
+    // Cập nhật thông tin
+    $giangVien->update($validated);
+
+    return response()->json([
+        'message' => 'Cập nhật thông tin giảng viên thành công',
+        'data' => $giangVien
+    ]);
+}
+
 
 }
