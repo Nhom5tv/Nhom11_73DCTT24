@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\MienGiamSinhVien;
+use Illuminate\Support\Facades\DB;
 class MienGiamSinhVienController extends Controller
 {
     /**
@@ -62,11 +63,21 @@ class MienGiamSinhVienController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($ma_mon)
+    public function destroy($ma_mien_giam)
     {
-        $mienGiam = MienGiamSinhVien::find($ma_mon);
+        $mienGiam = MienGiamSinhVien::find($ma_mien_giam);
         if(!$mienGiam) return response()->json(['message' => 'không tìm thấy'],status: 404);
         $mienGiam ->delete();
         return response()->json(['message'=>'Đã xóa thành công'],status:200);
+    }
+
+        public function thongKeMienGiam()
+    {
+        $ketQua = DB::table('mien_giam_sinh_vien')
+            ->select('loai_mien_giam', DB::raw('COUNT(*) as so_luong'))
+            ->groupBy('loai_mien_giam')
+            ->get();
+
+        return response()->json($ketQua);
     }
 }
