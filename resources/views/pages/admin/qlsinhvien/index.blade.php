@@ -46,7 +46,6 @@
             <thead>
                 <tr>
                     <th>Mã SV</th>
-                    <th>User ID</th>
                     <th>Mã khoa</th>
                     <th>Mã ngành</th>
                     <th>Họ tên</th>
@@ -98,7 +97,6 @@ const token = localStorage.getItem('token'); // ✅ Giống bên login
        response.data.forEach(sv => {
     let html = `<tr>
         <td>${sv.ma_sinh_vien}</td>
-        <td>${sv.user_id ?? ''}</td> 
         <td>${sv.ten_khoa ?? ''}</td> <!-- 👈 dùng tên khoa -->
         <td>${sv.ten_nganh ?? ''}</td> <!-- 👈 dùng tên ngành -->
         <td>${sv.ho_ten}</td>

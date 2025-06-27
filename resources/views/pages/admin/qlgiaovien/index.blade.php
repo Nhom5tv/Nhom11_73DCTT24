@@ -45,7 +45,7 @@
             <thead>
                 <tr>
                     <th>Mã GV</th>
-                    <th>User ID</th>
+               
                     <th>Mã khoa</th>
                     <th>Họ tên</th>
                     <th>Email</th>
@@ -90,7 +90,7 @@
             response.data.forEach(gv => {
                 let html = `<tr>
                     <td>${gv.ma_giang_vien}</td>
-                    <td>${gv.user_id ?? ''}</td>
+                 
 <td>${gv.ten_khoa ?? gv.ma_khoa}</td>
                     <td>${gv.ho_ten}</td>
                     <td>${gv.email}</td>

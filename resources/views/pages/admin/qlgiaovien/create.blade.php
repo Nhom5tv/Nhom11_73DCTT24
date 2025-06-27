@@ -54,10 +54,7 @@
                 <input type="text" id="ma_giang_vien" required>
             </div>
 
-            <div class="input-group">
-                <label for="user_id">User ID</label>
-                <input type="number" id="user_id" value="2" required>
-            </div>
+         
 
             <div class="input-group">
                 <label for="ma_khoa">Chọn Khoa</label>
@@ -109,7 +106,7 @@
 
     // ✅ Load danh sách khoa ngay khi trang tải
     function loadDanhSachKhoa() {
-        axios.get('/api/admin/dskhoa', {
+        axios.get('/api/admin/khoa', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => {
@@ -138,7 +135,6 @@
 
         const formData = {
             ma_giang_vien: document.getElementById('ma_giang_vien').value,
-            user_id: document.getElementById('user_id').value,
             ma_khoa: document.getElementById('ma_khoa').value,
             ho_ten: document.getElementById('ho_ten').value,
             email: document.getElementById('email').value,

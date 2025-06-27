@@ -10,6 +10,8 @@ use App\Models\DiemTheoLop;
 use App\Models\SinhVien;
 use App\Models\GiangVien;
 use App\Models\DangKyMonHoc;
+use App\Models\Nganh;
+
 
 
 
