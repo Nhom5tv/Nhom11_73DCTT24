@@ -16,4 +16,9 @@ class KhoanThuSinhVien extends Model
         'so_tien_ban_dau', 'so_tien_mien_giam',
         'so_tien_phai_nop', 'trang_thai_thanh_toan'
     ];
+    public function khoanThu()
+{
+    return $this->belongsTo(KhoanThu::class, 'ma_khoan_thu');
+}
+
 }

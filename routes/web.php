@@ -103,11 +103,27 @@ Route::get('/reset-password/{token}', function ($token) {
 Route::get('/admin/khoanthu', function () {
     return view('pages.admin.khoan_thu.index');
 });
-Route::get('/admin/taikhoan/create', function () {
+Route::get('/admin/khoanthu/create', function () {
     return view('pages.admin.khoan_thu.create');
 });
-Route::get('/admin/taikhoan/{id}/edit', function ($id) {
+Route::get('/admin/khoanthu/{id}/edit', function ($id) {
     return view('pages.admin.khoan_thu.edit', ['id' => $id]);
+});
+
+// Quản lý khoản thu sinh viên
+Route::get('/admin/khoanthusv', function () {
+    return view('pages.admin.khoan_thu_sinh_vien.index');
+});
+// Quản lý hóa đơn
+Route::get('/admin/hoadon', function () {
+    return view('pages.admin.hoa_don.index');
+});
+Route::get('/admin/hoadon/create', function () {
+    return view('pages.admin.hoa_don.create');
+});
+//Hóa đơn bên sinh viên
+Route::get('/sinhvien/hoadon', function () {
+    return view('pages.sinhvien.taichinh');
 });
 //Hết phần của Quỳnh
 //URL for MonHoc, phan cua Vu

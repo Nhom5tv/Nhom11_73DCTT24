@@ -55,9 +55,9 @@
                     </a>
                     <ul id="QLTC" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="/admin/khoanthu" class="sidebar-link">Khoản thu chung</a></li>
-                        <li class="sidebar-item"><a href="/DSKhoanthusv" class="sidebar-link">Khoản thu sinh viên</a></li>
+                        <li class="sidebar-item"><a href="/admin/khoanthusv" class="sidebar-link">Khoản thu sinh viên</a></li>
                         <li class="sidebar-item"><a href="/admin/miengiam" class="sidebar-link">Miễn giảm</a></li>
-                        <li class="sidebar-item"><a href="/DSHoadon" class="sidebar-link">Hóa đơn</a></li>
+                        <li class="sidebar-item"><a href="/admin/hoadon" class="sidebar-link">Hóa đơn</a></li>
                     </ul>
                 </li>
 
@@ -69,7 +69,7 @@
                         <li class="sidebar-item"><a href="/admin/dkmonhoc" class="sidebar-link">Danh sách đăng ký môn học</a></li>
                         <li class="sidebar-item"><a href="/admin/dslichhoc" class="sidebar-link">Quản lý lịch học</a></li>
                         <li class="sidebar-item"><a href="/admin/dslophoc" class="sidebar-link">Quản lý lớp học</a></li>
-                        <li class="sidebar-item"><a href="/dsmonhoc" class="sidebar-link">Quản lý môn học</a></li>
+                        <li class="sidebar-item"><a href="/admin/dsmonhoc" class="sidebar-link">Quản lý môn học</a></li>
                     </ul>
                 </li>
 
@@ -105,7 +105,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item" data-role="sinhvien">
-                    <a href="/Taichinh" class="sidebar-link">
+                    <a href="/sinhvien/hoadon" class="sidebar-link">
                         <i class="fa-solid fa-coins"></i><span>Tài chính và học phí</span>
                     </a>
                 </li>

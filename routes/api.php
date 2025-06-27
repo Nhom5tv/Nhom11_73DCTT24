@@ -17,9 +17,8 @@ use App\Http\Controllers\Api\NganhController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\DangKyMonHocController;
 use App\Http\Controllers\Api\DangKyTinChiController;
-
-
-
+use App\Http\Controllers\Api\HoaDonController;
+use App\Http\Controllers\Api\KhoanThuSinhVienController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -131,6 +130,23 @@ Route::prefix('admin')->middleware('auth:api')->group(function () {
     Route::post('/khoanthu', [KhoanThuController::class, 'store']);       // Thêm mới khoản thu
     Route::put('/khoanthu/{id}', [KhoanThuController::class, 'update']);  // Cập nhật khoản thu
     Route::delete('/khoanthu/{id}', [KhoanThuController::class, 'destroy']); // Xóa khoản thu
+});
+//Quản lý khoản thu sinh viên
+Route::prefix('admin')->middleware('auth:api')->group(function () {
+    Route::get('/khoanthusv', [KhoanThuSinhVienController::class, 'index']);
+});
+//Quản lý hóa đơn
+Route::prefix('admin')->middleware('auth:api')->group(function () {
+    Route::get('/hoadon', [HoaDonController::class, 'index']);
+    Route::post('/hoadon', [HoaDonController::class, 'store']);
+    Route::put('/hoadon/{id}', [HoaDonController::class, 'cancel']);
+});
+
+//Hóa đơn bên sinh viên
+Route::prefix('sinhvien')->middleware('auth:api')->group(function () {
+    Route::get('/hoadon', [HoaDonController::class, 'getHoaDon']);
+    Route::get('/hoadon/khoannop', [HoaDonController::class, 'getKhoanPhaiNop']);
+    
 });
 // Hết phần của Quỳnh
 
