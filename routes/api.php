@@ -71,8 +71,11 @@ Route::prefix('sinhvien')->middleware(['auth:api', RoleMiddleware::class . ':sin
     Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
     
     // Hoặc nếu muốn tách riêng 2 endpoint
-    Route::get('diem/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
-    Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiemChiTiet']);
+     Route::get('diem/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
+    // Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiemChiTiet']);
+    //Route::get('diem-chi-tiet/{ma_sinh_vien}/{ma_lop}', [DiemSinhVienController::class, 'getDiemChiTiet']);
+    //Route::get('/diem', [DiemSinhVienController::class, 'getDiem']);
+    Route::get('/diem-chi-tiet', [DiemSinhVienController::class, 'getDiemChiTiet']);
 });
 
 //Phần của Dũng

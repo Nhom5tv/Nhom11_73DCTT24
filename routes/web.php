@@ -145,7 +145,14 @@ Route::get('/giaovien/diem-theo-lop/{ma_lop}', function ($ma_lop) {
     return view('pages.giaovien.DSdiemgv', compact('ma_lop'));
 });
 
+Route::get('sinhvien/diem', function () {
+    return view('pages.sinhvien.DiemSinhVien.index');
+});
 
+// Route cho trang chi tiết điểm
+Route::get('sinhvien/diem-chi-tiet', function () {
+    return view('pages.sinhvien.DiemSinhVien.chitiet');
+});
 
 Route::get('/admin/monhoc', function () {
     return view('pages.admin.monhoc');

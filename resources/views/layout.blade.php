@@ -100,7 +100,7 @@
                 </li>
 
                 <li class="sidebar-item" data-role="sinhvien">
-                    <a href="/DSdiem" class="sidebar-link">
+                    <a href="/sinhvien/diem" class="sidebar-link">
                         <i class="fa-solid fa-medal"></i><span>Kết quả học tập</span>
                     </a>
                 </li>
