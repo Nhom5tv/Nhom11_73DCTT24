@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\SinhVien;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -185,8 +186,9 @@ class SinhVienController extends Controller
     // Sinh viên tự cập nhật thông tin cá nhân (dựa vào user_id)
 public function capNhatThongTinCaNhan(Request $request)
 {
-    $userId = auth()->id(); // hoặc $request->user()->id
-    $sinhvien = SinhVien::where('user_id', $userId)->firstOrFail();
+    $user = Auth::user();
+   
+    $sinhvien = SinhVien::where('user_id', $user->id)->firstOrFail();
 
     $validated = $request->validate([
         'ma_khoa' => 'required|integer',

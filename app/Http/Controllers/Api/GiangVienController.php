@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 
 use Illuminate\Http\Request;
 use App\Models\GiangVien;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -136,7 +137,7 @@ public function store(Request $request)
     }
     public function getThongTinGiangVien(Request $request)
 {
-    $user = auth()->user(); // Lấy user từ token
+    $user = Auth::user();
 
     $giangVien = \App\Models\GiangVien::where('user_id', $user->id)
         ->join('khoa', 'giang_vien.ma_khoa', '=', 'khoa.ma_khoa')
@@ -151,9 +152,7 @@ public function store(Request $request)
 }
 public function updateThongTinGiangVien(Request $request)
 {
-        \Log::info('API UPDATE GV:', $request->all());
-
-    $user = auth()->user();
+    $user = Auth::user();
 
     // Tìm giảng viên tương ứng với user hiện tại
     $giangVien = \App\Models\GiangVien::where('user_id', $user->id)->first();
