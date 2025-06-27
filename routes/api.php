@@ -52,6 +52,11 @@ Route::prefix('admin')->middleware('auth:api')->group(function(){
     Route::put('/miengiam/{ma_mien_giam}',[MienGiamSinhVienController::class, 'update']);
     Route::delete('/miengiam/{ma_mien_giam}',[MienGiamSinhVienController::class, 'destroy']);
 });
+//API routes for ThongKe
+Route::prefix('admin')->middleware('auth:api')->group(function(){
+   Route::get('/thongke/diem', [DiemSinhVienController::class, 'thongKeHocLuc']);
+    Route::get('/thongke/miengiam', [MienGiamSinhVienController::class, 'thongKeMienGiam']);
+});
 //phan cua Vu
 
 // Phần của giáo viên

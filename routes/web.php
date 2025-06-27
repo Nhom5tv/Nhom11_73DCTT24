@@ -10,7 +10,7 @@ use App\Models\DiemTheoLop;
 use App\Models\SinhVien;
 use App\Models\GiangVien;
 use App\Models\DangKyMonHoc;
-
+use App\Models\Nganh;
 
 
 
@@ -126,6 +126,7 @@ Route::get('/sinhvien/hoadon', function () {
     return view('pages.sinhvien.taichinh');
 });
 //Hết phần của Quỳnh
+
 //URL for MonHoc, phan cua Vu
 Route::get('/admin/monhoc', function () {
     return view('pages.admin.mon_hoc.index');
@@ -262,4 +263,7 @@ Route::get('/giaovien/thongtingv', function () {
 Route::get('/giaovien/thongtingv/edit', function () {
     return view('pages.giaovien.thongtingv_edit');
 });
-
+//giao diện thống kê
+Route::get('/admin/thongke', function () {
+    return view('pages.admin.thongke.index');
+});

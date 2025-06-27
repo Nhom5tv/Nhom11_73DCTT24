@@ -264,4 +264,23 @@ public function getDiem(Request $request)
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function thongKeHocLuc()
+{
+    $ketQua = DB::table('diem_theo_lops')
+        ->selectRaw("
+            CASE
+                WHEN diem_chuyen_can * 0.1 + diem_giua_ky * 0.3 + diem_cuoi_ky * 0.6 >= 9 THEN 'Xuất sắc'
+                WHEN diem_chuyen_can * 0.1 + diem_giua_ky * 0.3 + diem_cuoi_ky * 0.6 >= 8 THEN 'Giỏi'
+                WHEN diem_chuyen_can * 0.1 + diem_giua_ky * 0.3 + diem_cuoi_ky * 0.6 >= 7 THEN 'Khá'
+                WHEN diem_chuyen_can * 0.1 + diem_giua_ky * 0.3 + diem_cuoi_ky * 0.6 >= 5 THEN 'Trung bình'
+                ELSE 'Yếu'
+            END as hoc_luc,
+            COUNT(*) as so_luong
+        ")
+        ->groupBy('hoc_luc')
+        ->get();
+
+    return response()->json($ketQua);
+}
 }

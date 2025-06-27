@@ -40,6 +40,7 @@
                         <i class="fa-solid fa-user"></i><span>Quản lý hệ thống</span>
                     </a>
                     <ul id="QLTK" class="sidebar-dropdown list-unstyled collapse">
+                        <li class="sidebar-item"><a href="admin/thongke" class="sidebar-link">Thống kê</a></li>
                         <li class="sidebar-item"><a href="admin/taikhoan" class="sidebar-link">Quản lý tài khoản</a></li>
                         <li class="sidebar-item"><a href="/admin/giangvien" class="sidebar-link">Quản lý giảng viên</a></li>
                         <li class="sidebar-item"><a href="admin/sinhvien" class="sidebar-link">Quản lý sinh viên</a></li>
