@@ -118,9 +118,9 @@
                     const user = res.data.user;
                     const role = user.role;
                     mustChange = localStorage.getItem('must_change_password') === 'true';
-                   
+
                     if (mustChange) {
-                    
+
                         window.location.href = '/change-password';
                         return;
                     }

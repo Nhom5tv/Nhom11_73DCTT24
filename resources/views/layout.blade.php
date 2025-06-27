@@ -41,7 +41,7 @@
                     </a>
                     <ul id="QLTK" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="admin/taikhoan" class="sidebar-link">Quản lý tài khoản</a></li>
-                        <li class="sidebar-item"><a href="/admin/giaovien" class="sidebar-link">Quản lý giảng viên</a></li>
+                        <li class="sidebar-item"><a href="/admin/giangvien" class="sidebar-link">Quản lý giảng viên</a></li>
                         <li class="sidebar-item"><a href="admin/sinhvien" class="sidebar-link">Quản lý sinh viên</a></li>
                         <li class="sidebar-item"><a href="admin/khoa" class="sidebar-link">Quản lý khoa</a></li>
                         <li class="sidebar-item"><a href="/admin/nganh" class="sidebar-link">Quản lý ngành</a></li>
@@ -73,12 +73,20 @@
                     </ul>
                 </li>
 
-                <!-- Giáo viên only -->
-                <li class="sidebar-item" data-role="giaovien">
-                    <a href="/giaovien/DSdiemgv" class="sidebar-link">
-                        <i class="fa-solid fa-medal"></i><span>Quản lý điểm sinh viên</span>
-                    </a>
-                </li>
+              <!-- Giáo viên only -->
+<li class="sidebar-item" data-role="giaovien">
+    <a href="/giaovien/DSdiemgv" class="sidebar-link">
+        <i class="fa-solid fa-medal"></i>
+        <span>Quản lý điểm sinh viên</span>
+    </a>
+</li>
+<li class="sidebar-item" data-role="giaovien">
+    <a href="/giaovien/thongtingv" class="sidebar-link">
+        <i class="fa-solid fa-user"></i>
+        <span>Profile</span>
+    </a>
+</li>
+
 
                 <li class="sidebar-item" data-role="giaovien">
                     <a href="/change-password" class="sidebar-link">
@@ -92,7 +100,7 @@
                         <i class="fa-solid fa-user"></i><span>Tài khoản</span>
                     </a>
                     <ul id="SVTK" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="/ThongTinSinhVien" class="sidebar-link">Profile</a></li>
+                        <li class="sidebar-item"><a href="/sinhvien/thongtinsv" class="sidebar-link">Profile</a></li>
                     </ul>
                     <ul id="SVTK" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="/change-password" class="sidebar-link">Đổi mật khẩu</a></li>

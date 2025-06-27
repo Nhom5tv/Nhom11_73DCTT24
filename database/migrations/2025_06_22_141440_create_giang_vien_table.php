@@ -8,6 +8,7 @@ return new class extends Migration
 {
      public function up(): void
     {
+        
         Schema::create('giang_vien', function (Blueprint $table) {
             $table->string('ma_giang_vien', 10)->primary();
             $table->unsignedBigInteger('user_id'); // thêm user_id ngay sau ma_giang_vien

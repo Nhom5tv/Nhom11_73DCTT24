@@ -28,4 +28,10 @@ class MonHoc extends Model
 
     // Tắt timestamps nếu bảng không có created_at / updated_at
     public $timestamps = false;
+
+//     public function monHoc()
+// {
+//     return $this->belongsTo(MonHoc::class, 'ma_mon', 'ma_mon');
+// }
+
 }

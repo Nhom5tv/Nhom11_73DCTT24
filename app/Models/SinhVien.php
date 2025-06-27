@@ -32,7 +32,11 @@ class SinhVien extends Model
 {
     return $this->belongsTo(Khoa::class, 'ma_khoa');
 }
- public function user() {
+public function dangKyMonHocs()
+{
+    return $this->hasMany(DangKyMonHoc::class, 'ma_sinh_vien', 'ma_sinh_vien');
+}
+public function user() {
         return $this->belongsTo(User::class, 'user_id');
     }
 public function tongTinChiDangKy(): int
@@ -44,6 +48,12 @@ public function tongTinChiDangKy(): int
         ->where('dkmh.trang_thai', 'Đã duyệt')
         ->where('lh.trang_thai', 'Đang mở')
         ->sum('mh.so_tin_chi');
+    return $this->belongsTo(Khoa::class, 'ma_khoa', 'ma_khoa');
+}
+
+public function nganh()
+{
+    return $this->belongsTo(Nganh::class, 'ma_nganh', 'ma_nganh');
 }
 
 

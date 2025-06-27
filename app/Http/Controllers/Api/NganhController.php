@@ -5,13 +5,33 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Nganh;
+use Illuminate\Support\Facades\DB;
 
 class NganhController extends Controller
 {
-    public function index()
-    {
-        return Nganh::all();
+    public function index(Request $request)
+{
+    $query = DB::table('nganh')
+        ->join('khoa', 'nganh.ma_khoa', '=', 'khoa.ma_khoa')
+        ->select(
+            'nganh.ma_nganh',
+            'nganh.ten_nganh',
+            'nganh.thoi_gian_dao_tao',
+            'nganh.bac_dao_tao',
+            'nganh.ma_khoa',
+            'khoa.ten_khoa'
+        );
+
+    // Lọc theo mã ngành, tên ngành nếu có
+    if ($request->filled('ma_nganh')) {
+        $query->where('nganh.ma_nganh', 'like', '%' . $request->ma_nganh . '%');
     }
+    if ($request->filled('ten_nganh')) {
+        $query->where('nganh.ten_nganh', 'like', '%' . $request->ten_nganh . '%');
+    }
+
+    return response()->json($query->get());
+}
 
     public function store(Request $request)
     {

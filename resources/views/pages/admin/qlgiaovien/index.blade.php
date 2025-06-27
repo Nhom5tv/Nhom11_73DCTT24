@@ -91,7 +91,7 @@
                 let html = `<tr>
                     <td>${gv.ma_giang_vien}</td>
                     <td>${gv.user_id ?? ''}</td>
-                    <td>${gv.ma_khoa ?? ''}</td>
+<td>${gv.ten_khoa ?? gv.ma_khoa}</td>
                     <td>${gv.ho_ten}</td>
                     <td>${gv.email}</td>
                     <td>${gv.so_dien_thoai ?? ''}</td>

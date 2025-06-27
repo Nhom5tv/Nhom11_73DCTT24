@@ -19,5 +19,10 @@ class LopHoc extends Model
         'lich_hoc',
         'trang_thai',
     ];
+    public function dangKyMonHocs()
+    {
+        return $this->hasMany(DangKyMonHoc::class, 'ma_lop', 'ma_lop');
+    }
 }
+
 ?>

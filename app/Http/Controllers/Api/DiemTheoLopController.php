@@ -13,7 +13,14 @@ class DiemTheoLopController extends Controller
     {
         try {
             // Lấy các bản ghi có ma_lop tương ứng
-            $data = DiemTheoLop::where('ma_lop', $ma_lop)->get();
+            $data = DiemTheoLop::with('sinhVien') // Eager load sinh viên
+            ->where('ma_lop', $ma_lop)
+            ->get();
+
+        // Nếu không có dữ liệu
+        if ($data->isEmpty()) {
+            return response()->json(['message' => 'Không có điểm cho lớp học này'], 404);
+        }
 
             // Trả về dữ liệu dưới dạng JSON
             return response()->json($data);

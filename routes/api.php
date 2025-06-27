@@ -19,6 +19,10 @@ use App\Http\Controllers\Api\DangKyMonHocController;
 use App\Http\Controllers\Api\DangKyTinChiController;
 use App\Http\Controllers\Api\HoaDonController;
 use App\Http\Controllers\Api\KhoanThuSinhVienController;
+use App\Http\Controllers\Api\DiemSinhVienController;
+
+
+
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -27,9 +31,7 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':admin'])->get('/admin',
     return response()->json(['msg' => 'Chào Admin']);
 });
 
-Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->get('/giaovien', function () {
-    return response()->json(['msg' => 'Chào Giáo viên']);
-});
+
 
 Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/sinhvien', function () {
     return response()->json(['msg' => 'Chào Sinh viên']);
@@ -59,6 +61,18 @@ Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':gia
     Route::put('/diem-theo-lop/{ma_sinh_vien}', [DiemTheoLopController::class, 'updateData']);
     // Lấy danh sách lớp học theo mã giảng viên
     Route::get('/dslophoc/{ma_giang_vien}', [LopHocController::class, 'getByMaGiangVien']);
+});
+
+// Route::prefix('sinhvien')->middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->group(function () {
+//     Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
+// });
+Route::prefix('sinhvien')->middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->group(function () {
+    // Sửa tên method cho đúng
+    Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
+    
+    // Hoặc nếu muốn tách riêng 2 endpoint
+    Route::get('diem/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
+    Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiemChiTiet']);
 });
 
 //Phần của Dũng
@@ -163,4 +177,25 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::get('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'show']);
     Route::put('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'update']);
     Route::delete('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'destroy']);
+    Route::get('/nganh', [NganhController::class, 'index']);
+    //ngành
+    Route::post('/nganh', [NganhController::class, 'store']);
+    Route::get('/nganh/{id}', [NganhController::class, 'show']);
+    Route::put('/nganh/{id}', [NganhController::class, 'update']);
+    Route::delete('/nganh/{id}', [NganhController::class, 'destroy']);
+
+});Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->group(function () {
+    Route::get('/thongtinsv', [SinhVienController::class, 'getThongTinCaNhan']);
+    Route::put('/thongtinsv', [SinhVienController::class, 'capNhatThongTinCaNhan']); // 👈 gọi hàm riêng
 });
+Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->group(function () {
+    Route::get('/thongtingv', [GiangVienController::class, 'getThongTinGiangVien']);
+        Route::put('/thongtingv', [GiangVienController::class, 'updateThongTinGiangVien']);
+
+});
+
+
+
+
+
+//hết phần của PA

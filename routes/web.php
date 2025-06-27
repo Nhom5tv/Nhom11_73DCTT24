@@ -161,6 +161,24 @@ Route::get('/giaovien/diem-theo-lop/{ma_lop}', function ($ma_lop) {
     return view('pages.giaovien.DSdiemgv', compact('ma_lop'));
 });
 
+// Trang danh sách các khoa
+Route::prefix('admin')->group(function () {
+    Route::get('/khoa', function () {
+        return view('pages.admin.khoa.index');
+    })->name('khoa.index');
+
+    // Trang thêm khoa mới
+    Route::get('/khoa/tao-moi', function () {
+        return view('pages.admin.khoa.create');
+    })->name('khoa.create');
+
+    // Trang chỉnh sửa một khoa cụ thể
+    Route::get('/khoa/sua/{ma_khoa}', function ($ma_khoa) {
+        return view('pages.admin.khoa.edit', compact('ma_khoa'));
+    })->name('khoa.edit');
+});
+
+
 
 
 Route::get('/admin/monhoc', function () {
@@ -201,3 +219,47 @@ Route::prefix('admin/giangvien')->group(function () {
         return view('pages.admin.qlgiaovien.edit', ['giangvien' => $giangvien]);
     });
 });
+
+
+// Giao diện quản lý ngành (dành cho admin)
+Route::prefix('admin/nganh')->group(function () {
+    // Danh sách ngành
+    Route::get('/', function () {
+        return view('pages.admin.qlnganh.index');
+    });
+
+    // Giao diện tạo mới ngành
+    Route::get('/create', function () {
+        return view('pages.admin.qlnganh.create');
+    });
+
+    // Giao diện sửa ngành
+    Route::get('/{ma_nganh}/edit', function ($ma_nganh) {
+        $nganh = Nganh::findOrFail($ma_nganh);
+        return view('pages.admin.qlnganh.edit', ['nganh' => $nganh]);
+    });
+});
+// Route trang chủ của sinh viên (nếu có layout sinh viên riêng)
+Route::get('/sinhvien', function () {
+    return view('layout'); // hoặc 'layout_sinhvien' nếu bạn tách layout theo role
+});
+
+// Trang thông tin sinh viên
+Route::get('/sinhvien/thongtinsv', function () {
+    return view('pages.sinhvien.thongtinsv');
+});
+// Giao diện chỉnh sửa thông tin sinh viên cá nhân (sinh viên đang đăng nhập)
+Route::get('/sinhvien/thongtinsv/edit/{ma_sinh_vien}', function ($ma_sinh_vien) {
+    $sinhvien = \App\Models\SinhVien::where('ma_sinh_vien', $ma_sinh_vien)->firstOrFail();
+    return view('pages.sinhvien.thongtinsv_edit', ['sinhvien' => $sinhvien]);
+});
+//thong tin gv
+
+Route::get('/giaovien/thongtingv', function () {
+    return view('pages.giaovien.thongtingv');
+});
+// Giao diện chỉnh sửa thông tin giảng viên cá nhân (giảng viên đang đăng nhập)
+Route::get('/giaovien/thongtingv/edit', function () {
+    return view('pages.giaovien.thongtingv_edit');
+});
+
