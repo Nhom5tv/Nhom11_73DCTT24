@@ -27,18 +27,18 @@ class DatabaseSeeder extends Seeder
             'role' => 'admin'
         ]);
 
-        // User::create([
-        //     'name' => 'Giáo viên A',
-        //     'email' => 'gv@example.com',
-        //     'password' => Hash::make('password'),
-        //     'role' => 'giaovien'
-        // ]);
+        User::create([
+            'name' => 'Giáo viên A',
+            'email' => 'gv@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'giaovien'
+        ]);
 
-        // User::create([
-        //     'name' => 'Sinh viên B',
-        //     'email' => 'sv@example.com',
-        //     'password' => Hash::make('password'),
-        //     'role' => 'sinhvien'
-        // ]);
+        User::create([
+            'name' => 'Sinh viên B',
+            'email' => 'sv@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'sinhvien'
+        ]);
             }
 }

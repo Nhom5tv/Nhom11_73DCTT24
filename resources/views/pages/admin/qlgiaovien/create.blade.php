@@ -54,21 +54,15 @@
                 <input type="text" id="ma_giang_vien" required>
             </div>
 
-            <div class="input-group">
-                <label for="user_id">User ID</label>
-                <input type="number" id="user_id" value="2" required>
-            </div>
+         
 
             <div class="input-group">
                 <label for="ma_khoa">Chọn Khoa</label>
                 <select id="ma_khoa" required>
-                    <option value="">-- Chọn khoa --</option>
-                    <option value="1">Công nghệ thông tin</option>
-                    <option value="2">Kinh tế</option>
-                    <option value="3">Y dược</option>
-                    <option value="4">Kỹ thuật</option>
-                    <option value="5">Ngoại ngữ</option>
-                </select>
+    <option value="">-- Chọn khoa --</option>
+    <!-- Option sẽ được render bằng JavaScript -->
+</select>
+
             </div>
 
             <div class="input-group">
@@ -102,10 +96,38 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        alert("Bạn chưa đăng nhập hoặc token không tồn tại!");
+    } else {
+        loadDanhSachKhoa();
+    }
+
+    // ✅ Load danh sách khoa ngay khi trang tải
+    function loadDanhSachKhoa() {
+        axios.get('/api/admin/khoa', {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+        .then(res => {
+            const select = document.getElementById('ma_khoa');
+            res.data.forEach(khoa => {
+                const option = document.createElement('option');
+                option.value = khoa.ma_khoa;
+                option.textContent = khoa.ten_khoa;
+                select.appendChild(option);
+            });
+        })
+        .catch(err => {
+            alert('❌ Không thể tải danh sách khoa');
+            console.error(err);
+        });
+    }
+
+    // ✅ Xử lý khi submit
     document.getElementById('createGiangVienForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const token = localStorage.getItem('token');
         if (!token) {
             alert("Bạn chưa đăng nhập hoặc token không tồn tại!");
             return;
@@ -113,7 +135,6 @@
 
         const formData = {
             ma_giang_vien: document.getElementById('ma_giang_vien').value,
-            user_id: document.getElementById('user_id').value,
             ma_khoa: document.getElementById('ma_khoa').value,
             ho_ten: document.getElementById('ho_ten').value,
             email: document.getElementById('email').value,
@@ -122,9 +143,7 @@
         };
 
         axios.post('/api/admin/giangvien', formData, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
+            headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => {
             alert('✅ Thêm giảng viên thành công!');
@@ -136,6 +155,7 @@
         });
     });
 </script>
+
 
 </body>
 </html>

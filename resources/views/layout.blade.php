@@ -40,8 +40,9 @@
                         <i class="fa-solid fa-user"></i><span>Quản lý hệ thống</span>
                     </a>
                     <ul id="QLTK" class="sidebar-dropdown list-unstyled collapse">
+                        <li class="sidebar-item"><a href="admin/thongke" class="sidebar-link">Thống kê</a></li>
                         <li class="sidebar-item"><a href="admin/taikhoan" class="sidebar-link">Quản lý tài khoản</a></li>
-                        <li class="sidebar-item"><a href="/admin/giaovien" class="sidebar-link">Quản lý giảng viên</a></li>
+                        <li class="sidebar-item"><a href="/admin/giangvien" class="sidebar-link">Quản lý giảng viên</a></li>
                         <li class="sidebar-item"><a href="admin/sinhvien" class="sidebar-link">Quản lý sinh viên</a></li>
                         <li class="sidebar-item"><a href="admin/khoa" class="sidebar-link">Quản lý khoa</a></li>
                         <li class="sidebar-item"><a href="/admin/nganh" class="sidebar-link">Quản lý ngành</a></li>
@@ -55,9 +56,9 @@
                     </a>
                     <ul id="QLTC" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="/admin/khoanthu" class="sidebar-link">Khoản thu chung</a></li>
-                        <li class="sidebar-item"><a href="/DSKhoanthusv" class="sidebar-link">Khoản thu sinh viên</a></li>
+                        <li class="sidebar-item"><a href="/admin/khoanthusv" class="sidebar-link">Khoản thu sinh viên</a></li>
                         <li class="sidebar-item"><a href="/admin/miengiam" class="sidebar-link">Miễn giảm</a></li>
-                        <li class="sidebar-item"><a href="/DSHoadon" class="sidebar-link">Hóa đơn</a></li>
+                        <li class="sidebar-item"><a href="/admin/hoadon" class="sidebar-link">Hóa đơn</a></li>
                     </ul>
                 </li>
 
@@ -69,16 +70,24 @@
                         <li class="sidebar-item"><a href="/admin/dkmonhoc" class="sidebar-link">Danh sách đăng ký môn học</a></li>
                         <li class="sidebar-item"><a href="/admin/dslichhoc" class="sidebar-link">Quản lý lịch học</a></li>
                         <li class="sidebar-item"><a href="/admin/dslophoc" class="sidebar-link">Quản lý lớp học</a></li>
-                        <li class="sidebar-item"><a href="/dsmonhoc" class="sidebar-link">Quản lý môn học</a></li>
+                        <li class="sidebar-item"><a href="/admin/dsmonhoc" class="sidebar-link">Quản lý môn học</a></li>
                     </ul>
                 </li>
 
-                <!-- Giáo viên only -->
-                <li class="sidebar-item" data-role="giaovien">
-                    <a href="/giaovien/DSdiemgv" class="sidebar-link">
-                        <i class="fa-solid fa-medal"></i><span>Quản lý điểm sinh viên</span>
-                    </a>
-                </li>
+              <!-- Giáo viên only -->
+<li class="sidebar-item" data-role="giaovien">
+    <a href="/giaovien/DSdiemgv" class="sidebar-link">
+        <i class="fa-solid fa-medal"></i>
+        <span>Quản lý điểm sinh viên</span>
+    </a>
+</li>
+<li class="sidebar-item" data-role="giaovien">
+    <a href="/giaovien/thongtingv" class="sidebar-link">
+        <i class="fa-solid fa-user"></i>
+        <span>Profile</span>
+    </a>
+</li>
+
 
                 <li class="sidebar-item" data-role="giaovien">
                     <a href="/change-password" class="sidebar-link">
@@ -92,7 +101,7 @@
                         <i class="fa-solid fa-user"></i><span>Tài khoản</span>
                     </a>
                     <ul id="SVTK" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="/ThongTinSinhVien" class="sidebar-link">Profile</a></li>
+                        <li class="sidebar-item"><a href="/sinhvien/thongtinsv" class="sidebar-link">Profile</a></li>
                     </ul>
                     <ul id="SVTK" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="/change-password" class="sidebar-link">Đổi mật khẩu</a></li>
@@ -105,7 +114,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item" data-role="sinhvien">
-                    <a href="/Taichinh" class="sidebar-link">
+                    <a href="/sinhvien/hoadon" class="sidebar-link">
                         <i class="fa-solid fa-coins"></i><span>Tài chính và học phí</span>
                     </a>
                 </li>

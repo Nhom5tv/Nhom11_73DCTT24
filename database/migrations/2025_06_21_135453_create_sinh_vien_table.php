@@ -23,6 +23,9 @@ return new class extends Migration
 
             // Khóa ngoại tới bảng users
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('ma_khoa')->references('ma_khoa')->on('khoa');
+            $table->foreign('ma_nganh')->references('ma_nganh')->on('nganh');
+
         });
     }
 

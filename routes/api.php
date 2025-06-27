@@ -17,7 +17,11 @@ use App\Http\Controllers\Api\NganhController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\DangKyMonHocController;
 use App\Http\Controllers\Api\DangKyTinChiController;
+use App\Http\Controllers\Api\HoaDonController;
+use App\Http\Controllers\Api\KhoanThuSinhVienController;
 use App\Http\Controllers\Api\DiemSinhVienController;
+use App\Http\Controllers\Api\KhoaController;
+
 
 
 
@@ -29,9 +33,7 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':admin'])->get('/admin',
     return response()->json(['msg' => 'Chào Admin']);
 });
 
-Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->get('/giaovien', function () {
-    return response()->json(['msg' => 'Chào Giáo viên']);
-});
+
 
 Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->get('/sinhvien', function () {
     return response()->json(['msg' => 'Chào Sinh viên']);
@@ -51,6 +53,11 @@ Route::prefix('admin')->middleware('auth:api')->group(function(){
     Route::get('/miengiam/{ma_mien_giam}',[MienGiamSinhVienController::class, 'show']);
     Route::put('/miengiam/{ma_mien_giam}',[MienGiamSinhVienController::class, 'update']);
     Route::delete('/miengiam/{ma_mien_giam}',[MienGiamSinhVienController::class, 'destroy']);
+});
+//API routes for ThongKe
+Route::prefix('admin')->middleware('auth:api')->group(function(){
+   Route::get('/thongke/diem', [DiemSinhVienController::class, 'thongKeHocLuc']);
+    Route::get('/thongke/miengiam', [MienGiamSinhVienController::class, 'thongKeMienGiam']);
 });
 //phan cua Vu
 
@@ -148,6 +155,23 @@ Route::prefix('admin')->middleware('auth:api')->group(function () {
     Route::put('/khoanthu/{id}', [KhoanThuController::class, 'update']);  // Cập nhật khoản thu
     Route::delete('/khoanthu/{id}', [KhoanThuController::class, 'destroy']); // Xóa khoản thu
 });
+//Quản lý khoản thu sinh viên
+Route::prefix('admin')->middleware('auth:api')->group(function () {
+    Route::get('/khoanthusv', [KhoanThuSinhVienController::class, 'index']);
+});
+//Quản lý hóa đơn
+Route::prefix('admin')->middleware('auth:api')->group(function () {
+    Route::get('/hoadon', [HoaDonController::class, 'index']);
+    Route::post('/hoadon', [HoaDonController::class, 'store']);
+    Route::put('/hoadon/{id}', [HoaDonController::class, 'cancel']);
+});
+
+//Hóa đơn bên sinh viên
+Route::prefix('sinhvien')->middleware('auth:api')->group(function () {
+    Route::get('/hoadon', [HoaDonController::class, 'getHoaDon']);
+    Route::get('/hoadon/khoannop', [HoaDonController::class, 'getKhoanPhaiNop']);
+    
+});
 // Hết phần của Quỳnh
 
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
@@ -163,4 +187,34 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::get('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'show']);
     Route::put('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'update']);
     Route::delete('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'destroy']);
+    Route::get('/nganh', [NganhController::class, 'index']);
+    //ngành
+    Route::post('/nganh', [NganhController::class, 'store']);
+    Route::get('/nganh/{id}', [NganhController::class, 'show']);
+    Route::put('/nganh/{id}', [NganhController::class, 'update']);
+    Route::delete('/nganh/{id}', [NganhController::class, 'destroy']);
+
+});Route::middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->group(function () {
+    Route::get('/thongtinsv', [SinhVienController::class, 'getThongTinCaNhan']);
+    Route::put('/thongtinsv', [SinhVienController::class, 'capNhatThongTinCaNhan']); // 👈 gọi hàm riêng
 });
+Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->group(function () {
+    Route::get('/thongtingv', [GiangVienController::class, 'getThongTinGiangVien']);
+        Route::put('/thongtingv', [GiangVienController::class, 'updateThongTinGiangVien']);
+
+});
+Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
+    // ✅ Route cho bảng khoa
+    Route::get('/khoa', [KhoaController::class, 'index']);
+    Route::get('/timkiem-khoa', [KhoaController::class, 'timkiem']);
+    Route::post('/khoa', [KhoaController::class, 'store']);
+    Route::get('/khoa/{id}', [KhoaController::class, 'show']);
+    Route::put('/khoa/{id}', [KhoaController::class, 'update']);
+    Route::delete('/khoa/{id}', [KhoaController::class, 'destroy']);
+});
+
+
+
+
+
+//hết phần của PA

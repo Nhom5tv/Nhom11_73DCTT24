@@ -52,10 +52,14 @@
                 <input type="text" id="ten_nganh" required>
             </div>
 
-            <div class="input-group">
-                <label for="ma_khoa">Mã khoa</label>
-                <input type="text" id="ma_khoa" required>
-            </div>
+           <div class="input-group">
+    <label for="ma_khoa">Chọn khoa</label>
+    <select id="ma_khoa" required>
+        <option value="">-- Chọn khoa --</option>
+        <!-- JS sẽ render option tại đây -->
+    </select>
+</div>
+
 
             <div class="input-group">
                 <label for="thoi_gian_dao_tao">Thời gian đào tạo (năm)</label>
@@ -111,6 +115,30 @@
             console.error(err);
         });
     });
+    function loadDanhSachKhoa() {
+    axios.get('/api/admin/khoa', {
+        headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+    })
+    .then(res => {
+        const select = document.getElementById('ma_khoa');
+        res.data.forEach(khoa => {
+            const option = document.createElement('option');
+            option.value = khoa.ma_khoa;
+            option.textContent = khoa.ten_khoa;
+            select.appendChild(option);
+        });
+    })
+    .catch(err => {
+        alert('❌ Không thể tải danh sách khoa');
+        console.error(err);
+    });
+}
+
+// Gọi khi trang load
+window.onload = () => {
+    loadDanhSachKhoa();
+};
+
 </script>
 
 </body>

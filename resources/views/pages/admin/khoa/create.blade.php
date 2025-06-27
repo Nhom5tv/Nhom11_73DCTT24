@@ -96,7 +96,7 @@
                 ngay_thanh_lap: document.getElementById('ngay_thanh_lap').value.trim(),
                 tien_moi_tin_chi: parseFloat(document.getElementById('tien_moi_tin_chi').value.trim())
             };
-            axios.post('/api/admin/dskhoa', data)
+            axios.post('/api/admin/khoa', data)
                 .then(response => {
                     alert('Thêm khoa thành công');
                     window.location.href = "{{ route('khoa.index') }}";

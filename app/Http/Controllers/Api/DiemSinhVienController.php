@@ -89,89 +89,64 @@ class DiemSinhVienController extends Controller
         }
     }
 
-    // public function getDiemChiTiet($ma_sinh_vien, $ma_lop = null)
-    // {
-    //     try {
-    //         // Start building the query
-    //         $query = DiemTheoLop::where('ma_sinh_vien', $ma_sinh_vien);
-
-    //         // If class ID is provided, add it to the filter
-    //         if ($ma_lop) {
-    //             $query->where('ma_lop', $ma_lop);
-    //         }
-
-    //         // Get the first matching record (you might want to get all records instead)
-    //         $diem = $query->first();
-
-    //         if (!$diem) {
-    //             return response()->json([
-    //                 'message' => 'Không tìm thấy điểm của sinh viên',
-    //                 'ma_sinh_vien' => $ma_sinh_vien,
-    //                 'ma_lop' => $ma_lop
-    //             ], 404);
-    //         }
-
-    //         // Calculate the final score
-    //         $diem_he_10 = $diem->diem_chuyen_can * 0.1 + $diem->diem_giua_ky * 0.3 + $diem->diem_cuoi_ky * 0.6;
-
-    //         // Return detailed score information
-    //         return response()->json([
-    //             'ma_sinh_vien' => $diem->ma_sinh_vien,
-    //             'ma_lop' => $diem->ma_lop,
-    //             'lan_hoc' => $diem->lan_hoc,
-    //             'diem_chuyen_can' => $diem->diem_chuyen_can,
-    //             'diem_giua_ky' => $diem->diem_giua_ky,
-    //             'diem_cuoi_ky' => $diem->diem_cuoi_ky,
-    //             'diem_tong_ket' => round($diem_he_10, 2),
-    //             'ngay_cap_nhat' => $diem->updated_at ? $diem->updated_at->format('Y-m-d H:i:s') : null
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         return response()->json([
-    //             'error' => $e->getMessage(),
-    //             'trace' => $e->getTraceAsString()
-    //         ], 500);
-    //     }
-    // }
     public function getDiemChiTiet(Request $request)
-{
-    $ma_sinh_vien = $request->query('ma_sinh_vien');
-    $ma_lop = $request->query('ma_lop');
+    {
+        $ma_sinh_vien = $request->query('ma_sinh_vien');
+        $ma_lop = $request->query('ma_lop');
 
-    if (!$ma_sinh_vien) {
-        return response()->json(['error' => 'Thiếu mã sinh viên'], 400);
-    }
-
-    try {
-        $query = DiemTheoLop::where('ma_sinh_vien', $ma_sinh_vien);
-
-        if ($ma_lop) {
-            $query->where('ma_lop', $ma_lop);
+        if (!$ma_sinh_vien) {
+            return response()->json(['error' => 'Thiếu mã sinh viên'], 400);
         }
 
-        $diem = $query->first();
+        try {
+            $query = DiemTheoLop::where('ma_sinh_vien', $ma_sinh_vien);
 
-        if (!$diem) {
+            if ($ma_lop) {
+                $query->where('ma_lop', $ma_lop);
+            }
+
+            $diem = $query->first();
+
+            if (!$diem) {
+                return response()->json([
+                    'message' => 'Không tìm thấy điểm',
+                    'ma_sinh_vien' => $ma_sinh_vien,
+                    'ma_lop' => $ma_lop
+                ], 404);
+            }
+
+            $diem_he_10 = $diem->diem_chuyen_can * 0.1 + $diem->diem_giua_ky * 0.3 + $diem->diem_cuoi_ky * 0.6;
+
             return response()->json([
-                'message' => 'Không tìm thấy điểm',
-                'ma_sinh_vien' => $ma_sinh_vien,
-                'ma_lop' => $ma_lop
-            ], 404);
+                'ma_sinh_vien' => $diem->ma_sinh_vien,
+                'ma_lop' => $diem->ma_lop,
+                'lan_hoc' => $diem->lan_hoc,
+                'diem_chuyen_can' => $diem->diem_chuyen_can,
+                'diem_giua_ky' => $diem->diem_giua_ky,
+                'diem_cuoi_ky' => $diem->diem_cuoi_ky,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
         }
-
-        $diem_he_10 = $diem->diem_chuyen_can * 0.1 + $diem->diem_giua_ky * 0.3 + $diem->diem_cuoi_ky * 0.6;
-
-        return response()->json([
-            'ma_sinh_vien' => $diem->ma_sinh_vien,
-            'ma_lop' => $diem->ma_lop,
-            'lan_hoc' => $diem->lan_hoc,
-            'diem_chuyen_can' => $diem->diem_chuyen_can,
-            'diem_giua_ky' => $diem->diem_giua_ky,
-            'diem_cuoi_ky' => $diem->diem_cuoi_ky,
-        ]);
-    } catch (\Exception $e) {
-        return response()->json([
-            'error' => $e->getMessage()
-        ], 500);
     }
-}
+    public function thongKeHocLuc()
+    {
+        $ketQua = DB::table('diem_theo_lops')
+            ->selectRaw("
+                CASE
+                    WHEN diem_chuyen_can * 0.1 + diem_giua_ky * 0.3 + diem_cuoi_ky * 0.6 >= 9 THEN 'Xuất sắc'
+                    WHEN diem_chuyen_can * 0.1 + diem_giua_ky * 0.3 + diem_cuoi_ky * 0.6 >= 8 THEN 'Giỏi'
+                    WHEN diem_chuyen_can * 0.1 + diem_giua_ky * 0.3 + diem_cuoi_ky * 0.6 >= 7 THEN 'Khá'
+                    WHEN diem_chuyen_can * 0.1 + diem_giua_ky * 0.3 + diem_cuoi_ky * 0.6 >= 5 THEN 'Trung bình'
+                    ELSE 'Yếu'
+                END as hoc_luc,
+                COUNT(*) as so_luong
+            ")
+            ->groupBy('hoc_luc')
+            ->get();
+
+        return response()->json($ketQua);
+    }
 }

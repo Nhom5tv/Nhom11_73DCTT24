@@ -55,28 +55,17 @@
             </div>
 
             <div class="input-group">
-                <label for="user_id">User ID</label>
-                <input type="text" id="user_id" required>
-            </div>
-
-            <div class="input-group">
                 <label for="ma_khoa">Chọn Khoa</label>
                 <select id="ma_khoa" required>
-                    <option value="">-- Chọn khoa --</option>
-                    <option value="1">Công nghệ thông tin</option>
-                    <option value="2">Kinh tế</option>
-                    <option value="3">Ngoại ngữ</option>
-                </select>
+    <option value="">-- Chọn khoa --</option>
+    <!-- Option sẽ được render bằng JavaScript -->
+</select>
             </div>
 
             <div class="input-group">
                 <label for="ma_nganh">Chọn ngành</label>
                 <select id="ma_nganh" required>
-                    <option value="">-- Chọn ngành --</option>
-                    <option value="101">Kỹ thuật phần mềm</option>
-                    <option value="102">Hệ thống thông tin</option>
-                    <option value="201">Quản trị kinh doanh</option>
-                    <option value="301">Tiếng Anh</option>
+                 
                 </select>
             </div>
 
@@ -125,9 +114,57 @@
         </div>
     </form>
 </main>
-
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+
+    // Load dữ liệu ngành
+    function loadNganh() {
+        axios.get('/api/admin/nganh')
+            .then(res => {
+                const select = document.getElementById('ma_nganh');
+                select.innerHTML = '<option value="">-- Chọn ngành --</option>';
+                res.data.forEach(nganh => {
+                    const option = document.createElement('option');
+                    option.value = nganh.ma_nganh;
+                    option.textContent = nganh.ten_nganh;
+                    select.appendChild(option);
+                });
+            })
+            .catch(err => console.error('Lỗi load ngành:', err));
+    }
+
+    // Load dữ liệu khoa
+   function loadKhoa() {
+    axios.get('/api/admin/khoa', {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    })
+    .then(res => {
+        console.log("Dữ liệu khoa:", res.data); // ✅ In ra để test nếu cần
+        const select = document.getElementById('ma_khoa');
+        select.innerHTML = '<option value="">-- Chọn khoa --</option>';
+        res.data.forEach(khoa => {
+            const option = document.createElement('option');
+            option.value = khoa.ma_khoa;
+            option.textContent = khoa.ten_khoa;
+            select.appendChild(option);
+        });
+    })
+    .catch(err => {
+        console.error('Lỗi load khoa:', err);
+    });
+}
+
+
+    // Khi load trang xong thì gọi API để đổ dữ liệu vào select
+    window.addEventListener('DOMContentLoaded', () => {
+        loadKhoa();
+        loadNganh();
+    });
+
+    // Xử lý gửi form
     document.getElementById('createStudentForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -139,7 +176,6 @@
 
         const formData = {
             ma_sinh_vien: document.getElementById('ma_sinh_vien').value,
-            user_id: document.getElementById('user_id').value,
             ma_khoa: document.getElementById('ma_khoa').value,
             ma_nganh: document.getElementById('ma_nganh').value,
             ho_ten: document.getElementById('ho_ten').value,

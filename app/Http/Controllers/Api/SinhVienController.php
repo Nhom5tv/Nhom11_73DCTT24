@@ -14,19 +14,48 @@ class SinhVienController extends Controller
     /**
      * Hiển thị danh sách sinh viên.
      */
-    public function index()
-    {
-        return SinhVien::all();
+   public function index(Request $request)
+{
+    $query = SinhVien::query()
+        ->with(['khoa', 'nganh']); // relationship phải khai báo trong model
+
+    if ($request->filled('ma_sinh_vien')) {
+        $query->where('ma_sinh_vien', 'like', '%' . $request->ma_sinh_vien . '%');
     }
+
+    if ($request->filled('ho_ten')) {
+        $query->where('ho_ten', 'like', '%' . $request->ho_ten . '%');
+    }
+
+    $result = $query->get()->map(function ($sv) {
+        return [
+            'ma_sinh_vien' => $sv->ma_sinh_vien,
+            'user_id' => $sv->user_id,
+            'ma_khoa' => $sv->ma_khoa,
+            'ten_khoa' => $sv->khoa->ten_khoa ?? '',
+            'ma_nganh' => $sv->ma_nganh,
+            'ten_nganh' => $sv->nganh->ten_nganh ?? '',
+            'ho_ten' => $sv->ho_ten,
+            'ngay_sinh' => $sv->ngay_sinh,
+            'gioi_tinh' => $sv->gioi_tinh,
+            'que_quan' => $sv->que_quan,
+            'email' => $sv->email,
+            'so_dien_thoai' => $sv->so_dien_thoai,
+            'khoa_hoc' => $sv->khoa_hoc,
+        ];
+    });
+
+    return response()->json($result);
+}
 
     /**
      * Thêm mới một sinh viên.
      */
   public function store(Request $request)
 {
-    DB::beginTransaction(); // Bắt đầu transaction
-
+     DB::beginTransaction(); // 👈 thêm dòng này
     try {
+        
         $validated = $request->validate([
             'ma_sinh_vien' => 'required|string|max:10|unique:sinh_vien',
             'ma_khoa' => 'required|integer',
@@ -77,20 +106,58 @@ class SinhVienController extends Controller
 
         return response()->json([
             'message' => 'Đã xảy ra lỗi, hệ thống đã rollback',
-            'error' => $e->getMessage(),
+
+           'error' => $e->getMessage(),     // <- dòng này là lỗi cụ thể
+    'line' => $e->getLine(),         // <- dòng gây lỗi
+    'file' => $e->getFile(),
         ], 500);
     }
 }
 
 
+
     /**
      * Lấy thông tin chi tiết 1 sinh viên.
      */
-    public function show(string $id)
-    {
-        $sinhvien = SinhVien::findOrFail($id);
-        return response()->json($sinhvien);
+ public function getThongTinCaNhan(Request $request)
+{
+    try {
+        $user = $request->user();
+
+        // Lấy sinh viên kèm theo ngành và khoa (dùng with)
+        $sinhvien = SinhVien::with(['nganh', 'khoa'])->where('user_id', $user->id)->first();
+
+        if (!$sinhvien) {
+            return response()->json([
+                'message' => 'Không tìm thấy thông tin sinh viên'
+            ], 404);
+        }
+
+        return response()->json([
+            'ma_sinh_vien'   => $sinhvien->ma_sinh_vien,
+            'ho_ten'         => $sinhvien->ho_ten,
+            'ngay_sinh'      => $sinhvien->ngay_sinh,
+            'gioi_tinh'      => $sinhvien->gioi_tinh,
+            'que_quan'       => $sinhvien->que_quan,
+            'email'          => $sinhvien->email,
+            'so_dien_thoai'  => $sinhvien->so_dien_thoai,
+            'khoa_hoc'       => $sinhvien->khoa_hoc,
+            'ma_nganh'       => $sinhvien->ma_nganh,
+            'ma_khoa'        => $sinhvien->ma_khoa,
+            'ten_nganh'      => $sinhvien->nganh->ten_nganh ?? '(chưa có)', // 👈 thêm dòng này
+            'ten_khoa'       => $sinhvien->khoa->ten_khoa ?? '(chưa có)'   // 👈 nếu cần
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'message' => 'Đã xảy ra lỗi khi lấy thông tin sinh viên.',
+            'error'   => $e->getMessage(),
+            'line'    => $e->getLine(),
+            'file'    => $e->getFile(),
+        ], 500);
     }
+}
+
 
     /**
      * Cập nhật thông tin sinh viên.
@@ -115,6 +182,32 @@ class SinhVienController extends Controller
         $sinhvien->update($validated);
         return response()->json($sinhvien);
     }
+    // Sinh viên tự cập nhật thông tin cá nhân (dựa vào user_id)
+public function capNhatThongTinCaNhan(Request $request)
+{
+    $userId = auth()->id(); // hoặc $request->user()->id
+    $sinhvien = SinhVien::where('user_id', $userId)->firstOrFail();
+
+    $validated = $request->validate([
+        'ma_khoa' => 'required|integer',
+        'ma_nganh' => 'required|integer',
+        'ho_ten' => 'required|string|max:100',
+        'ngay_sinh' => 'required|date',
+        'gioi_tinh' => 'required|in:Nam,Nữ',
+        'que_quan' => 'required|string|max:100',
+        'email' => 'required|email|unique:sinh_vien,email,' . $sinhvien->ma_sinh_vien . ',ma_sinh_vien',
+        'so_dien_thoai' => 'required|string|max:15',
+        'khoa_hoc' => 'required|integer',
+    ]);
+
+    $sinhvien->update($validated);
+
+    return response()->json([
+        'message' => 'Cập nhật thành công!',
+        'data' => $sinhvien
+    ]);
+}
+
 
     /**
      * Xóa một sinh viên.

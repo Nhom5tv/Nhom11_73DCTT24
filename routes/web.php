@@ -10,6 +10,8 @@ use App\Models\DiemTheoLop;
 use App\Models\SinhVien;
 use App\Models\GiangVien;
 use App\Models\DangKyMonHoc;
+use App\Models\Nganh;
+
 
 
 
@@ -103,13 +105,30 @@ Route::get('/reset-password/{token}', function ($token) {
 Route::get('/admin/khoanthu', function () {
     return view('pages.admin.khoan_thu.index');
 });
-Route::get('/admin/taikhoan/create', function () {
+Route::get('/admin/khoanthu/create', function () {
     return view('pages.admin.khoan_thu.create');
 });
-Route::get('/admin/taikhoan/{id}/edit', function ($id) {
+Route::get('/admin/khoanthu/{id}/edit', function ($id) {
     return view('pages.admin.khoan_thu.edit', ['id' => $id]);
 });
+
+// Quản lý khoản thu sinh viên
+Route::get('/admin/khoanthusv', function () {
+    return view('pages.admin.khoan_thu_sinh_vien.index');
+});
+// Quản lý hóa đơn
+Route::get('/admin/hoadon', function () {
+    return view('pages.admin.hoa_don.index');
+});
+Route::get('/admin/hoadon/create', function () {
+    return view('pages.admin.hoa_don.create');
+});
+//Hóa đơn bên sinh viên
+Route::get('/sinhvien/hoadon', function () {
+    return view('pages.sinhvien.taichinh');
+});
 //Hết phần của Quỳnh
+
 //URL for MonHoc, phan cua Vu
 Route::get('/admin/monhoc', function () {
     return view('pages.admin.mon_hoc.index');
@@ -148,6 +167,24 @@ Route::get('/giaovien/diem-theo-lop/{ma_lop}', function ($ma_lop) {
 Route::get('sinhvien/diem', function () {
     return view('pages.sinhvien.DiemSinhVien.index');
 });
+// Trang danh sách các khoa
+Route::prefix('admin')->group(function () {
+    Route::get('/khoa', function () {
+        return view('pages.admin.khoa.index');
+    })->name('khoa.index');
+
+    // Trang thêm khoa mới
+    Route::get('/khoa/tao-moi', function () {
+        return view('pages.admin.khoa.create');
+    })->name('khoa.create');
+
+    // Trang chỉnh sửa một khoa cụ thể
+    Route::get('/khoa/sua/{ma_khoa}', function ($ma_khoa) {
+        return view('pages.admin.khoa.edit', compact('ma_khoa'));
+    })->name('khoa.edit');
+});
+
+
 
 // Route cho trang chi tiết điểm
 Route::get('sinhvien/diem-chi-tiet', function () {
@@ -191,4 +228,51 @@ Route::prefix('admin/giangvien')->group(function () {
         $giangvien = GiangVien::where('ma_giang_vien', $ma_giang_vien)->firstOrFail();
         return view('pages.admin.qlgiaovien.edit', ['giangvien' => $giangvien]);
     });
+});
+
+
+// Giao diện quản lý ngành (dành cho admin)
+Route::prefix('admin/nganh')->group(function () {
+    // Danh sách ngành
+    Route::get('/', function () {
+        return view('pages.admin.qlnganh.index');
+    });
+
+    // Giao diện tạo mới ngành
+    Route::get('/create', function () {
+        return view('pages.admin.qlnganh.create');
+    });
+
+    // Giao diện sửa ngành
+    Route::get('/{ma_nganh}/edit', function ($ma_nganh) {
+        $nganh = Nganh::findOrFail($ma_nganh);
+        return view('pages.admin.qlnganh.edit', ['nganh' => $nganh]);
+    });
+});
+// Route trang chủ của sinh viên (nếu có layout sinh viên riêng)
+Route::get('/sinhvien', function () {
+    return view('layout'); // hoặc 'layout_sinhvien' nếu bạn tách layout theo role
+});
+
+// Trang thông tin sinh viên
+Route::get('/sinhvien/thongtinsv', function () {
+    return view('pages.sinhvien.thongtinsv');
+});
+// Giao diện chỉnh sửa thông tin sinh viên cá nhân (sinh viên đang đăng nhập)
+Route::get('/sinhvien/thongtinsv/edit/{ma_sinh_vien}', function ($ma_sinh_vien) {
+    $sinhvien = SinhVien::where('ma_sinh_vien', $ma_sinh_vien)->firstOrFail();
+    return view('pages.sinhvien.thongtinsv_edit', ['sinhvien' => $sinhvien]);
+});
+//thong tin gv
+
+Route::get('/giaovien/thongtingv', function () {
+    return view('pages.giaovien.thongtingv');
+});
+// Giao diện chỉnh sửa thông tin giảng viên cá nhân (giảng viên đang đăng nhập)
+Route::get('/giaovien/thongtingv/edit', function () {
+    return view('pages.giaovien.thongtingv_edit');
+});
+//giao diện thống kê
+Route::get('/admin/thongke', function () {
+    return view('pages.admin.thongke.index');
 });
