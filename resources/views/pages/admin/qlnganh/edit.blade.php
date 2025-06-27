@@ -103,7 +103,7 @@
             return;
         }
 
-        axios.get('/api/admin/dskhoa', {
+        axios.get('/api/admin/khoa', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => {

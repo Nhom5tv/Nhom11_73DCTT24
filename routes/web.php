@@ -14,6 +14,8 @@ use App\Models\Nganh;
 
 
 
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -251,7 +253,7 @@ Route::get('/sinhvien/thongtinsv', function () {
 });
 // Giao diện chỉnh sửa thông tin sinh viên cá nhân (sinh viên đang đăng nhập)
 Route::get('/sinhvien/thongtinsv/edit/{ma_sinh_vien}', function ($ma_sinh_vien) {
-    $sinhvien = \App\Models\SinhVien::where('ma_sinh_vien', $ma_sinh_vien)->firstOrFail();
+    $sinhvien = SinhVien::where('ma_sinh_vien', $ma_sinh_vien)->firstOrFail();
     return view('pages.sinhvien.thongtinsv_edit', ['sinhvien' => $sinhvien]);
 });
 //thong tin gv

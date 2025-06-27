@@ -53,7 +53,9 @@ class SinhVienController extends Controller
      */
   public function store(Request $request)
 {
+     DB::beginTransaction(); // 👈 thêm dòng này
     try {
+        
         $validated = $request->validate([
             'ma_sinh_vien' => 'required|string|max:10|unique:sinh_vien',
             'ma_khoa' => 'required|integer',
@@ -104,7 +106,10 @@ class SinhVienController extends Controller
 
         return response()->json([
             'message' => 'Đã xảy ra lỗi, hệ thống đã rollback',
-            'error' => $e->getMessage(),
+
+           'error' => $e->getMessage(),     // <- dòng này là lỗi cụ thể
+    'line' => $e->getLine(),         // <- dòng gây lỗi
+    'file' => $e->getFile(),
         ], 500);
     }
 }

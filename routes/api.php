@@ -20,6 +20,8 @@ use App\Http\Controllers\Api\DangKyTinChiController;
 use App\Http\Controllers\Api\HoaDonController;
 use App\Http\Controllers\Api\KhoanThuSinhVienController;
 use App\Http\Controllers\Api\DiemSinhVienController;
+use App\Http\Controllers\Api\KhoaController;
+
 
 
 
@@ -197,6 +199,15 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->group(func
     Route::get('/thongtingv', [GiangVienController::class, 'getThongTinGiangVien']);
         Route::put('/thongtingv', [GiangVienController::class, 'updateThongTinGiangVien']);
 
+});
+Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
+    // ✅ Route cho bảng khoa
+    Route::get('/khoa', [KhoaController::class, 'index']);
+    Route::get('/timkiem-khoa', [KhoaController::class, 'timkiem']);
+    Route::post('/khoa', [KhoaController::class, 'store']);
+    Route::get('/khoa/{id}', [KhoaController::class, 'show']);
+    Route::put('/khoa/{id}', [KhoaController::class, 'update']);
+    Route::delete('/khoa/{id}', [KhoaController::class, 'destroy']);
 });
 
 

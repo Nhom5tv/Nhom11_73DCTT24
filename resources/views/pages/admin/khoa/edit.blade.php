@@ -104,7 +104,7 @@
                 return;
             }
             try {
-                axios.get(`/api/admin/dskhoa/${ma_khoa}`)
+                axios.get(`/api/admin/khoa/${ma_khoa}`)
                 .then(res => {
                     const khoa = res.data;
                     document.getElementById('ma_khoa').value = khoa.ma_khoa || '';
@@ -137,7 +137,7 @@
             }
 
             try {
-                const response = await axios.put(`/api/admin/dskhoa/${ma_khoa}`, {
+                const response = await axios.put(`/api/admin/khoa/${ma_khoa}`, {
                     ten_khoa,
                     lien_he,
                     ngay_thanh_lap,

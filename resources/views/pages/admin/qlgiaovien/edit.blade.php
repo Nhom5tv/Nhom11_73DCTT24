@@ -54,11 +54,7 @@
                 <input type="text" id="ma_giang_vien" value="{{ $giangvien->ma_giang_vien }}" readonly>
             </div>
 
-            <div class="input-group">
-                <label for="user_id">User ID</label>
-                <input type="text" id="user_id" value="{{ $giangvien->user_id }}" required>
-            </div>
-
+           
             <div class="input-group">
                 <label for="ma_khoa">Chọn Khoa</label>
                 <select id="ma_khoa" required>
@@ -108,7 +104,7 @@
     }
 
     function loadDanhSachKhoa() {
-        axios.get('/api/admin/dskhoa', {
+        axios.get('/api/admin/khoa', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => {
@@ -142,7 +138,6 @@
         const maGV = document.getElementById('ma_giang_vien').value;
 
         const formData = {
-            user_id: document.getElementById('user_id').value,
             ma_khoa: document.getElementById('ma_khoa').value,
             ho_ten: document.getElementById('ho_ten').value,
             email: document.getElementById('email').value,

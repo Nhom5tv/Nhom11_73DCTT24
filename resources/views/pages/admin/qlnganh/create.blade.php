@@ -116,7 +116,7 @@
         });
     });
     function loadDanhSachKhoa() {
-    axios.get('/api/admin/dskhoa', {
+    axios.get('/api/admin/khoa', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     })
     .then(res => {
