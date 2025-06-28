@@ -93,7 +93,11 @@ public function store(Request $request)
         // Cập nhật ma_lop cho các đăng ký chưa có lớp
         $updated = DangKyMonHoc::where('ma_mon', $lop->ma_mon)
             ->whereNull('ma_lop')
-            ->update(['ma_lop' => $lop->ma_lop]);
+            ->update([
+                'ma_lop' => $lop->ma_lop,
+                'lich_hoc_du_kien' => $lop->lich_hoc,
+                'trang_thai' => 'Đã duyệt'
+            ]);
         Log::info("Số bản ghi DangKyMonHoc được cập nhật: $updated");
 
         // Lấy danh sách sinh viên đã đăng ký môn học này

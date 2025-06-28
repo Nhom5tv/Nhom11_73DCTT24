@@ -9,6 +9,7 @@ use App\Models\MienGiamSinhVien;
 use App\Models\SinhVien;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class KhoanThuController extends Controller
 {
@@ -74,6 +75,8 @@ class KhoanThuController extends Controller
                     $tongTinChi = $sv->tongTinChiDangKy(); // phải định nghĩa trong model SinhVien
                     $donGia = $sv->khoa->tien_moi_tin_chi ?? 0;
                     $soTienGoc = $tongTinChi * $donGia;
+                     Log::info("Học phí - Sinh viên: {$sv->ma_sinh_vien}, Tên: {$sv->ho_ten}, Tổng TC: $tongTinChi, Đơn giá/TC: $donGia");
+
                 } else {
                     $soTienGoc = $validated['so_tien'];
                 }
@@ -91,6 +94,7 @@ class KhoanThuController extends Controller
 
                 // $trangThai = $soTienPhaiNop == 0 ? 'Đã thanh toán' : 'Chưa thanh toán';
                 $trangThai = round($soTienPhaiNop, 2) == 0 ? 'Đã thanh toán' : 'Chưa thanh toán';
+Log::info("Miễn giảm - SV: {$sv->ma_sinh_vien}, Mức giảm: $mucGiam%, Số tiền gốc: $soTienGoc, Giảm: $soTienMienGiam, Cần nộp: $soTienPhaiNop");
 
                 // Bước 6: Gán khoản thu sinh viên
                 KhoanThuSinhVien::create([
