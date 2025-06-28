@@ -45,7 +45,8 @@
                 <select id="loai_mien_giam" name="loai_mien_giam" required style="text-align: center;">
                     <option value="">Chọn loại miễn giảm</option>
                     <option value="BHYT">BHYT</option>
-                    <option value="Học phí">HP</option>
+                    <option value="Học phí">Học phí</option>
+                    <option value="Khác">Khác</option>
                     {{-- Dữ liệu được đổ từ JS --}}
                 </select>
             </div>
@@ -71,25 +72,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    // Load danh sách loại miễn giảm từ API
-    document.addEventListener("DOMContentLoaded", function () {
-        axios.get('/api/admin/khoanthu', {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-        }).then(response => {
-            const select = document.getElementById('loai_mien_giam');
-            response.data.forEach(item => {
-                const opt = document.createElement("option");
-                opt.value = item.loai_khoan_thu;
-                opt.textContent = item.loai_khoan_thu;
-                select.appendChild(opt);
-            });
-        }).catch(error => {
-            alert("Không tải được loại miễn giảm");
-        });
-    });
-
+    
     // Gửi form thêm mới miễn giảm
     document.getElementById('addForm').addEventListener('submit', function (e) {
         e.preventDefault();

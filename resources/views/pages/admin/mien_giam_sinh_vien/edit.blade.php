@@ -39,7 +39,8 @@
                 <select id="loai_mien_giam" name="loai_mien_giam" required style="text-align: center;">
                     <option value="">Chọn loại miễn giảm</option>
                     <option value="BHYT">BHYT</option>
-                    <option value="Học phí">HP</option>
+                    <option value="Học phí">Học phí</option>
+                     <option value="Khác">Khác</option>
                     {{-- Dữ liệu sẽ được đổ bằng JS --}}
                 </select>
             </div>
@@ -75,23 +76,14 @@
             document.getElementById('muc_tien').value = data.muc_tien;
             document.getElementById('ghi_chu').value = data.ghi_chu || '';
 
-            // Load danh sách loại miễn giảm
-            axios.get('/api/admin/khoanthu', {
-                headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('token')
+            // Gán selected cho loại miễn giảm từ danh sách cố định
+            const select = document.getElementById('loai_mien_giam');
+            for (const option of select.options) {
+                if (option.value === data.loai_mien_giam) {
+                    option.selected = true;
+                    break;
                 }
-            }).then(res => {
-                const select = document.getElementById('loai_mien_giam');
-                res.data.forEach(item => {
-                    const opt = document.createElement("option");
-                    opt.value = item.loai_khoan_thu;
-                    opt.textContent = item.loai_khoan_thu;
-                    if (item.loai_khoan_thu === data.loai_mien_giam) {
-                        opt.selected = true;
-                    }
-                    select.appendChild(opt);
-                });
-            });
+            }
         })
         .catch(error => {
             alert("Không tìm thấy miễn giảm");
