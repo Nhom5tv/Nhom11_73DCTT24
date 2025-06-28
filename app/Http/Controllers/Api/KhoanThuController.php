@@ -9,6 +9,7 @@ use App\Models\MienGiamSinhVien;
 use App\Models\SinhVien;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Facades\Log;
 
 class KhoanThuController extends Controller
 {
@@ -32,24 +33,7 @@ class KhoanThuController extends Controller
 }
 
 
-    // public function store(Request $request)
-    // {
-    //     try {
-    //         $validated = $request->validate([
-    //             'ten_khoan_thu' => 'required|string|max:255',
-    //             'loai_khoan_thu' => 'required|in:Học phí,BHYT,Khác',
-    //             'so_tien' => 'required|numeric|min:0',
-    //             'han_nop' => 'required|date'
-    //         ]);
-
-    //         $validated['ngay_tao'] = now(); // gán ngày tạo mặc định
-    //         $khoanThu = KhoanThu::create($validated);
-    //         return response()->json(['message' => 'Tạo khoản thu thành công', 'data' => $khoanThu]);
-    //     } catch (Exception $e) {
-    //         return response()->json(['error' => $e->getMessage()], 500);
-    //     }
-    // }
-
+   
     public function store(Request $request)
     {
         try {
@@ -91,6 +75,8 @@ class KhoanThuController extends Controller
                     $tongTinChi = $sv->tongTinChiDangKy(); // phải định nghĩa trong model SinhVien
                     $donGia = $sv->khoa->tien_moi_tin_chi ?? 0;
                     $soTienGoc = $tongTinChi * $donGia;
+                     Log::info("Học phí - Sinh viên: {$sv->ma_sinh_vien}, Tên: {$sv->ho_ten}, Tổng TC: $tongTinChi, Đơn giá/TC: $donGia");
+
                 } else {
                     $soTienGoc = $validated['so_tien'];
                 }
@@ -108,6 +94,7 @@ class KhoanThuController extends Controller
 
                 // $trangThai = $soTienPhaiNop == 0 ? 'Đã thanh toán' : 'Chưa thanh toán';
                 $trangThai = round($soTienPhaiNop, 2) == 0 ? 'Đã thanh toán' : 'Chưa thanh toán';
+Log::info("Miễn giảm - SV: {$sv->ma_sinh_vien}, Mức giảm: $mucGiam%, Số tiền gốc: $soTienGoc, Giảm: $soTienMienGiam, Cần nộp: $soTienPhaiNop");
 
                 // Bước 6: Gán khoản thu sinh viên
                 KhoanThuSinhVien::create([
@@ -156,10 +143,22 @@ class KhoanThuController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        $item = KhoanThu::findOrFail($id);
-        $item->delete();
-        return response()->json(['message' => 'Xóa thành công']);
+   public function destroy($id)
+{
+    $khoanThu = KhoanThu::findOrFail($id);
+
+    // Kiểm tra xem có hóa đơn nào liên quan không
+    $daCoSinhVienDong = $khoanThu->hoaDon()->exists(); // dùng quan hệ if có
+
+    if ($daCoSinhVienDong) {
+        return response()->json(['error' => 'Không thể xóa vì đã có sinh viên nộp tiền!'], 400);
     }
+
+    // Nếu chưa ai nộp thì xóa toàn bộ liên quan
+    KhoanThuSinhVien::where('ma_khoan_thu', $id)->delete();
+    $khoanThu->delete();
+
+    return response()->json(['message' => 'Xóa khoản thu thành công']);
+}
+
 }

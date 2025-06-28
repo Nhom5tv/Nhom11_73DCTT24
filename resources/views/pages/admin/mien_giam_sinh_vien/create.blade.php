@@ -33,7 +33,7 @@
                 <span class="icon">
                     <img src="/Public/Picture/Pic_login/soTien.png" alt="" width="15px">
                 </span>
-                <input type="number" step="0.01" id="muc_tien" name="muc_tien" required style="text-align: center;">
+                <input type="number" step="1" id="muc_tien" name="muc_tien" required style="text-align: center;">
                 <label>Mức Tiền (0-100%)</label>
             </div>
 

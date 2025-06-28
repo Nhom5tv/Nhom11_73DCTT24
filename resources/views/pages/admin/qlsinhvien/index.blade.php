@@ -69,7 +69,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     // ✅ Khai báo đúng 1 lần token
-const token = localStorage.getItem('token'); // ✅ Giống bên login
+    token = localStorage.getItem('token'); // ✅ Giống bên login
     console.log("Token hiện tại:", token);
 
     if (!token) {

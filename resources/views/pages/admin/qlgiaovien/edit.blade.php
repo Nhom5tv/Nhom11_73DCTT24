@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/button.css?v={{ time() }}">
     <link rel="stylesheet" href="/css/styleDT.css?v={{ time() }}">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; }
         .form-container {
             display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between;
         }
@@ -94,7 +94,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     const currentMaKhoa = `{{ $giangvien->ma_khoa }}`;
 
     if (!token) {

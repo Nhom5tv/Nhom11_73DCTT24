@@ -164,7 +164,7 @@
 
     // ✅ Thêm đoạn này vào trong DOMContentLoaded
     document.getElementById('btnTimKiem').addEventListener('click', async () => {
-        const token = localStorage.getItem('token');
+        token = localStorage.getItem('token');
         const maMon = document.getElementById('search_ma_mon_hoc').value.trim();
         const lichHoc = document.getElementById('search_lich_hoc').value.trim();
 

@@ -27,13 +27,13 @@
                     <div class="input-box">
                         <span class="icon"><i class="fa-solid fa-key"></i></span>
                         <input type="password" required name="password" placeholder="Mật khẩu mới">
-                       <label><i class="lni lni-lock"></i> Mật khẩu mới</label>
+                       
                     </div>
 
                     <div class="input-box">
                         <span class="icon"><i class="fa-solid fa-key"></i></span>
                         <input type="password" required name="password_confirmation" placeholder="Nhập lại mật khẩu">
-                        <label><i class="lni lni-lock"></i> Xác nhận mật khẩu mới</label>
+                       
                     </div>
 
                     <button type="submit" class="btn">Đặt lại</button>

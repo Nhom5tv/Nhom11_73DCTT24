@@ -29,7 +29,7 @@
                             <img src="/Picture/Pic_login/email.png" alt="" width="15px">
                         </span>
                         <input type="email" required name="email" placeholder="Nhập email đã đăng ký">
-                        <label><i class="lni lni-graduation"></i> Email</label>
+                       
                     </div>
 
                     <button type="submit" class="btn">Gửi mail khôi phục</button>

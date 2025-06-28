@@ -168,7 +168,7 @@
     document.getElementById('createStudentForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const token = localStorage.getItem('token');
+        token = localStorage.getItem('token');
         if (!token) {
             alert("Bạn chưa đăng nhập hoặc token không tồn tại!");
             return;

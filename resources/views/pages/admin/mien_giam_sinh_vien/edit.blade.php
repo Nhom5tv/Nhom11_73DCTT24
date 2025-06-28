@@ -27,8 +27,8 @@
                 <span class="icon">
                     <img src="{{ asset('Picture/Pic_login/soTien.png') }}" alt="" width="15px">
                 </span>
-                <input type="number" step="0.01" id="muc_tien" name="muc_tien" required>
-                <label>Mức Tiền</label>
+                <input type="number" step="1" id="muc_tien" name="muc_tien" required>
+                <label>Mức Tiền(0-100%)</label>
             </div>
 
             <label>Loại Miễn Giảm</label>
