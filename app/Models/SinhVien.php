@@ -48,7 +48,7 @@ public function tongTinChiDangKy(): int
         ->where('dkmh.trang_thai', 'Đã duyệt')
         ->where('lh.trang_thai', 'Đang mở')
         ->sum('mh.so_tin_chi');
-    return $this->belongsTo(Khoa::class, 'ma_khoa', 'ma_khoa');
+    // return $this->belongsTo(Khoa::class, 'ma_khoa', 'ma_khoa');
 }
 
 public function nganh()
