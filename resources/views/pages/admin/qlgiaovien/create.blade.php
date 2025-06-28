@@ -54,10 +54,7 @@
                 <input type="text" id="ma_giang_vien" required>
             </div>
 
-            <div class="input-group">
-                <label for="user_id">User ID</label>
-                <input type="number" id="user_id" value="2" required>
-            </div>
+         
 
             <div class="input-group">
                 <label for="ma_khoa">Chọn Khoa</label>
@@ -99,7 +96,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
 
     if (!token) {
         alert("Bạn chưa đăng nhập hoặc token không tồn tại!");
@@ -107,9 +104,9 @@
         loadDanhSachKhoa();
     }
 
-    // ✅ Load danh sách khoa ngay khi trang tải
+    //  Load danh sách khoa ngay khi trang tải
     function loadDanhSachKhoa() {
-        axios.get('/api/admin/dskhoa', {
+        axios.get('/api/admin/khoa', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => {
@@ -127,7 +124,7 @@
         });
     }
 
-    // ✅ Xử lý khi submit
+    //  Xử lý khi submit
     document.getElementById('createGiangVienForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
@@ -138,7 +135,6 @@
 
         const formData = {
             ma_giang_vien: document.getElementById('ma_giang_vien').value,
-            user_id: document.getElementById('user_id').value,
             ma_khoa: document.getElementById('ma_khoa').value,
             ho_ten: document.getElementById('ho_ten').value,
             email: document.getElementById('email').value,

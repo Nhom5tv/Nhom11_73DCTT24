@@ -20,6 +20,8 @@ use App\Http\Controllers\Api\DangKyTinChiController;
 use App\Http\Controllers\Api\HoaDonController;
 use App\Http\Controllers\Api\KhoanThuSinhVienController;
 use App\Http\Controllers\Api\DiemSinhVienController;
+use App\Http\Controllers\Api\KhoaController;
+
 
 
 
@@ -52,8 +54,25 @@ Route::prefix('admin')->middleware('auth:api')->group(function(){
     Route::put('/miengiam/{ma_mien_giam}',[MienGiamSinhVienController::class, 'update']);
     Route::delete('/miengiam/{ma_mien_giam}',[MienGiamSinhVienController::class, 'destroy']);
 });
+//API routes for ThongKe
+Route::prefix('admin')->middleware('auth:api')->group(function(){
+   Route::get('/thongke/diem', [DiemSinhVienController::class, 'thongKeHocLuc']);
+    Route::get('/thongke/miengiam', [MienGiamSinhVienController::class, 'thongKeMienGiam']);
+});
 //phan cua Vu
 
+
+//Phần của Đạt
+//Quản lý khoa
+Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
+    
+    Route::get('/khoa', [KhoaController::class, 'index']);
+    Route::get('/timkiem-khoa', [KhoaController::class, 'timkiem']);
+    Route::post('/khoa', [KhoaController::class, 'store']);
+    Route::get('/khoa/{id}', [KhoaController::class, 'show']);
+    Route::put('/khoa/{id}', [KhoaController::class, 'update']);
+    Route::delete('/khoa/{id}', [KhoaController::class, 'destroy']);
+});
 // Phần của giáo viên
 Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->group(function () {
     // Lấy điểm theo lớp
@@ -63,17 +82,18 @@ Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':gia
     Route::get('/dslophoc/{ma_giang_vien}', [LopHocController::class, 'getByMaGiangVien']);
 });
 
-// Route::prefix('sinhvien')->middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->group(function () {
-//     Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
-// });
+
 Route::prefix('sinhvien')->middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->group(function () {
-    // Sửa tên method cho đúng
-    Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
+   
     
-    // Hoặc nếu muốn tách riêng 2 endpoint
+    
     Route::get('diem/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
-    Route::get('diem-chi-tiet/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiemChiTiet']);
+    
+    Route::get('/diem-chi-tiet', [DiemSinhVienController::class, 'getDiemChiTiet']);
 });
+//Hết phần của Đạt
+
+
 
 //Phần của Dũng
 
@@ -120,7 +140,7 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
 //hết phần của Dũng
 
 
-Route::apiResource('/admin/monhoc', MonHocController::class);
+
 
 // Api Quỳnh
 //Đổi mật khẩu khi đăng nhập lần đầu /ấn đổi mật khẩu
@@ -164,6 +184,8 @@ Route::prefix('sinhvien')->middleware('auth:api')->group(function () {
 });
 // Hết phần của Quỳnh
 
+
+//Phần của Phương Anh
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/sinhvien', [SinhVienController::class, 'index']);
     Route::post('/sinhvien', [SinhVienController::class, 'store']);
@@ -193,6 +215,9 @@ Route::middleware(['auth:api', RoleMiddleware::class . ':giaovien'])->group(func
         Route::put('/thongtingv', [GiangVienController::class, 'updateThongTinGiangVien']);
 
 });
+
+//Hết phần của Phương Anh
+
 
 
 

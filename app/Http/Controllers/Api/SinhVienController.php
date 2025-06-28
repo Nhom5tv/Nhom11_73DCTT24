@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 use App\Models\SinhVien;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -53,7 +54,9 @@ class SinhVienController extends Controller
      */
   public function store(Request $request)
 {
+     DB::beginTransaction(); // 👈 thêm dòng này
     try {
+        
         $validated = $request->validate([
             'ma_sinh_vien' => 'required|string|max:10|unique:sinh_vien',
             'ma_khoa' => 'required|integer',
@@ -104,7 +107,10 @@ class SinhVienController extends Controller
 
         return response()->json([
             'message' => 'Đã xảy ra lỗi, hệ thống đã rollback',
-            'error' => $e->getMessage(),
+
+           'error' => $e->getMessage(),     // <- dòng này là lỗi cụ thể
+    'line' => $e->getLine(),         // <- dòng gây lỗi
+    'file' => $e->getFile(),
         ], 500);
     }
 }
@@ -180,8 +186,9 @@ class SinhVienController extends Controller
     // Sinh viên tự cập nhật thông tin cá nhân (dựa vào user_id)
 public function capNhatThongTinCaNhan(Request $request)
 {
-    $userId = auth()->id(); // hoặc $request->user()->id
-    $sinhvien = SinhVien::where('user_id', $userId)->firstOrFail();
+    $user = Auth::user();
+   
+    $sinhvien = SinhVien::where('user_id', $user->id)->firstOrFail();
 
     $validated = $request->validate([
         'ma_khoa' => 'required|integer',

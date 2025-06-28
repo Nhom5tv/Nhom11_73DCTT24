@@ -90,7 +90,7 @@
     document.getElementById('createNganhForm').addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const token = localStorage.getItem('token');
+        token = localStorage.getItem('token');
         if (!token) {
             alert("Bạn chưa đăng nhập hoặc token không tồn tại!");
             return;
@@ -116,7 +116,7 @@
         });
     });
     function loadDanhSachKhoa() {
-    axios.get('/api/admin/dskhoa', {
+    axios.get('/api/admin/khoa', {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
     })
     .then(res => {

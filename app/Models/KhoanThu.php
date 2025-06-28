@@ -20,4 +20,8 @@ class KhoanThu extends Model
         'ngay_tao',
         'han_nop'
     ];
+    public function hoaDon()
+{
+    return $this->hasMany(HoaDon::class, 'ma_khoan_thu');
+}
 }

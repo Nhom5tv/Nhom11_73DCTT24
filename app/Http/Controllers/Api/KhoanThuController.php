@@ -32,24 +32,7 @@ class KhoanThuController extends Controller
 }
 
 
-    // public function store(Request $request)
-    // {
-    //     try {
-    //         $validated = $request->validate([
-    //             'ten_khoan_thu' => 'required|string|max:255',
-    //             'loai_khoan_thu' => 'required|in:Học phí,BHYT,Khác',
-    //             'so_tien' => 'required|numeric|min:0',
-    //             'han_nop' => 'required|date'
-    //         ]);
-
-    //         $validated['ngay_tao'] = now(); // gán ngày tạo mặc định
-    //         $khoanThu = KhoanThu::create($validated);
-    //         return response()->json(['message' => 'Tạo khoản thu thành công', 'data' => $khoanThu]);
-    //     } catch (Exception $e) {
-    //         return response()->json(['error' => $e->getMessage()], 500);
-    //     }
-    // }
-
+   
     public function store(Request $request)
     {
         try {
@@ -156,10 +139,22 @@ class KhoanThuController extends Controller
         }
     }
 
-    public function destroy($id)
-    {
-        $item = KhoanThu::findOrFail($id);
-        $item->delete();
-        return response()->json(['message' => 'Xóa thành công']);
+   public function destroy($id)
+{
+    $khoanThu = KhoanThu::findOrFail($id);
+
+    // Kiểm tra xem có hóa đơn nào liên quan không
+    $daCoSinhVienDong = $khoanThu->hoaDon()->exists(); // dùng quan hệ if có
+
+    if ($daCoSinhVienDong) {
+        return response()->json(['error' => 'Không thể xóa vì đã có sinh viên nộp tiền!'], 400);
     }
+
+    // Nếu chưa ai nộp thì xóa toàn bộ liên quan
+    KhoanThuSinhVien::where('ma_khoan_thu', $id)->delete();
+    $khoanThu->delete();
+
+    return response()->json(['message' => 'Xóa khoản thu thành công']);
+}
+
 }

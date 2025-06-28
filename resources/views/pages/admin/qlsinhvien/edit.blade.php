@@ -54,11 +54,8 @@
                 <input type="text" id="ma_sinh_vien" value="{{ $sinhvien->ma_sinh_vien }}" readonly>
             </div>
 
-            <div class="input-group">
-                <label for="user_id">User ID</label>
-                <input type="text" id="user_id" value="{{ $sinhvien->user_id }}" required>
-            </div>
-
+           
+            
             <div class="input-group">
                 <label for="ma_khoa">Chọn Khoa</label>
                <!-- Chọn Khoa -->
@@ -124,10 +121,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
 
     function loadKhoa(maKhoaSelected) {
-        axios.get('/api/admin/dskhoa', {
+        axios.get('/api/admin/khoa', {
             headers: { Authorization: `Bearer ${token}` }
         }).then(res => {
             const select = document.getElementById('ma_khoa');
@@ -180,7 +177,6 @@
         const maSinhVien = document.getElementById('ma_sinh_vien').value;
 
         const formData = {
-            user_id: document.getElementById('user_id').value,
             ma_khoa: document.getElementById('ma_khoa').value,
             ma_nganh: document.getElementById('ma_nganh').value,
             ho_ten: document.getElementById('ho_ten').value,

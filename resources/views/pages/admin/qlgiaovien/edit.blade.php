@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/css/button.css?v={{ time() }}">
     <link rel="stylesheet" href="/css/styleDT.css?v={{ time() }}">
     <style>
-        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f4f4f9; }
+        body { font-family: Arial, sans-serif; background-color: #f4f4f9; }
         .form-container {
             display: flex; flex-wrap: wrap; gap: 15px; justify-content: space-between;
         }
@@ -54,11 +54,7 @@
                 <input type="text" id="ma_giang_vien" value="{{ $giangvien->ma_giang_vien }}" readonly>
             </div>
 
-            <div class="input-group">
-                <label for="user_id">User ID</label>
-                <input type="text" id="user_id" value="{{ $giangvien->user_id }}" required>
-            </div>
-
+           
             <div class="input-group">
                 <label for="ma_khoa">Chọn Khoa</label>
                 <select id="ma_khoa" required>
@@ -98,7 +94,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     const currentMaKhoa = `{{ $giangvien->ma_khoa }}`;
 
     if (!token) {
@@ -108,7 +104,7 @@
     }
 
     function loadDanhSachKhoa() {
-        axios.get('/api/admin/dskhoa', {
+        axios.get('/api/admin/khoa', {
             headers: { Authorization: `Bearer ${token}` }
         })
         .then(res => {
@@ -142,7 +138,6 @@
         const maGV = document.getElementById('ma_giang_vien').value;
 
         const formData = {
-            user_id: document.getElementById('user_id').value,
             ma_khoa: document.getElementById('ma_khoa').value,
             ho_ten: document.getElementById('ho_ten').value,
             email: document.getElementById('email').value,

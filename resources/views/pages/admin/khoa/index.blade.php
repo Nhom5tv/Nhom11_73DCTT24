@@ -62,7 +62,7 @@
     let allData = [];
 
     function taiDanhSach() {
-        axios.get('/api/admin/dskhoa')
+        axios.get('/api/admin/khoa')
             .then(res => {
                 allData = res.data;
                 hienThiBang(res.data);
@@ -92,7 +92,7 @@
 
     function xoaKhoa(id) {
         if (confirm('Bạn có chắc muốn xoá khoa này?')) {
-            axios.delete(`/api/admin/dskhoa/${id}`)
+            axios.delete(`/api/admin/khoa/${id}`)
                 .then(() => {
                     alert('Đã xoá khoa');
                     taiDanhSach();

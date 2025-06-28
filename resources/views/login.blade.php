@@ -61,7 +61,7 @@
                         <span class="icon">
                             <img src="/Picture/Pic_login/email.png" alt="" width="15px">
                         </span>
-                        <input type="text" required name="txtEmail" placeholder="Email">
+                        <input type="text" required name="txtEmail" >
                         <label><i class="lni lni-graduation"></i> Email</label>
                     </div>
 
@@ -69,7 +69,7 @@
                         <span class="icon">
                             <img src="/Picture/Pic_login/khoa.png" alt="" width="15px">
                         </span>
-                        <input type="password" required name="txtMatkhau" placeholder="Mật khẩu">
+                        <input type="password" required name="txtMatkhau" >
                         <label><i class="lni lni-lock"></i> Password</label>
                     </div>
 
@@ -124,7 +124,7 @@
                         window.location.href = '/change-password';
                         return;
                     }
-                    if (role === 'admin') window.location.href = '/admin';
+                    if (role === 'admin') window.location.href = '/admin/thongke';
                     else if (role === 'giaovien') {
                         localStorage.setItem('ma_giang_vien', user.ma_giang_vien);
                         window.location.href = '/giaovien';
