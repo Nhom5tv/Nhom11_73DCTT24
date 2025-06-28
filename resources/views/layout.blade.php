@@ -27,66 +27,70 @@
             </div>
 
             <ul class="sidebar-nav">
-                <!-- Mục chung -->
-                <li class="sidebar-item">
-                    <a href="/trangchu" class="sidebar-link">
-                        <i class="fa-solid fa-house"></i><span>Trang chủ</span>
-                    </a>
-                </li>
+
 
                 <!-- Admin only -->
                 <li class="sidebar-item" data-role="admin">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#QLTK">
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#QLTK">
                         <i class="fa-solid fa-user"></i><span>Quản lý hệ thống</span>
                     </a>
                     <ul id="QLTK" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="admin/thongke" class="sidebar-link">Thống kê</a></li>
-                        <li class="sidebar-item"><a href="admin/taikhoan" class="sidebar-link">Quản lý tài khoản</a></li>
-                        <li class="sidebar-item"><a href="/admin/giangvien" class="sidebar-link">Quản lý giảng viên</a></li>
-                        <li class="sidebar-item"><a href="admin/sinhvien" class="sidebar-link">Quản lý sinh viên</a></li>
-                        <li class="sidebar-item"><a href="admin/khoa" class="sidebar-link">Quản lý khoa</a></li>
+                        <li class="sidebar-item"><a href="/admin/thongke" class="sidebar-link">Thống kê</a></li>
+                        <li class="sidebar-item"><a href="/admin/taikhoan" class="sidebar-link">Quản lý tài khoản</a>
+                        </li>
+                        <li class="sidebar-item"><a href="/admin/giangvien" class="sidebar-link">Quản lý giảng viên</a>
+                        </li>
+                        <li class="sidebar-item"><a href="/admin/sinhvien" class="sidebar-link">Quản lý sinh viên</a>
+                        </li>
+                        <li class="sidebar-item"><a href="/admin/khoa" class="sidebar-link">Quản lý khoa</a></li>
                         <li class="sidebar-item"><a href="/admin/nganh" class="sidebar-link">Quản lý ngành</a></li>
                     </ul>
                 </li>
 
                 <!-- Admin only -->
                 <li class="sidebar-item" data-role="admin">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#QLTC">
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#QLTC">
                         <i class="fa-solid fa-coins"></i><span>Quản lý tài chính</span>
                     </a>
                     <ul id="QLTC" class="sidebar-dropdown list-unstyled collapse">
                         <li class="sidebar-item"><a href="/admin/khoanthu" class="sidebar-link">Khoản thu chung</a></li>
-                        <li class="sidebar-item"><a href="/admin/khoanthusv" class="sidebar-link">Khoản thu sinh viên</a></li>
+                        <li class="sidebar-item"><a href="/admin/khoanthusv" class="sidebar-link">Khoản thu sinh
+                                viên</a></li>
                         <li class="sidebar-item"><a href="/admin/miengiam" class="sidebar-link">Miễn giảm</a></li>
                         <li class="sidebar-item"><a href="/admin/hoadon" class="sidebar-link">Hóa đơn</a></li>
                     </ul>
                 </li>
 
                 <li class="sidebar-item" data-role="admin">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#QLHT">
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#QLHT">
                         <i class="fa-solid fa-coins"></i><span>Hệ thống đăng ký tín chỉ</span>
                     </a>
                     <ul id="QLHT" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="/admin/dkmonhoc" class="sidebar-link">Danh sách đăng ký môn học</a></li>
-                        <li class="sidebar-item"><a href="/admin/dslichhoc" class="sidebar-link">Quản lý lịch học</a></li>
+                        <li class="sidebar-item"><a href="/admin/dkmonhoc" class="sidebar-link">Danh sách đăng ký môn
+                                học</a></li>
+                        <li class="sidebar-item"><a href="/admin/dslichhoc" class="sidebar-link">Quản lý lịch học</a>
+                        </li>
                         <li class="sidebar-item"><a href="/admin/dslophoc" class="sidebar-link">Quản lý lớp học</a></li>
-                        <li class="sidebar-item"><a href="/admin/dsmonhoc" class="sidebar-link">Quản lý môn học</a></li>
+                        <li class="sidebar-item"><a href="/admin/monhoc" class="sidebar-link">Quản lý môn học</a></li>
                     </ul>
                 </li>
 
-              <!-- Giáo viên only -->
-<li class="sidebar-item" data-role="giaovien">
-    <a href="/giaovien/DSdiemgv" class="sidebar-link">
-        <i class="fa-solid fa-medal"></i>
-        <span>Quản lý điểm sinh viên</span>
-    </a>
-</li>
-<li class="sidebar-item" data-role="giaovien">
-    <a href="/giaovien/thongtingv" class="sidebar-link">
-        <i class="fa-solid fa-user"></i>
-        <span>Profile</span>
-    </a>
-</li>
+                <!-- Giáo viên only -->
+                <li class="sidebar-item" data-role="giaovien">
+                    <a href="/giaovien/DSdiemgv" class="sidebar-link">
+                        <i class="fa-solid fa-medal"></i>
+                        <span>Quản lý điểm sinh viên</span>
+                    </a>
+                </li>
+                <li class="sidebar-item" data-role="giaovien">
+                    <a href="/giaovien/thongtingv" class="sidebar-link">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
 
 
                 <li class="sidebar-item" data-role="giaovien">
@@ -97,7 +101,8 @@
 
                 <!-- Sinh viên only -->
                 <li class="sidebar-item" data-role="sinhvien">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#SVTK">
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#SVTK">
                         <i class="fa-solid fa-user"></i><span>Tài khoản</span>
                     </a>
                     <ul id="SVTK" class="sidebar-dropdown list-unstyled collapse">
@@ -119,11 +124,13 @@
                     </a>
                 </li>
                 <li class="sidebar-item" data-role="sinhvien">
-                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse" data-bs-target="#SVTC">
+                    <a href="#" class="sidebar-link collapsed has-dropdown" data-bs-toggle="collapse"
+                        data-bs-target="#SVTC">
                         <i class="fas fa-graduation-cap"></i><span>Đăng ký tín chỉ</span>
                     </a>
                     <ul id="SVTC" class="sidebar-dropdown list-unstyled collapse">
-                        <li class="sidebar-item"><a href="sinhvien/dktinchi" class="sidebar-link">Đăng ký tín chỉ</a></li>
+                        <li class="sidebar-item"><a href="/sinhvien/dktinchi" class="sidebar-link">Đăng ký tín chỉ</a>
+                        </li>
                     </ul>
                 </li>
             </ul>
@@ -143,41 +150,43 @@
                 <div class="main-content">
                     @yield(section: 'content')
                 </div>
+            </div>
         </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-    <script>
-        document.querySelector(".toggle-btn").addEventListener("click", function () {
-            document.querySelector("#sidebar").classList.toggle("expand");
-        });
-
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = '/login';
-        } else {
-            fetch('/api/me', {
-                headers: { 'Authorization': 'Bearer ' + token }
-            })
-            .then(res => res.json())
-            .then(data => {
-                const role = data.user.role;
-                document.querySelectorAll('[data-role]').forEach(item => {
-                    item.style.display = (item.getAttribute('data-role') === role) ? 'block' : 'none';
-                });
-            })
-            .catch(() => {
-                localStorage.removeItem('token');
-                window.location.href = '/login';
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous"></script>
+        <script>
+            document.querySelector(".toggle-btn").addEventListener("click", function () {
+                document.querySelector("#sidebar").classList.toggle("expand");
             });
-        }
-    </script>
-    <script>
-        function logout() {
-            localStorage.removeItem('token'); // Xoá token
-            window.location.href = '/login';  // Chuyển về trang login
-        }
-    </script>
+
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login';
+            } else {
+                fetch('/api/me', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        const role = data.user.role;
+                        document.querySelectorAll('[data-role]').forEach(item => {
+                            item.style.display = (item.getAttribute('data-role') === role) ? 'block' : 'none';
+                        });
+                    })
+                    .catch(() => {
+                        localStorage.removeItem('token');
+                        window.location.href = '/login';
+                    });
+            }
+        </script>
+        <script>
+            function logout() {
+                localStorage.removeItem('token'); // Xoá token
+                window.location.href = '/login';  // Chuyển về trang login
+            }
+        </script>
 
 </body>
+
 </html>

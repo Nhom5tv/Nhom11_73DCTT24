@@ -124,7 +124,7 @@
                         window.location.href = '/change-password';
                         return;
                     }
-                    if (role === 'admin') window.location.href = '/admin';
+                    if (role === 'admin') window.location.href = '/admin/thongke';
                     else if (role === 'giaovien') {
                         localStorage.setItem('ma_giang_vien', user.ma_giang_vien);
                         window.location.href = '/giaovien';

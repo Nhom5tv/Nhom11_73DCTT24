@@ -96,7 +96,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
 
     if (!token) {
         alert("Bạn chưa đăng nhập hoặc token không tồn tại!");
@@ -104,7 +104,7 @@
         loadDanhSachKhoa();
     }
 
-    // ✅ Load danh sách khoa ngay khi trang tải
+    //  Load danh sách khoa ngay khi trang tải
     function loadDanhSachKhoa() {
         axios.get('/api/admin/khoa', {
             headers: { Authorization: `Bearer ${token}` }
@@ -124,7 +124,7 @@
         });
     }
 
-    // ✅ Xử lý khi submit
+    //  Xử lý khi submit
     document.getElementById('createGiangVienForm').addEventListener('submit', function(e) {
         e.preventDefault();
 

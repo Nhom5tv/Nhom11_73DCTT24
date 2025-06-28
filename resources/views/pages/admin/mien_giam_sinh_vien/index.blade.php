@@ -17,7 +17,7 @@
 <body>
     <main class="table" id="customers_table">
         <section class="table__header">
-            <h1>Quản lý miễn giảm sinh viên</h1>
+            <h1>Miễn giảm sinh viên</h1>
 
             <div class="input-group">
                 <input type="search" id="txtTKMaSV" placeholder="Mã sinh viên">

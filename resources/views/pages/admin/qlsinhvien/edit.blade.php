@@ -121,7 +121,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
 
     function loadKhoa(maKhoaSelected) {
         axios.get('/api/admin/khoa', {

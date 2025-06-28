@@ -93,7 +93,7 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    const token = localStorage.getItem('token');
+    token = localStorage.getItem('token');
     const currentMaKhoa = '{{ $nganh->ma_khoa }}';
 
     // Load danh sách khoa khi trang vừa load

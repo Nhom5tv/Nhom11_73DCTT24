@@ -113,7 +113,7 @@ public function store(Request $request)
         $gv = GiangVien::where('ma_giang_vien', $ma_giang_vien)->firstOrFail();
 
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
+            
             'ma_khoa' => 'required|integer',
             'ho_ten' => 'required|string|max:50',
             'email' => 'required|email|unique:giang_vien,email,' . $gv->ma_giang_vien . ',ma_giang_vien',
