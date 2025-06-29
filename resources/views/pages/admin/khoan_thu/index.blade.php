@@ -32,6 +32,11 @@
                     <button class="button-85" role="button">Thêm khoản thu</button>
                 </a>
             </div>
+             <div class="export__file">
+                <button class="button-85" style="margin-left: 10px;" onclick="exportExcel()">
+                    <i class="fa fa-download"></i> Export
+                </button>
+            </div>
         </section>
 
         <section class="table__body">
@@ -53,7 +58,7 @@
             </table>
         </section>
     </main>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     // Load dữ liệu khi trang vừa mở
@@ -107,7 +112,7 @@
                 <td>${item.ma_khoan_thu}</td>
                 <td>${item.ten_khoan_thu}</td>
                 <td>${item.loai_khoan_thu}</td>
-                <td>${item.so_tien}</td>
+                <td>${formatCurrency(item.so_tien)}</td>
                 <td>${item.ngay_tao}</td>
                 <td>${item.han_nop}</td>
                 <td class="btn_cn">
@@ -134,10 +139,57 @@
                 loadData();
             })
             .catch(err => {
-                alert("Xóa thất bại");
+                alert("Xóa thất bại,Khoản thu đã có hóa đơn nộp tiền");
                 console.error("Lỗi xóa:", err);
             });
         }
     }
+    function formatCurrency(value) {
+    const number = parseFloat(value);
+    if (isNaN(number)) return value;
+    return number.toLocaleString('vi-VN'); // hoặc + ' đ' nếu thích
+}
+
+    function exportExcel() {
+        const table = document.querySelector("table");
+
+        // Chỉ định các cột muốn xuất ( 0-5 = Mã, Tên, Loại, Số tiền, Ngày tạo, Hạn nộp)
+        const selectedColumns = [0, 1, 2, 3,4, 5];
+
+        let data = [];
+
+        // Lấy tiêu đề
+        const headerRow = table.querySelector("thead tr");
+        const headers = [];
+        headerRow.querySelectorAll("th").forEach((th, idx) => {
+            if (selectedColumns.includes(idx)) {
+                headers.push(th.innerText.trim());
+            }
+        });
+        data.push(headers);
+
+        // Lấy dữ liệu trong tbody
+        const rows = table.querySelectorAll("tbody tr");
+        rows.forEach(tr => {
+            const row = [];
+            tr.querySelectorAll("td").forEach((td, idx) => {
+                if (selectedColumns.includes(idx)) {
+                    row.push(td.innerText.trim());
+                    
+                }
+            });
+            data.push(row);
+        });
+
+        // Tạo worksheet và workbook
+        const worksheet = XLSX.utils.aoa_to_sheet(data);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Khoản Thu");
+
+        // Xuất file
+        XLSX.writeFile(workbook, `khoan_thu_${new Date().toISOString().slice(0, 10)}.xlsx`);
+    }
+
+
 </script>
 @endsection

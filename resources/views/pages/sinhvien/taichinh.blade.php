@@ -65,6 +65,11 @@
 </main>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    function formatCurrency(value) {
+        const number = parseFloat(value);
+        if (isNaN(number)) return value;
+        return number.toLocaleString('vi-VN'); // hoặc + ' đ' nếu thích
+    }
     document.addEventListener('DOMContentLoaded', async () => {
         try {
             const token = localStorage.getItem('token');
@@ -94,9 +99,9 @@
                         <td>${row.khoan_thu.ten_khoan_thu}</td>
                         <td>${row.khoan_thu.ngay_tao}</td>
                         <td>${row.khoan_thu.han_nop}</td>
-                        <td>${row.so_tien_ban_dau}</td>
-                        <td>${row.so_tien_mien_giam}</td>
-                        <td>${row.so_tien_phai_nop}</td>
+                        <td>${formatCurrency(row.so_tien_ban_dau)}</td>
+                        <td>${formatCurrency(row.so_tien_mien_giam)}</td>
+                        <td>${formatCurrency(row.so_tien_phai_nop)}</td>
                         <td>${row.trang_thai_thanh_toan}</td>
                     </tr>`;
             });
@@ -112,7 +117,7 @@
                     <tr>
                         <td>${row.ma_hoa_don}</td>
                         <td>${row.khoan_thu.ten_khoan_thu}</td>
-                        <td>${row.so_tien_da_nop}</td>
+                        <td>${formatCurrency(row.so_tien_da_nop)}</td>
                         <td>${row.ngay_thanh_toan}</td>
                         <td>${row.hinh_thuc_thanh_toan}</td>
                         <td>${row.noi_dung}</td>

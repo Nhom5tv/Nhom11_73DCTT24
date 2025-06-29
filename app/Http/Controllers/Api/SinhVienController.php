@@ -168,7 +168,7 @@ class SinhVienController extends Controller
         $sinhvien = SinhVien::findOrFail($id);
 
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
+            
             'ma_khoa' => 'required|integer',
             'ma_nganh' => 'required|integer',
             'ho_ten' => 'required|string|max:100',

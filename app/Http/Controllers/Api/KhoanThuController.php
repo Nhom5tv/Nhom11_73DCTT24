@@ -94,7 +94,7 @@ class KhoanThuController extends Controller
 
                 // $trangThai = $soTienPhaiNop == 0 ? 'Đã thanh toán' : 'Chưa thanh toán';
                 $trangThai = round($soTienPhaiNop, 2) == 0 ? 'Đã thanh toán' : 'Chưa thanh toán';
-Log::info("Miễn giảm - SV: {$sv->ma_sinh_vien}, Mức giảm: $mucGiam%, Số tiền gốc: $soTienGoc, Giảm: $soTienMienGiam, Cần nộp: $soTienPhaiNop");
+                Log::info("Miễn giảm - SV: {$sv->ma_sinh_vien}, Mức giảm: $mucGiam%, Số tiền gốc: $soTienGoc, Giảm: $soTienMienGiam, Cần nộp: $soTienPhaiNop");
 
                 // Bước 6: Gán khoản thu sinh viên
                 KhoanThuSinhVien::create([
