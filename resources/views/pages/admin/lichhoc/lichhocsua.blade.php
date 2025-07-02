@@ -46,7 +46,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
     async function capNhatLichHoc() {
-        token = localStorage.getItem('token');
+        let token = localStorage.getItem('token');
         const id = document.getElementById('id_lich_hoc').value;
         const trang_thai = document.getElementById('trang_thai').value;
 

@@ -17,32 +17,30 @@
         <h2>Thêm Lớp Học</h2>
 
         <div class="input-box">
-            <label for="ma_mon">Mã Môn Học</label>
             <select id="ma_mon" required>
                 <option value="">-- Chọn mã môn --</option>
             </select>
         </div>
 
         <div class="input-box">
-            <label for="hoc_ky">Học Kỳ</label>
             <input type="text" id="hoc_ky" placeholder="VD: 2024-2025-HK1" required />
+            <label for="hoc_ky">Học Kỳ</label>
         </div>
 
         <div class="input-box">
-            <label for="ma_giang_vien">Mã Giảng Viên</label>
             <select id="ma_giang_vien" required>
                 <option value="">-- Chọn giảng viên --</option>
             </select>
         </div>
 
         <div class="input-box">
-            <label for="lich_hoc">Lịch Học</label>
             <input type="text" id="lich_hoc" placeholder="VD: Thứ 2, 3 tiết 1-3" />
+            <label for="lich_hoc">Lịch Học</label>
         </div>
 
         <div class="input-box">
-            <label for="trang_thai">Trạng Thái</label>
             <select id="trang_thai">
+                <option value="">-- Chọn trạng thái --</option>
                 <option value="Đang mở">Đang mở</option>
                 <option value="Đã kết thúc">Đã kết thúc</option>
             </select>

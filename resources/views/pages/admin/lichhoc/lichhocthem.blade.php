@@ -17,25 +17,24 @@
         <h2>Thêm Lịch Học</h2>
 
         <div class="input-box">
-            <label for="ma_mon_hoc">Mã Môn Học</label>
             <select id="ma_mon_hoc" required>
                 <option value="">-- Chọn mã môn --</option>
             </select>
         </div>
 
         <div class="input-box">
-            <label>Số Lượng Tối Đa</label>
             <input type="number" id="so_luong_toi_da" />
+            <label>Số Lượng Tối Đa</label>
         </div>
 
         <div class="input-box">
-            <label>Lịch Học</label>
             <input type="text" id="lich_hoc" />
+            <label>Lịch Học</label>
         </div>
 
         <div class="input-box">
-            <label>Trạng Thái</label>
             <select id="trang_thai">
+                <option value="Chọn Trạng Thái">--Chọn Trạng Thái--</option>
                 <option value="Đang Mở">Đang Mở</option>
                 <option value="Đóng">Đóng</option>
             </select>

@@ -87,13 +87,16 @@ class LichHocController extends Controller
         return response()->json(['message' => 'Đã xoá thành công']);
     }
     // 6.Đóng tất cả
-    public function dongTatCa(Request $request)
-    {
-        $soDong = LichHoc::where('trang_thai', 'Đang Mở')->update(['trang_thai' => 'Đóng']);
+    // ✅ Sửa hàm này lại như sau:
+        public function dongTatCa()
+        {
+            $soDong = LichHoc::where('trang_thai', 'Đang Mở')->update([
+                'trang_thai' => 'Đóng'
+            ]);
 
-        return response()->json([
-            'message' => "Đã đóng $soDong lớp học.",
-            'count' => $soDong
-        ]);
-    }
+            return response()->json([
+                'message' => "Đã đóng $soDong lớp học.",
+                'count' => $soDong
+            ]);
+        }
 }
