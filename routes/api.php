@@ -65,7 +65,7 @@ Route::prefix('admin')->middleware('auth:api')->group(function(){
 //Phần của Đạt
 //Quản lý khoa
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
-    
+
     Route::get('/khoa', [KhoaController::class, 'index']);
     Route::get('/timkiem-khoa', [KhoaController::class, 'timkiem']);
     Route::post('/khoa', [KhoaController::class, 'store']);
@@ -84,11 +84,11 @@ Route::prefix('giaovien')->middleware(['auth:api', RoleMiddleware::class . ':gia
 
 
 Route::prefix('sinhvien')->middleware(['auth:api', RoleMiddleware::class . ':sinhvien'])->group(function () {
-   
-    
-    
+
+
+
     Route::get('diem/{ma_sinh_vien}', [DiemSinhVienController::class, 'getDiem']);
-    
+
     Route::get('/diem-chi-tiet', [DiemSinhVienController::class, 'getDiemChiTiet']);
 });
 //Hết phần của Đạt
@@ -105,18 +105,17 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::get('/dslichhoc/{id}', [LichHocController::class, 'show']);
     // 3. Tạo mới lịch học
     Route::post('/dslichhoc', [LichHocController::class, 'store']);
+    // 6.Đóng tất cả lớp học đang mở
+    Route::put('/dslichhoc/dongtatca', [LichHocController::class, 'dongTatCa']);
     // 4. Cập nhật lịch học theo ID
     Route::put('/dslichhoc/{id}', [LichHocController::class, 'update']);
     // 5. Xoá lịch học theo ID
     Route::delete('/dslichhoc/{id}', [LichHocController::class, 'destroy']);
-    // 6.Đóng tất cả lớp học đang mở
-    Route::put('/dslichhoc/dongtatca', [LichHocController::class, 'dongTatCa']);
-
     //Chức năng quản lý lớp học
     Route::get('/dslophoc', [LopHocController::class, 'index']);
     Route::get('/dslophoc/{id}', [LopHocController::class, 'show']);
     Route::post('/dslophoc', [LopHocController::class, 'store']);
-    Route::put('/dslophoc/{id}', [LopHocController::class, 'update']);
+    Route::put('/dslophoc/{ma_lop}', [LopHocController::class, 'updateTrangThai']);
     Route::delete('/dslophoc/{id}', [LopHocController::class, 'destroy']);
 
     //Chức năng Đăng ký môn học
@@ -180,7 +179,7 @@ Route::prefix('admin')->middleware('auth:api')->group(function () {
 Route::prefix('sinhvien')->middleware('auth:api')->group(function () {
     Route::get('/hoadon', [HoaDonController::class, 'getHoaDon']);
     Route::get('/hoadon/khoannop', [HoaDonController::class, 'getKhoanPhaiNop']);
-    
+
 });
 // Hết phần của Quỳnh
 

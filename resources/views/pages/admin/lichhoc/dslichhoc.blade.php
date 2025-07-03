@@ -122,26 +122,6 @@
         alert('Đóng lớp thất bại.');
     }
 }
-    document.getElementById('btnDongTatCa').addEventListener('click', async () => {
-        if (!confirm('Bạn có chắc muốn đóng tất cả lớp đang mở không?')) return;
-
-        try {
-                        await axios.put('/api/admin/dslichhoc/dongtatca', {}, {
-            headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('token')
-            }
-            });
-            alert(response.data.message);
-            fetchLichHoc();
-        } catch (error) {
-            console.error('Lỗi khi đóng tất cả lớp:', error);
-            alert('Đóng tất cả lớp thất bại.');
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', () => {
-        fetchLichHoc();
-    });
     document.addEventListener('DOMContentLoaded', () => {
     fetchLichHoc(); // gọi hàm load danh sách mặc định
 
@@ -159,9 +139,9 @@
         } catch (error) {
             console.error('Lỗi khi đóng tất cả lớp:', error);
             alert('Đóng tất cả lớp thất bại.');
+            console.log('Lỗi chi tiết:', error.response.data);
         }
     });
-
     // ✅ Thêm đoạn này vào trong DOMContentLoaded
     document.getElementById('btnTimKiem').addEventListener('click', async () => {
         token = localStorage.getItem('token');

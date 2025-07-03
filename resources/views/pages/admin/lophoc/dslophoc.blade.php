@@ -74,22 +74,23 @@
             tbody.innerHTML = '';
 
             data.forEach(row => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${row.ma_lop}</td>
-                    <td>${row.ma_mon}</td>
-                    <td>${row.hoc_ky}</td>
-                    <td>${row.ma_giang_vien}</td>
-                    <td>${row.lich_hoc ?? ''}</td>
-                    <td>${row.trang_thai}</td>
-                    <td class="btn_cn">
-                        <a href="/admin/dslophoc/${row.ma_lop}/sua">
-                            <button class="button-85" role="button">Sửa</button>
-                        </a>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
+    const tr = document.createElement('tr');
+    const isMo = row.trang_thai === 'Đang mở';
+    const nut = isMo
+        ? `<button class="button-85" onclick="doiTrangThai(${row.ma_lop}, 'Đóng')" role="button">Đóng lớp</button>`
+        : `<button class="button-85" onclick="doiTrangThai(${row.ma_lop}, 'Đang mở')" role="button">Mở lớp</button>`;
+
+            tr.innerHTML = `
+                <td>${row.ma_lop}</td>
+                <td>${row.ma_mon}</td>
+                <td>${row.hoc_ky}</td>
+                <td>${row.ma_giang_vien}</td>
+                <td>${row.lich_hoc ?? ''}</td>
+                <td>${row.trang_thai}</td>
+                <td class="btn_cn">${nut}</td>
+            `;
+            tbody.appendChild(tr);
+        });
         } catch (error) {
             console.error('Lỗi khi tải lớp học:', error);
         }
@@ -104,5 +105,24 @@
     document.addEventListener('DOMContentLoaded', () => {
         fetchLopHoc();
     });
+    async function doiTrangThai(ma_lop, trang_thai_moi) {
+    if (!confirm(`Bạn có chắc muốn chuyển lớp này sang trạng thái "${trang_thai_moi}"?`)) return;
+
+    try {
+        const response = await axios.put(`/api/admin/dslophoc/${ma_lop}`, {
+            trang_thai: trang_thai_moi
+        }, {
+            headers: {
+                Authorization: 'Bearer ' + localStorage.getItem('token')
+            }
+        });
+
+        alert(response.data.message);
+        fetchLopHoc(); // reload bảng
+    } catch (error) {
+        console.error('Lỗi cập nhật trạng thái:', error);
+        alert('Cập nhật trạng thái thất bại.');
+    }
+}
 </script>
 @endsection

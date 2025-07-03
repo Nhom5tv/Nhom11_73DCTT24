@@ -42,8 +42,9 @@
                     <span class="icon">
                         <img src="/Picture/Pic_login/soTien.png" alt="" width="15px">
                     </span>
-                    <input type="number" required name="so_tien" id="so_tien">
-                    <label>Số Tiền</label>
+                    <input type="text" required name="so_tien" id="so_tien" oninput="formatSoTienInline(this)">
+                    <label>Số Tiền </label>
+
                 </div>
 
                 
@@ -67,13 +68,18 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
+    function formatSoTienInline(input) {
+        let raw = input.value.replace(/\./g, '').replace(/[^0-9]/g, '');
+        input.value = Number(raw).toLocaleString('vi-VN');
+    }
+
     document.getElementById("khoanThuForm").addEventListener("submit", function(e) {
         e.preventDefault();
 
         
         const ten_khoan_thu = document.querySelector('input[name="ten_khoan_thu"]').value;
         const loai_khoan_thu = document.querySelector('input[name="loai_khoan_thu"]').value;
-        const so_tien = document.querySelector('input[name="so_tien"]').value;
+        const so_tien = document.querySelector('input[name="so_tien"]').value.replace(/\./g, '');
         const han_nop = document.querySelector('input[name="han_nop"]').value;
       
 

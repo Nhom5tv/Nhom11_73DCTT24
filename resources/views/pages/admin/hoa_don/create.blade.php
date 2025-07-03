@@ -38,8 +38,9 @@
 
                 <div class="input-box">
                     <span class="icon"><img src="/images/soTien.png" alt="" width="15"></span>
-                    <input type="number" required name="so_tien_da_nop" id="so_tien_da_nop">
-                    <label>SỐ Tiền Đã Nộp</label>
+                   <input type="text" required name="so_tien_da_nop" id="so_tien_da_nop" oninput="formatSoTienInline(this)">
+                    <label>Số Tiền Đã Nộp</label>
+
                 </div>
 
                 <div class="input-box">
@@ -69,6 +70,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+        function formatSoTienInline(input) {
+            let raw = input.value.replace(/\./g, '').replace(/[^0-9]/g, '');
+            input.value = Number(raw).toLocaleString('vi-VN');
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
             axios.get("/api/admin/khoanthu", {
                 headers: { Authorization: 'Bearer ' + localStorage.getItem('token') }
@@ -91,7 +97,7 @@
                     ma_sinh_vien: document.getElementById("ma_sinh_vien").value,
                     ma_khoan_thu: document.getElementById("ma_khoan_thu").value,
                     ngay_thanh_toan: document.getElementById("ngay_thanh_toan").value,
-                    so_tien_da_nop: document.getElementById("so_tien_da_nop").value,
+                   so_tien_da_nop: document.getElementById("so_tien_da_nop").value.replace(/\./g, ''),
                     hinh_thuc_thanh_toan: document.getElementById("hinh_thuc_thanh_toan").value,
                     noi_dung: document.getElementById("noi_dung").value,
                 };
