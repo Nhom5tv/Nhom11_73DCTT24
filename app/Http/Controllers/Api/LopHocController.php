@@ -166,7 +166,21 @@ public function store(Request $request)
         $lop->delete();
         return response()->json(['message' => 'Đã xóa lớp học thành công']);
     }
+    //5.5.Nút mở đóng lớp
+    public function updateTrangThai($ma_lop, Request $request)
+{
+    $lop = LopHoc::findOrFail($ma_lop);
+    $trangThaiMoi = $request->input('trang_thai');
 
+    if (!in_array($trangThaiMoi, ['Đang mở', 'Đóng'])) {
+        return response()->json(['message' => 'Trạng thái không hợp lệ.'], 422);
+    }
+
+    $lop->trang_thai = $trangThaiMoi;
+    $lop->save();
+
+    return response()->json(['message' => 'Cập nhật trạng thái thành công.']);
+}
     //Đạt
     //6. Lấy mã lớp theo MãGV
     public function getByMaGiangVien($ma_giang_vien)

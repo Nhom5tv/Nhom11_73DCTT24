@@ -115,7 +115,7 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::get('/dslophoc', [LopHocController::class, 'index']);
     Route::get('/dslophoc/{id}', [LopHocController::class, 'show']);
     Route::post('/dslophoc', [LopHocController::class, 'store']);
-    Route::put('/dslophoc/{id}', [LopHocController::class, 'update']);
+    Route::put('/dslophoc/{ma_lop}', [LopHocController::class, 'updateTrangThai']);
     Route::delete('/dslophoc/{id}', [LopHocController::class, 'destroy']);
 
     //Chức năng Đăng ký môn học
