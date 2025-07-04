@@ -229,7 +229,7 @@ public function capNhatThongTinCaNhan(Request $request)
     $errors = [];
 
     foreach ($data as $index => $row) {
-          \Log::info("⛳ Row $index", $row); // 👈 thêm dòng này
+          
         try {
             // Kiểm tra trùng mã sinh viên
             if (SinhVien::where('ma_sinh_vien', $row['ma_sinh_vien'])->exists()) {

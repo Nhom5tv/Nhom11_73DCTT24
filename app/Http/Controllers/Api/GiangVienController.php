@@ -187,7 +187,7 @@ public function import(Request $request)
     $errors = [];
 
     foreach ($data as $index => $row) {
-        \Log::info("📄 Import GV - Dòng $index", $row);
+        Log::info("📄 Import GV - Dòng $index", $row);
 
         try {
             // Kiểm tra trùng mã giảng viên
@@ -216,7 +216,7 @@ public function import(Request $request)
                 'name' => $row['ho_ten'],
                 'email' => $row['email'],
                 'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
-                'role' => 'giangvien',
+                'role' => 'giaovien',
                 'must_change_password' => true
             ]);
 
