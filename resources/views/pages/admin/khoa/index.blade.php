@@ -109,20 +109,27 @@
     }
 
     function exportCSV() {
-        let csv = 'Mã Khoa,Tên Khoa,Liên hệ,Ngày thành lập,Tiền/tín chỉ\n';
+        let csv = '\uFEFF'; // Thêm BOM cho UTF-8
+        csv += 'Mã Khoa,Tên Khoa,Liên hệ,Ngày thành lập,Tiền/tín chỉ\n';
+
         allData.forEach(k => {
             csv +=
                 `${k.ma_khoa},${k.ten_khoa},${k.lien_he || ''},${k.ngay_thanh_lap || ''},${k.tien_moi_tin_chi || ''}\n`;
         });
 
         const blob = new Blob([csv], {
-            type: 'text/csv'
+            type: 'text/csv;charset=utf-8;' // Chỉ định charset UTF-8
         });
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
         a.download = 'ds_khoa.csv';
+        document.body.appendChild(a); // Thêm vào DOM trước khi click
         a.click();
+        document.body.removeChild(a); // Xóa sau khi click
+
+        // Giải phóng bộ nhớ
+        setTimeout(() => window.URL.revokeObjectURL(url), 100);
     }
 
     document.getElementById('upload-form')?.addEventListener('submit', function(e) {
