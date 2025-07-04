@@ -18,10 +18,10 @@
             <input type="text" id="ma_sinh_vien" value="{{ $diem->ma_sinh_vien }}" readonly>
         </div>
 
-        <div class="form-group">
+        {{-- <div class="form-group">
             <label for="ho_ten">Họ tên:</label>
             <input type="text" id="ho_ten" value="{{ $diem->ho_ten }}" readonly>
-        </div>
+        </div> --}}
 
         <div class="form-group">
             <label for="diem_chuyen_can">Điểm chuyên cần:</label>

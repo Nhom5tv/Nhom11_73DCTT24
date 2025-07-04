@@ -192,6 +192,8 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::get('/sinhvien/{ma_sinh_vien}', [SinhVienController::class, 'show']);
     Route::put('/sinhvien/{ma_sinh_vien}', [SinhVienController::class, 'update']);
     Route::delete('/sinhvien/{ma_sinh_vien}', [SinhVienController::class, 'destroy']);
+    Route::post('/sinhvien/import', [SinhVienController::class, 'importExcel']);
+
 });
 Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'])->group(function () {
     Route::get('/giangvien', [GiangVienController::class, 'index']);
@@ -199,6 +201,8 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
     Route::get('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'show']);
     Route::put('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'update']);
     Route::delete('/giangvien/{ma_giang_vien}', [GiangVienController::class, 'destroy']);
+    Route::post('/giangvien/import', [GiangVienController::class, 'import']);
+
     Route::get('/nganh', [NganhController::class, 'index']);
     //ngành
     Route::post('/nganh', [NganhController::class, 'store']);

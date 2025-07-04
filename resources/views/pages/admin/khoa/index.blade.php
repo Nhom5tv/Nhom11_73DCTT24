@@ -109,49 +109,27 @@
     }
 
     function exportCSV() {
-        let csv = 'Mã Khoa,Tên Khoa,Liên hệ,Ngày thành lập,Tiền/tín chỉ\n';
-        allData.forEach(k => {
-            csv +=
-                `${k.ma_khoa},${k.ten_khoa},${k.lien_he || ''},${k.ngay_thanh_lap || ''},${k.tien_moi_tin_chi || ''}\n`;
-        });
-
-        const blob = new Blob([csv], {
-            type: 'text/csv'
-        });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'ds_khoa.csv';
-        a.click();
-    }
-
-    document.getElementById('upload-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        const fileInput = document.getElementById('excelFile');
-        if (!fileInput.files.length) {
-            alert('Vui lòng chọn file trước khi upload');
-            return;
-        }
-
-        const formData = new FormData();
-        formData.append('file', fileInput.files[0]);
-
-        axios.post('/api/admin/import-khoa', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': `Bearer ${token}`
-                }
-            })
-            .then(res => {
-                alert(res.data.message || 'Tải file thành công');
-                taiDanhSach();
-                fileInput.value = ''; // Reset file input
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Tải file thất bại: ' + (err.response?.data?.message || err.message));
-            });
+    let csv = '\uFEFF'; // Thêm BOM cho UTF-8
+    csv += 'Mã Khoa,Tên Khoa,Liên hệ,Ngày thành lập,Tiền/tín chỉ\n';
+    
+    allData.forEach(k => {
+        csv += `${k.ma_khoa},${k.ten_khoa},${k.lien_he || ''},${k.ngay_thanh_lap || ''},${k.tien_moi_tin_chi || ''}\n`;
     });
+
+    const blob = new Blob([csv], {
+        type: 'text/csv;charset=utf-8;' // Chỉ định charset UTF-8
+    });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'ds_khoa.csv';
+    document.body.appendChild(a); // Thêm vào DOM trước khi click
+    a.click();
+    document.body.removeChild(a); // Xóa sau khi click
+    
+    // Giải phóng bộ nhớ
+    setTimeout(() => window.URL.revokeObjectURL(url), 100);
+}
 
     document.addEventListener('DOMContentLoaded', taiDanhSach);
 </script>
