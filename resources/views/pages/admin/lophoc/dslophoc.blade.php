@@ -75,22 +75,23 @@
 
             data.forEach(row => {
     const tr = document.createElement('tr');
-    const isMo = row.trang_thai === 'Đang mở';
-    const nut = isMo
-        ? `<button class="button-85" onclick="doiTrangThai(${row.ma_lop}, 'Đóng')" role="button">Đóng lớp</button>`
-        : `<button class="button-85" onclick="doiTrangThai(${row.ma_lop}, 'Đang mở')" role="button">Mở lớp</button>`;
+    let nut = ''; // mặc định không có nút
 
-            tr.innerHTML = `
-                <td>${row.ma_lop}</td>
-                <td>${row.ma_mon}</td>
-                <td>${row.hoc_ky}</td>
-                <td>${row.ma_giang_vien}</td>
-                <td>${row.lich_hoc ?? ''}</td>
-                <td>${row.trang_thai}</td>
-                <td class="btn_cn">${nut}</td>
-            `;
-            tbody.appendChild(tr);
-        });
+    if (row.trang_thai === 'Đang mở') {
+        nut = `<button class="button-85" onclick="doiTrangThai(${row.ma_lop}, 'Đóng')" role="button">Đóng lớp</button>`;
+    }
+
+    tr.innerHTML = `
+        <td>${row.ma_lop}</td>
+        <td>${row.ma_mon}</td>
+        <td>${row.hoc_ky}</td>
+        <td>${row.ma_giang_vien}</td>
+        <td>${row.lich_hoc ?? ''}</td>
+        <td>${row.trang_thai}</td>
+        <td class="btn_cn">${nut}</td>
+    `;
+    tbody.appendChild(tr);
+    });
         } catch (error) {
             console.error('Lỗi khi tải lớp học:', error);
         }

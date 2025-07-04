@@ -10,6 +10,22 @@
         justify-content: center;
         padding-top: 5px;
     }
+    /* .input-box {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+    .input-box label {
+        margin-bottom: 5px;
+        font-weight: 500;
+    }
+
+    .input-box input,
+    .input-box select {
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 5px;
+    } */
 </style>
 
 <div class="content">
@@ -23,7 +39,7 @@
         </div>
 
         <div class="input-box">
-            <input type="text" id="hoc_ky" placeholder="VD: 2024-2025-HK1" required />
+            <input type="text" id="hoc_ky" placeholder="VD: 2024-2025-HK1" />
             <label for="hoc_ky">Học Kỳ</label>
         </div>
 
@@ -38,14 +54,7 @@
             <label for="lich_hoc">Lịch Học</label>
         </div>
 
-        <div class="input-box">
-            <select id="trang_thai">
-                <option value="">-- Chọn trạng thái --</option>
-                <option value="Đang mở">Đang mở</option>
-                <option value="Đã kết thúc">Đã kết thúc</option>
-            </select>
-        </div>
-
+        <input type="hidden" id="trang_thai" value="Đang mở">
         <button class="btn" id="btnLuu" onclick="themLopHoc()">Lưu</button>
 
         <div class="quaylai">
@@ -60,21 +69,21 @@
 
     // Tải dữ liệu mã môn học
     async function loadMaMonHoc() {
-        try {
-            const response = await axios.get('/api/admin/monhoc', {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            const select = document.getElementById('ma_mon');
-            response.data.forEach(mon => {
-                const option = document.createElement('option');
-                option.value = mon.ma_mon;
-                option.textContent = `${mon.ma_mon} - ${mon.ten_mon}`;
-                select.appendChild(option);
-            });
-        } catch (error) {
-            console.error('Lỗi khi load mã môn:', error);
-        }
+    try {
+        const response = await axios.get('/api/admin/monhocddk', {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const select = document.getElementById('ma_mon');
+        response.data.forEach(mon => {
+            const option = document.createElement('option');
+            option.value = mon.ma_mon;
+            option.textContent = `${mon.ma_mon} - ${mon.ten_mon}`;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Lỗi khi load mã môn:', error);
     }
+}
 
     // Tải dữ liệu mã giảng viên
     async function loadGiangVien() {
