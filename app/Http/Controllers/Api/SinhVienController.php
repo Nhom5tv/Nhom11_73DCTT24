@@ -220,4 +220,80 @@ public function capNhatThongTinCaNhan(Request $request)
         $sinhvien->delete();
         return response()->json(['message' => 'Đã xóa sinh viên thành công']);
     }
+ public function importExcel(Request $request)
+{
+    $data = $request->all();
+
+    $success = 0;
+    $fail = 0;
+    $errors = [];
+
+    foreach ($data as $index => $row) {
+          \Log::info("⛳ Row $index", $row); // 👈 thêm dòng này
+        try {
+            // Kiểm tra trùng mã sinh viên
+            if (SinhVien::where('ma_sinh_vien', $row['ma_sinh_vien'])->exists()) {
+                $fail++;
+                $errors[] = "Dòng ".($index+2).": Mã sinh viên '{$row['ma_sinh_vien']}' đã tồn tại.";
+                continue;
+            }
+
+            // Kiểm tra trùng email
+            if (\App\Models\User::where('email', $row['email'])->exists()) {
+                $fail++;
+                $errors[] = "Dòng ".($index+2).": Email '{$row['email']}' đã tồn tại.";
+                continue;
+            }
+
+            // Kiểm tra mã khoa/ngành có tồn tại không
+            if (!DB::table('khoa')->where('ma_khoa', $row['ma_khoa'])->exists()) {
+                $fail++;
+                $errors[] = "Dòng ".($index+2).": Mã khoa '{$row['ma_khoa']}' không tồn tại.";
+                continue;
+            }
+
+            if (!DB::table('nganh')->where('ma_nganh', $row['ma_nganh'])->exists()) {
+                $fail++;
+                $errors[] = "Dòng ".($index+2).": Mã ngành '{$row['ma_nganh']}' không tồn tại.";
+                continue;
+            }
+
+            // Tạo user
+            $user = \App\Models\User::create([
+                'name' => $row['ho_ten'],
+                'email' => $row['email'],
+                'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
+                'role' => 'sinhvien',
+                'must_change_password' => true
+            ]);
+
+            // Tạo sinh viên
+            SinhVien::create([
+                'ma_sinh_vien' => $row['ma_sinh_vien'],
+                'user_id' => $user->id,
+                'ma_khoa' => $row['ma_khoa'],
+                'ma_nganh' => $row['ma_nganh'],
+                'ho_ten' => $row['ho_ten'],
+                'ngay_sinh' => $row['ngay_sinh'],
+                'gioi_tinh' => $row['gioi_tinh'],
+                'que_quan' => $row['que_quan'],
+                'email' => $row['email'],
+                'so_dien_thoai' => $row['so_dien_thoai'],
+                'khoa_hoc' => $row['khoa_hoc']
+            ]);
+
+            $success++;
+
+        } catch (\Exception $e) {
+            $fail++;
+            $errors[] = "Dòng ".($index+2).": " . $e->getMessage();
+        }
+    }
+
+    return response()->json([
+        'message' => "✅ Import hoàn tất: $success thành công, $fail lỗi.",
+        'errors' => $errors
+    ]);
+}
+
 }

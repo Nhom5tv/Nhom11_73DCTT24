@@ -46,6 +46,7 @@ class DangKyTinChiController extends Controller
                     'lh.lich_hoc AS lich_hoc_du_kien'
                 )
                 ->where('lh.trang_thai', '=', 'Đang Mở')
+                ->where('mh.ma_nganh', '=', $sinhVien->ma_nganh)
                 ->groupBy(
                     'mh.ma_mon',
                     'mh.ten_mon',
