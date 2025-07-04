@@ -48,15 +48,10 @@
                 <button style="border: none; background: transparent;" onclick="fetchBangDiem()">
                     <i class="fa fa-search"></i>
                 </button>
-                <button style="margin-left: 10px;" onclick="exportData()">
+                <button style="margin-left: 10px;" class="button-85" onclick="exportData()">
                     <i class="fa fa-download"></i> Export
                 </button>
-                <div style="margin-left: 10px;">
-                    <input type="file" id="fileUpload" style="display: none;" accept=".csv,.xls,.xlsx" />
-                    <button onclick="document.getElementById('fileUpload').click()">
-                        <i class="fa fa-upload"></i> Upload
-                    </button>
-                </div>
+                
             </div>
         </div>
     </section>

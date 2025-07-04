@@ -23,7 +23,7 @@
         </div>
 
         <div class="input-box">
-            <input type="text" id="hoc_ky" placeholder="VD: 2024-2025-HK1" required />
+            <input type="text" id="hoc_ky" placeholder="VD: 2024-2025-HK1"  />
             <label for="hoc_ky">Học Kỳ</label>
         </div>
 
@@ -34,7 +34,7 @@
         </div>
 
         <div class="input-box">
-            <input type="text" id="lich_hoc" placeholder="VD: Thứ 2, 3 tiết 1-3" />
+            <input type="text" id="lich_hoc" placeholder="VD: Thứ 2, 3 tiết 1-3"  />
             <label for="lich_hoc">Lịch Học</label>
         </div>
 
