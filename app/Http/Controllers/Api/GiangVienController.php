@@ -116,7 +116,7 @@ public function store(Request $request)
             
             'ma_khoa' => 'required|integer',
             'ho_ten' => 'required|string|max:50',
-            'email' => 'required|email|unique:giang_vien,email,' . $gv->ma_giang_vien . ',ma_giang_vien',
+            'email' => 'required|email|unique:users,email,' . $gv->user_id,
             'so_dien_thoai' => 'nullable|string|max:15',
             'chuyen_nganh' => 'nullable|string|max:50',
         ]);
@@ -176,7 +176,75 @@ public function updateThongTinGiangVien(Request $request)
         'message' => 'Cập nhật thông tin giảng viên thành công',
         'data' => $giangVien
     ]);
+
 }
+public function import(Request $request)
+{
+    $data = $request->all();
+
+    $success = 0;
+    $fail = 0;
+    $errors = [];
+
+    foreach ($data as $index => $row) {
+        \Log::info("📄 Import GV - Dòng $index", $row);
+
+        try {
+            // Kiểm tra trùng mã giảng viên
+            if (\App\Models\GiangVien::where('ma_giang_vien', $row['ma_giang_vien'])->exists()) {
+                $fail++;
+                $errors[] = "Dòng " . ($index + 2) . ": Mã giảng viên '{$row['ma_giang_vien']}' đã tồn tại.";
+                continue;
+            }
+
+            // Kiểm tra trùng email
+            if (\App\Models\User::where('email', $row['email'])->exists()) {
+                $fail++;
+                $errors[] = "Dòng " . ($index + 2) . ": Email '{$row['email']}' đã tồn tại.";
+                continue;
+            }
+
+            // Kiểm tra mã khoa tồn tại
+            if (!DB::table('khoa')->where('ma_khoa', $row['ma_khoa'])->exists()) {
+                $fail++;
+                $errors[] = "Dòng " . ($index + 2) . ": Mã khoa '{$row['ma_khoa']}' không tồn tại.";
+                continue;
+            }
+
+            // Tạo user (nếu giảng viên có quyền login sau này)
+            $user = \App\Models\User::create([
+                'name' => $row['ho_ten'],
+                'email' => $row['email'],
+                'password' => \Illuminate\Support\Facades\Hash::make('12345678'),
+                'role' => 'giangvien',
+                'must_change_password' => true
+            ]);
+
+            // Tạo giảng viên
+            \App\Models\GiangVien::create([
+                'ma_giang_vien' => $row['ma_giang_vien'],
+                'ma_khoa' => $row['ma_khoa'],
+                'ho_ten' => $row['ho_ten'],
+                'email' => $row['email'],
+                'so_dien_thoai' => $row['so_dien_thoai'],
+                'chuyen_nganh' => $row['chuyen_nganh'],
+                'user_id' => $user->id
+            ]);
+
+            $success++;
+
+        } catch (\Exception $e) {
+            $fail++;
+            $errors[] = "Dòng " . ($index + 2) . ": " . $e->getMessage();
+        }
+    }
+
+    return response()->json([
+        'message' => "✅ Import xong: $success thành công, $fail lỗi.",
+        'errors' => $errors
+    ]);
+}
+
 
 
 }
