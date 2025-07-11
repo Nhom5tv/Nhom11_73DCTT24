@@ -97,10 +97,10 @@
             .then(response => {
                 const scoreDetail = response.data;
 
-                document.getElementById('attempt').textContent = scoreDetail.lan_hoc || 'N/A';
-                document.getElementById('attendanceScore').textContent = scoreDetail.diem_chuyen_can || 'N/A';
-                document.getElementById('midtermScore').textContent = scoreDetail.diem_giua_ky || 'N/A';
-                document.getElementById('finalScore').textContent = scoreDetail.diem_cuoi_ky || 'N/A';
+                document.getElementById('attempt').textContent = scoreDetail.lan_hoc || '';
+                document.getElementById('attendanceScore').textContent = scoreDetail.diem_chuyen_can || '';
+                document.getElementById('midtermScore').textContent = scoreDetail.diem_giua_ky || '';
+                document.getElementById('finalScore').textContent = scoreDetail.diem_cuoi_ky || '';
             })
             .catch(error => {
                 console.error('Lỗi khi lấy chi tiết điểm:', error);

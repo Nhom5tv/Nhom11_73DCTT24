@@ -68,14 +68,14 @@
                         const row = document.createElement('tr');
                         row.innerHTML = `
                             <td>${index + 1}</td>
-                            <td>${score.ma_mon || 'N/A'}</td>
-                            <td>${score.ten_mon || 'N/A'}</td>
-                            <td>${score.so_tin_chi || 'N/A'}</td>
-                            <td>${score.lan_hoc || 'N/A'}</td>
-                            <td>${score.diem_he_10 || 'N/A'}</td>
-                            <td>${score.diem_he_4 || 'N/A'}</td>
-                            <td>${score.diem_chu || 'N/A'}</td>
-                            <td>${score.danh_gia || 'N/A'}</td>
+                            <td>${score.ma_mon || ''}</td>
+                            <td>${score.ten_mon || ''}</td>
+                            <td>${score.so_tin_chi || ''}</td>
+                            <td>${score.lan_hoc || ''}</td>
+                            <td>${score.diem_he_10 !== null ? score.diem_he_10 : ''}</td>
+                            <td>${score.diem_he_4 !== null ? score.diem_he_4 : ''}</td>
+                            <td>${score.diem_chu || ''}</td>
+                            <td>${score.danh_gia || 'Chưa có điểm'}</td>
                             <td>
                                 <a href="/sinhvien/diem-chi-tiet?ma_sinh_vien=${studentId}&ma_lop=${score.ma_lop}" class="btn btn-sm btn-info">
                                     Xem chi tiết
