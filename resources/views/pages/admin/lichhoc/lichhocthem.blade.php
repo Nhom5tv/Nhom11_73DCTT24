@@ -10,6 +10,22 @@
         justify-content: center;
         padding-top: 5px;
     }
+    .input-box {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 15px;
+    }
+    .input-box label {
+        margin-bottom: 5px;
+        font-weight: 300;
+    }
+
+    .input-box input,
+    .input-box select {
+        padding: 8px;
+        font-size: 14px;
+        border-radius: 5px;
+    }
 </style>
 
 <div class="content">

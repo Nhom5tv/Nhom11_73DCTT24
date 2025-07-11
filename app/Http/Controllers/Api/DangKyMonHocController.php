@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\DangKyMonHoc;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DangKyMonHocController extends Controller
 {
@@ -120,4 +121,20 @@ public function index(Request $request)
             'message' => "Đã huỷ tất cả ($soDong dòng) đăng ký."
         ]);
     }
+    public function getDanhSachMaMonDaDangKy()
+{
+    try {
+        $ds = DB::table('dang_ky_mon_hoc AS dk')
+            ->join('mon_hoc AS mh', 'dk.ma_mon', '=', 'mh.ma_mon')
+            ->select('dk.ma_mon', 'mh.ten_mon')
+            ->where('dk.trang_thai', '=', 'Đang Chờ Duyệt')
+            ->distinct() // chỉ lấy mỗi mã môn 1 lần
+            ->get();
+
+        return response()->json($ds);
+    } catch (\Exception $e) {
+        return response()->json(['message' => 'Lỗi server: ' . $e->getMessage()], 500);
+    }
+}
+
 }

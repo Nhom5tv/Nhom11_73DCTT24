@@ -120,6 +120,7 @@ Route::prefix('admin')->middleware(['auth:api', RoleMiddleware::class . ':admin'
 
     //Chức năng Đăng ký môn học
     Route::get('/dkmonhoc', [DangKyMonHocController::class, 'index']);
+    Route::get('/monhocddk', [DangKyMonHocController::class, 'getDanhSachMaMonDaDangKy']);
     Route::get('/dkmonhoc/{id}', [DangKyMonHocController::class, 'show']);
     Route::post('/dkmonhoc', [DangKyMonHocController::class, 'store']);
     Route::put('/dkmonhoc/{id}', [DangKyMonHocController::class, 'update']);

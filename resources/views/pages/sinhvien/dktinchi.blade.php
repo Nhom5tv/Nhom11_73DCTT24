@@ -14,7 +14,8 @@
     }
 </style>
 
-<main class="table">
+<!-- MAIN 1: DANH SÁCH MÔN CÓ THỂ ĐĂNG KÝ -->
+<main class="table monhoc-main">
     <section class="table__header">
         <h1>Đăng Ký Tín Chỉ</h1>
         <div class="input-group">
@@ -28,7 +29,6 @@
         </button>
     </section>
 
-    {{-- Danh sách môn học có thể đăng ký --}}
     <section class="table__body">
         <h3>Danh sách môn học có thể đăng ký</h3>
         <table>
@@ -48,8 +48,10 @@
             </tbody>
         </table>
     </section>
+</main>
 
-    {{-- Danh sách đã đăng ký --}}
+<!-- MAIN 2: DANH SÁCH ĐÃ ĐĂNG KÝ -->
+<main class="table dadangky-main">
     <section class="table__body">
         <h3>Danh sách đã đăng ký</h3>
         <table>
@@ -73,85 +75,95 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
-    // token = localStorage.getItem('token');
-    // axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
-    // axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('token')}`;
+function loadMonHoc(ten = '', lich = '') {
+    axios.get('/api/sinhvien/monhoc', {
+        params: {
+            ten_mon_hoc: ten,
+            lich_hoc_du_kien: lich
+        },
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    }).then(res => {
+        const ds = res.data;
+        const tbody = document.getElementById('dsMonHoc');
+        tbody.innerHTML = '';
 
+        if (ds.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7">Không có môn học nào</td></tr>`;
+            return;
+        }
 
-    function loadMonHoc(ten = '', lich = '') {
-        axios.get('/api/sinhvien/monhoc').then(res => {
-            const ds = res.data;
-            const tbody = document.getElementById('dsMonHoc');
-            tbody.innerHTML = '';
+        ds.forEach(mon => {
+            const daDangKy = mon.trang_thai_dang_ky === 'Đang Chờ Duyệt';
+            const hetCho = mon.con_lai <= 0;
+            const disableBtn = daDangKy || hetCho;
 
-            if (ds.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7">Không có môn học nào</td></tr>`;
-                return;
-            }
+            const btnLabel = daDangKy ? 'Đã đăng ký' : (hetCho ? 'Hết chỗ' : 'Đăng ký');
+            const btnClass = disableBtn ? 'button-85 disabled' : 'button-85';
 
-            ds.forEach(mon => {
-                const daDangKy = mon.trang_thai_dang_ky === 'Đang Chờ Duyệt';
-                const hetCho = mon.con_lai <= 0;
-                const disableBtn = daDangKy || hetCho;
-
-                const btnLabel = daDangKy ? 'Đã đăng ký' : (hetCho ? 'Hết chỗ' : 'Đăng ký');
-                const btnClass = disableBtn ? 'button-85 disabled' : 'button-85';
-
-                tbody.innerHTML += `
-                    <tr>
-                        <td>${mon.ma_mon_hoc}</td>
-                        <td>${mon.ten_mon_hoc}</td>
-                        <td>${mon.so_tin_chi}</td>
-                        <td>${mon.so_luong_toi_da}</td>
-                        <td>${mon.con_lai}</td>
-                        <td>${mon.lich_hoc_du_kien}</td>
-                        <td class="btn_cn">
-                            <button class="${btnClass}" ${disableBtn ? 'disabled' : ''} onclick="dangKy('${mon.ma_mon_hoc}', '${mon.lich_hoc_du_kien}')">${btnLabel}</button>
-                        </td>
-                    </tr>`;
-            });
+            tbody.innerHTML += `
+                <tr>
+                    <td>${mon.ma_mon_hoc}</td>
+                    <td>${mon.ten_mon_hoc}</td>
+                    <td>${mon.so_tin_chi}</td>
+                    <td>${mon.so_luong_toi_da}</td>
+                    <td>${mon.con_lai}</td>
+                    <td>${mon.lich_hoc_du_kien}</td>
+                    <td class="btn_cn">
+                        <button class="${btnClass}" ${disableBtn ? 'disabled' : ''} onclick="dangKy('${mon.ma_mon_hoc}', '${mon.lich_hoc_du_kien}')">${btnLabel}</button>
+                    </td>
+                </tr>`;
         });
-    }
+    });
+}
 
-    function loadDaDangKy() {
-        axios.get('/api/sinhvien/dadangky').then(res => {
-            const ds = res.data;
-            const tbody = document.getElementById('dsDaDangKy');
-            tbody.innerHTML = '';
+function loadDaDangKy() {
+    axios.get('/api/sinhvien/dadangky', {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    }).then(res => {
+        const ds = res.data;
+        const tbody = document.getElementById('dsDaDangKy');
+        tbody.innerHTML = '';
 
-            if (ds.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="7">Không có môn nào đã đăng ký</td></tr>`;
-                return;
-            }
+        if (ds.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="7">Không có môn nào đã đăng ký</td></tr>`;
+            return;
+        }
 
-           ds.forEach(mon => {
-    const isDaDuyet = mon.trang_thai === 'Đã Duyệt';
-
-    tbody.innerHTML += `
-        <tr>
-            <td>${mon.ma_mon_hoc}</td>
-            <td>${mon.ten_mon_hoc}</td>
-            <td>${mon.so_tin_chi}</td>
-            <td>${mon.so_luong_toi_da}</td>
-            <td>${mon.con_lai}</td>
-            <td>${mon.lich_hoc_du_kien}</td>
-            <td class="btn_cn">
-                ${
-                    isDaDuyet
-                        ? '<span style="color: green; font-weight: bold;">Đã duyệt</span>'
-                        : `<button class="button-85" onclick="huyDangKy(${mon.ma_dang_ky})">Hủy</button>`
-                }
-            </td>
-        </tr>`;
-});
+        ds.forEach(mon => {
+            const isDaDuyet = mon.trang_thai === 'Đã duyệt';
+            tbody.innerHTML += `
+                <tr>
+                    <td>${mon.ma_mon_hoc}</td>
+                    <td>${mon.ten_mon_hoc}</td>
+                    <td>${mon.so_tin_chi}</td>
+                    <td>${mon.so_luong_toi_da}</td>
+                    <td>${mon.con_lai}</td>
+                    <td>${mon.lich_hoc_du_kien}</td>
+                    <td class="btn_cn">
+                        ${isDaDuyet
+                            ? '<span style="color: green; font-weight: bold;">Đã duyệt</span>'
+                            : `<button class="button-85" onclick="huyDangKy(${mon.ma_dang_ky})">Hủy</button>`
+                        }
+                    </td>
+                </tr>`;
         });
-    }
+    });
+}
+
 function dangKy(maMon, lichHoc) {
     if (!confirm('Bạn có chắc muốn đăng ký môn học này?')) return;
 
     axios.post('/api/sinhvien/monhoc', {
         ma_mon_hoc: maMon,
         lich_hoc_du_kien: lichHoc
+    }, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
     }).then(() => {
         alert('Đăng ký thành công');
         loadMonHoc();
@@ -162,30 +174,34 @@ function dangKy(maMon, lichHoc) {
     });
 }
 
+function huyDangKy(id) {
+    if (!confirm('Bạn có chắc muốn hủy đăng ký?')) return;
 
-    function huyDangKy(id) {
-        if (!confirm('Bạn có chắc muốn hủy đăng ký?')) return;
-
-        axios.delete(`/api/sinhvien/huydangky/${id}`).then(() => {
-            alert('Đã hủy đăng ký');
-            loadMonHoc();
-            loadDaDangKy();
-        }).catch(() => alert('Lỗi khi hủy đăng ký'));
-    }
-
-    document.getElementById('btnTimKiem').addEventListener('click', () => {
-        const ten = document.getElementById('searchTenMon').value;
-        const lich = document.getElementById('searchLichHoc').value;
-        loadMonHoc(ten, lich);
-    });
-    document.addEventListener('DOMContentLoaded', () => {
-    const token = localStorage.getItem('token');
-console.log('Token:', token);
-if (!token) {
-    alert('Vui lòng đăng nhập lại!');
-    window.location.href = '/login';
+    axios.delete(`/api/sinhvien/huydangky/${id}`, {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+    }).then(() => {
+        alert('Đã hủy đăng ký');
+        loadMonHoc();
+        loadDaDangKy();
+    }).catch(() => alert('Lỗi khi hủy đăng ký'));
 }
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+document.getElementById('btnTimKiem').addEventListener('click', () => {
+    const ten = document.getElementById('searchTenMon').value;
+    const lich = document.getElementById('searchLichHoc').value;
+    loadMonHoc(ten, lich);
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Vui lòng đăng nhập lại!');
+        window.location.href = '/login';
+        return;
+    }
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
     loadMonHoc();
     loadDaDangKy();
