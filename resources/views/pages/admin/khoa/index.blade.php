@@ -15,7 +15,7 @@
             <h1>Danh sách Khoa</h1>
             <div class="Insert">
                 <a href="{{ route('khoa.create') }}">
-                    <button class="button-85">➕ Thêm Khoa</button>
+                    <button class="button-85">Thêm Khoa</button>
                 </a>
             </div>
             <div class="input-group" style="margin-left: 10px;">
@@ -82,8 +82,8 @@
                 <td>${khoa.ngay_thanh_lap || '-'}</td>
                 <td>${khoa.tien_moi_tin_chi || '-'}</td>
                 <td>
-                    <a href="/admin/khoa/sua/${khoa.ma_khoa}" ><button class="button-85">✏️ Sửa</button></a>
-                    <button class="button-85" onclick="xoaKhoa(${khoa.ma_khoa})">🗑 Xoá</button>
+                    <a href="/admin/khoa/sua/${khoa.ma_khoa}" ><button class="button-85">Sửa</button></a>
+                    <button class="button-85" onclick="xoaKhoa(${khoa.ma_khoa})">Xoá</button>
                 </td>
             </tr>`;
             tbody.innerHTML += row;

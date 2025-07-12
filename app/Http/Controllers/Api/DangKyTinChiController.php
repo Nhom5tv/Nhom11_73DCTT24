@@ -45,7 +45,7 @@ class DangKyTinChiController extends Controller
                     DB::raw('(IFNULL(lh.so_luong_toi_da, 0) - COUNT(dk2.ma_sinh_vien)) AS con_lai'),
                     'lh.lich_hoc AS lich_hoc_du_kien'
                 )
-               ->where('lh.trang_thai', '=', 'Đang Mở' )
+                ->where('lh.trang_thai','=', 'Đang Mở' )
                 ->where('mh.ma_nganh', '=', $sinhVien->ma_nganh)
                 ->groupBy(
                     'mh.ma_mon',

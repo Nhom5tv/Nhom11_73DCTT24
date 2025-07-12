@@ -127,11 +127,11 @@
                     if (role === 'admin') window.location.href = '/admin/thongke';
                     else if (role === 'giaovien') {
                         localStorage.setItem('ma_giang_vien', user.ma_giang_vien);
-                        window.location.href = '/giaovien';
+                        window.location.href = '/giaovien/DSdiemgv';
                     }
                     else if (role === 'sinhvien'){
                         localStorage.setItem('ma_sinh_vien', user.ma_sinh_vien);
-                        window.location.href = '/sinhvien';
+                        window.location.href = '/sinhvien/diem';
                     }
                     else alert("Không xác định được vai trò.");
                 })
